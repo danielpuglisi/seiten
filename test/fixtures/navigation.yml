@@ -1,0 +1,17 @@
+- title: "Home"
+  url: "/"
+
+- title: "Products"
+  nodes:
+    - title: "Kreatify"
+      nodes:
+        - title: "About"
+        - title: "Pricing"
+    - title: "Ruvetia"
+      redirect: true
+      nodes:
+        - title: "Meetups"
+        - title: "Team"
+
+- title: "About"
+- title: "Contact"

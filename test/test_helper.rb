@@ -13,3 +13,8 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 if ActiveSupport::TestCase.method_defined?(:fixture_path=)
   ActiveSupport::TestCase.fixture_path = File.expand_path("../fixtures", __FILE__)
 end
+
+class Test::Unit::TestCase
+  StickyPages.config[:storage_type] = :yaml
+  StickyPages.config[:storage_file] = File.join('..', 'fixtures', 'navigation.yml')
+end

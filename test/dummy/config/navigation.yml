@@ -1,0 +1,15 @@
+- title: "Home"
+  url: "/"
+
+- title: "About"
+  redirect: true
+  nodes:
+    - title: "Me"
+    - title: "Our Product"
+      nodes:
+        - title: "Pricing"
+        - title: "Features"
+
+- title: "Contact"
+  url: "contact-me"
+- title: "test"
