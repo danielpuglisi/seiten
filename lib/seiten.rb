@@ -1,3 +1,4 @@
+require 'seiten/engine'
 require 'seiten/page_store'
 require 'seiten/page'
 
