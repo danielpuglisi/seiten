@@ -20,6 +20,5 @@ module Seiten
 
   ActiveSupport.on_load(:action_controller) do
     include Controllers::Helpers
-    helper_method :current_page
   end
 end
