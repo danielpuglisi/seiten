@@ -1,3 +1,3 @@
 Dummy::Application.routes.draw do
-  root :to => "pages#show"
+  root :to => "seiten/pages#show"
 end
