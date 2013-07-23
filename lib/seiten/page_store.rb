@@ -37,7 +37,7 @@ module Seiten
 
         # Build link
         slug = page["url"].nil? ? page["title"].parameterize : page["url"]
-        if slug[0] == "/" || !!(slug.match(/^http:\/\/.+/))
+        if slug[0] == "/" || !!(slug.match(/^https?:\/\/.+/))
           page["slug"] = slug
         else
           page["slug"] = "#{url}/#{slug}"
