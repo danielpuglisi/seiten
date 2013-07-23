@@ -1,4 +1,4 @@
-module StickyPages
+module Seiten
 
   class PageStore
 
@@ -8,8 +8,8 @@ module StickyPages
       @storage_type = options[:storage_type]
       @storage_file = options[:storage_file]
 
-      @storage_type ||= StickyPages.config[:storage_type]
-      @storage_file ||= File.join(Rails.root, StickyPages.config[:storage_file])
+      @storage_type ||= Seiten.config[:storage_type]
+      @storage_file ||= File.join(Rails.root, Seiten.config[:storage_file])
     end
 
     def load_pages(options={})

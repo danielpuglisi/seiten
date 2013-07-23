@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sticky_pages (0.0.1)
+    seiten (0.0.1)
       rails (~> 3.2.13)
 
 GEM
@@ -89,5 +89,5 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  seiten!
   sqlite3
-  sticky_pages!

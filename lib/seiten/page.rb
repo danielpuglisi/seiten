@@ -1,4 +1,4 @@
-module StickyPages
+module Seiten
 
   class Page
 

@@ -1,7 +1,7 @@
-require 'sticky_pages/page_store'
-require 'sticky_pages/page'
+require 'seiten/page_store'
+require 'seiten/page'
 
-module StickyPages
+module Seiten
 
   @config = {
     storage_type: :yaml,

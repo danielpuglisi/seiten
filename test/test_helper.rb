@@ -15,6 +15,6 @@ if ActiveSupport::TestCase.method_defined?(:fixture_path=)
 end
 
 class Test::Unit::TestCase
-  StickyPages.config[:storage_type] = :yaml
-  StickyPages.config[:storage_file] = File.join('..', 'fixtures', 'navigation.yml')
+  Seiten.config[:storage_type] = :yaml
+  Seiten.config[:storage_file] = File.join('..', 'fixtures', 'navigation.yml')
 end
