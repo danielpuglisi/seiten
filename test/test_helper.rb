@@ -3,6 +3,7 @@ ENV["RAILS_ENV"] = "test"
 
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 require "rails/test_help"
+require "capybara/rails"
 
 Rails.backtrace_cleaner.remove_silencers!
 
@@ -17,4 +18,8 @@ end
 class Test::Unit::TestCase
   Seiten.config[:storage_type] = :yaml
   Seiten.config[:storage_file] = File.join('..', 'fixtures', 'navigation.yml')
+end
+
+class ActionDispatch::IntegrationTest
+  include Capybara::DSL
 end

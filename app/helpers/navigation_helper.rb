@@ -1,7 +1,7 @@
 module NavigationHelper
   require 'ext/string'
 
-  def navigation(parent_id=nil, deep=2)
+  def seiten_navigation(parent_id=nil, deep=2)
     output ||= ""
 
     if deep > 0
@@ -17,7 +17,7 @@ module NavigationHelper
     raw "<ul>#{output}</ul>"
   end
 
-  def breadcrumb
+  def seiten_breadcrumb
     output = content_tag(:ul, class: "breadcrumb") do
       Page.get_breadcrumb(@current_page).reverse.collect { |page|
         content_tag :li do
