@@ -11,4 +11,9 @@ class NavigationTest < ActionDispatch::IntegrationTest
     assert has_content?("About")
     assert has_content?("Contact")
   end
+
+  def test_redirects_to_first_child_page
+    visit "/about"
+    assert_equal "/about/me", current_path
+  end
 end
