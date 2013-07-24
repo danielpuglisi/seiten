@@ -1,15 +1,25 @@
 - title: "Home"
   url: "/"
 
-- title: "About"
-  redirect: true
+- title: "Products"
   nodes:
-    - title: "Me"
-    - title: "Our Product"
+    - title: "Logo Design"
+    - title: "Web Development"
+    - title: "Hire us"
+      url: "/contact" # links to Contact page
+
+- title: "About"
+  redirect: true # redirects /about to /about/our-team
+  nodes:
+    - title: "Our Team"
+    - title: "Works"
+    - title: "Partners"
       nodes:
-        - title: "Pricing"
-        - title: "Features"
+        - title: "Daniel Puglisi"
+          url: "http://danielpuglisi.com"
+        - title: "Codegestalt"
+          url: "http://codegestalt.com"
+        - title: "Kreatify"
+          url: "http://kreatify.com"
 
 - title: "Contact"
-  url: "contact-me"
-- title: "test"
