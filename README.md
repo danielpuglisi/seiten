@@ -89,12 +89,26 @@ Example:
        |- web-development.html.erb
 ```
 
-## Rendering navigations and accessing pages
+## Rendering navigations
 
 To output your navigation structure as a `<ul>` list include the following helper into your layout:
 
 ```ruby
 <%= seiten_navigation %>
+```
+
+Per default the `seiten_navigation` method renders links which are nested two levels deep.
+You can render more levels with the `deep` parameters:
+
+```ruby
+<%= seiten_navigation deep: 3 %>
+```
+
+If you want to output a subnavigation on a certain page, for example for the "Partner" page in our example,
+you can do the following:
+
+```ruby
+<%= seiten_navigation parent_id: Seiten::Page.find_by_slug("/about/partners") %>
 ```
 
 Seiten also has a breadcrumb helper:
@@ -105,12 +119,13 @@ Seiten also has a breadcrumb helper:
 
 this gives you a breadcrumb navigation of the current page.
 
-
 ## Todo
 
 * Improve documentation
 * Add rails generators (example config file, missing pages)
-* Add a rake task which checks if every page in `navigation.yml` is in `app/pages`
-* Provide more PageStore types: hash
+* Add a rake task which outputs missing pages in `app/pages`
+* Provide more PageStore possiblities (config format: hash, pages storage: dropbox, aws)
+
+## License
 
 This project rocks and uses MIT-LICENSE.
