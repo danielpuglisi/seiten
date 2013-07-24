@@ -1,6 +1,6 @@
 # Seiten
 
-Seiten provides your Rails application with a static navigation structure for your static pages.
+Seiten gives your Rails application a static navigation structure for your static and dynamic pages.
 
 ## Installation
 
@@ -8,11 +8,18 @@ Put the following line into your gem file:
 
     gem 'seiten'
 
-After you've run 'bundle install', you're ready to go.
+After you've run `bundle install`, add the following line to your `config/routes.rb` file if you want to setup a static page as your applications start page:
+
+```ruby
+# config/routes.rb
+root :to => "seiten/pages#show"
+```
+
+and you're ready to go.
 
 ## Setup navigation structure
 
-Seiten needs two things to work.
+Seiten needs two things to work:
 
 * A YAML file where your navigation structure is stored
 * and the static pages files you define in that navigation structure
@@ -53,9 +60,9 @@ You can define the following attributes in the `navigation.yml` file:
 
 * `title`: the title of the page (thank you mr. obvious)
 * `url` (optional): the url attribute defines the slug of your page.
-Nested pages will automatically be prefixed with the url of their parent page.  
+Nested pages will automatically be prefixed with the url of their parent pages.  
   - If you define nothing, url automatically uses a `paramterize`'d version of the title.
-  - Prefix the url with a `/` to use absolute paths if you for instance want to link to another page in the navigation structure.
+  - Prefix the url with a `/` to use absolute paths if you, for instance, want to link to another page in the navigation structure.
   - Prefix links to external pages with `http://` or `https://`
 * `redirect` (optional): If set to true, redirects to first child of page
 * `nodes` (optional): lets you define the children pages of a page
@@ -65,7 +72,7 @@ Nested pages will automatically be prefixed with the url of their parent page.
 After defining the navigation structure make sure you have your static pages in place.
 
 The Seiten helpers will look for the static pages in the `app/pages` directory.
-So the pages need to be placed and ordered in the same directory hirarchy as defined in `config/navigation.yml`.
+So the pages need to be placed and ordered in the same hierarchy as defined in `config/navigation.yml`.
 
 Example:
 
@@ -74,14 +81,14 @@ Example:
   |
   |- pages/
     |
+    |- contact.html.erb
+    |- home.html.erb
+    |- products.html.erb
+    |
     |- about/
     |  |- our-team.html.erb
     |  |- partners.html.erb
     |  |- works.html.erb
-    |
-    |- contact.html.erb
-    |- home.html.erb
-    |- products.html.erb
     |
     |- products/
        |- hire-us.html.erb
