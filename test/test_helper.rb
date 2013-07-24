@@ -16,8 +16,9 @@ if ActiveSupport::TestCase.method_defined?(:fixture_path=)
 end
 
 class Test::Unit::TestCase
-  Seiten.config[:storage_type] = :yaml
-  Seiten.config[:storage_file] = File.join('..', 'fixtures', 'navigation.yml')
+  # Seiten.config[:storage_type]      = :yaml
+  # Seiten.config[:storage_file]      = File.join('..', 'fixtures', 'navigation.yml')
+  # Seiten.config[:storage_directory] = File.join('app', 'pages')
 end
 
 class ActionDispatch::IntegrationTest

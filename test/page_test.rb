@@ -4,7 +4,7 @@ class PageTest < Test::Unit::TestCase
 
   def test_returns_correct_number_of_page_objects
     pages = Seiten::Page.all
-    assert_equal 10, pages.count
+    assert_equal 13, pages.count
   end
 
   def test_returns_page_title
@@ -22,7 +22,7 @@ class PageTest < Test::Unit::TestCase
 
   def test_returns_children_pages
     page = Seiten::Page.find(2)
-    assert_equal ["Kreatify", "Ruvetia"], page.children.map(&:title)
+    assert_equal ["Logo Design", "Web Development", "Hire us"], page.children.map(&:title)
   end
 
   def test_returns_true_if_page_is_child_of_parent
@@ -31,8 +31,8 @@ class PageTest < Test::Unit::TestCase
   end
 
   def test_returns_true_if_page_child_is_deeply_nested
-    child = Seiten::Page.find(5)
-    assert_equal true, Seiten::Page.find(2).parent_of?(child)
+    child = Seiten::Page.find_by_slug("/about/our-team")
+    assert_equal true, Seiten::Page.find_by_slug("/about").parent_of?(child)
   end
 
   def test_returns_false_if_page_is_not_child_of_parent
@@ -56,7 +56,7 @@ class PageTest < Test::Unit::TestCase
   end
 
   def test_finds_page_by_slug
-    page = Seiten::Page.find_by_slug("/products/ruvetia")
-    assert_equal "Ruvetia", page.title
+    page = Seiten::Page.find_by_slug("/products/logo-design")
+    assert_equal "Logo Design", page.title
   end
 end

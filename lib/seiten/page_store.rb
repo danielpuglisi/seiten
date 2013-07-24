@@ -7,7 +7,6 @@ module Seiten
     def initialize(options={})
       @storage_type      = options[:storage_type]
       @storage_file      = options[:storage_file]
-      @storage_directory = options[:storage_directory]
 
       @storage_type ||= Seiten.config[:storage_type]
       @storage_file ||= File.join(Rails.root, Seiten.config[:storage_file])
