@@ -42,4 +42,27 @@ class NavigationTest < ActionDispatch::IntegrationTest
     assert has_content?("> Our Team")
     assert has_content?("> Switzerland")
   end
+
+  def test_returns_clicked_breadcrumb_page
+    visit "/about/our-team/switzerland"
+    find(".breadcrumb a", text: "Our Team").click
+    assert_equal "/about/our-team", current_path
+  end
+
+  def test_returns_clicked_navigation_page
+    visit "/"
+    click_link "Web Development"
+    assert_equal "/products/web-development", current_path
+  end
+
+  def test_redirects_to_linked_page
+    visit "/"
+    click_link "Hire us"
+    assert_equal "/contact", current_path
+  end
+
+  def test_returns_external_links
+    visit "/about/partners"
+    assert has_xpath?("//a[@href='http://danielpuglisi.com']")
+  end
 end
