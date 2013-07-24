@@ -28,13 +28,15 @@ module SeitenHelper
   end
 
   def seiten_breadcrumb
-    output = content_tag(:ul, class: "breadcrumb") do
-      Seiten::Page.get_breadcrumb(current_page).reverse.collect { |page|
-        content_tag :li do
-          raw "> #{link_to(page.title, page.slug)}"
-        end
-      }.join().html_safe
+    if current_page
+      output = content_tag(:ul, class: "breadcrumb") do
+        Seiten::Page.get_breadcrumb(current_page).reverse.collect { |page|
+          content_tag :li do
+            raw "> #{link_to(page.title, page.slug)}"
+          end
+        }.join().html_safe
+      end
+      output
     end
-    output
   end
 end

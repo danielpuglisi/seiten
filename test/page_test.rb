@@ -59,4 +59,8 @@ class PageTest < Test::Unit::TestCase
     page = Seiten::Page.find_by_slug("/products/logo-design")
     assert_equal "Logo Design", page.title
   end
+
+  def test_returns_nil_for_active_method_when_current_page_is_nil
+    assert_equal nil, Seiten::Page.find(1).active?(nil)
+  end
 end

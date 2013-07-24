@@ -65,4 +65,10 @@ class NavigationTest < ActionDispatch::IntegrationTest
     visit "/about/partners"
     assert has_xpath?("//a[@href='http://danielpuglisi.com']")
   end
+
+  def test_returns_page_with_navigation_which_is_not_defined_in_navigation_config
+    visit "/secret"
+    assert_equal 200, status_code
+    has_content?("This is a secret page")
+  end
 end

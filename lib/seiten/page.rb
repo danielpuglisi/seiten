@@ -67,12 +67,14 @@ module Seiten
 
     # true if page is equal current_page or parent of current_page
     def active?(current_page)
-      if id == current_page.id
-        true
-      elsif parent_of?(current_page)
-        true
-      else
-        false
+      if current_page
+        if id == current_page.id
+          true
+        elsif parent_of?(current_page)
+          true
+        else
+          false
+        end
       end
     end
   end
