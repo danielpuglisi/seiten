@@ -9,15 +9,17 @@ module SeitenHelper
     render :file => File.join(Rails.root, Seiten.config[:storage_directory], filename)
   end
 
-  def seiten_navigation(parent_id=nil, deep=2)
+  def seiten_navigation(options={})
     output ||= ""
+    parent_id = options[:parent_id] || nil
+    deep      = options[:deep] || 2
 
     if deep > 0
       Seiten::Page.find_by_parent_id(parent_id).each do |page|
         status = page.active?(current_page) ? "active" : "inactive"
         output += "<li class='#{status}'>#{link_to(page.title, page.slug)}"
         unless page.children.blank?
-          output += seiten_navigation(page.id, deep-1)
+          output += seiten_navigation(parent_id: page.id, deep: deep-1)
         end
         output += "</li>"
       end
