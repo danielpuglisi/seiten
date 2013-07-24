@@ -4,7 +4,7 @@ class PageTest < Test::Unit::TestCase
 
   def test_returns_correct_number_of_page_objects
     pages = Seiten::Page.all
-    assert_equal 13, pages.count
+    assert_equal 15, pages.count
   end
 
   def test_returns_page_title

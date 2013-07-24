@@ -12,6 +12,9 @@
   redirect: true # redirects /about to /about/our-team
   nodes:
     - title: "Our Team"
+      nodes:
+        - title: "Switzerland"
+        - title: "Italy"
     - title: "Works"
     - title: "Partners"
       nodes:

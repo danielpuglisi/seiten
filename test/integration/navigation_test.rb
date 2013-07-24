@@ -35,4 +35,11 @@ class NavigationTest < ActionDispatch::IntegrationTest
     assert has_content?("Codegestalt")
     assert has_content?("Kreatify")
   end
+
+  def test_returns_breadcrumb_navigation
+    visit "/about/our-team/switzerland"
+    assert has_content?("> About")
+    assert has_content?("> Our Team")
+    assert has_content?("> Switzerland")
+  end
 end
