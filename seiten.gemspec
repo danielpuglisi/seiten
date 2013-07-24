@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
   s.homepage    = "http://danielpuglisi.com"
   s.summary     = "Static Pages for Rails."
   s.description = "Seiten lets you create static pages for your Rails project and provides you with some cool navigational helper likes breadcrumb or custom navigations."
+  s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
