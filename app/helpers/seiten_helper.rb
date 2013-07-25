@@ -23,8 +23,9 @@ module SeitenHelper
         end
         output += "</li>"
       end
+      output = "<ul>#{output}</ul>"
     end
-    raw "<ul>#{output}</ul>"
+    raw output
   end
 
   def seiten_breadcrumb
