@@ -64,7 +64,7 @@ Nested pages will automatically be prefixed with the url of their parent pages.
   - If you define nothing, url automatically uses a `paramterize`'d version of the title.
   - Prefix the url with a `/` to use absolute paths if you, for instance, want to link to another page in the navigation structure.
   - Prefix links to external pages with `http://` or `https://`
-* `redirect` (optional): If set to true, redirects to first child of page
+* `redirect` (optional): If set to true, redirects to first child of page. Make sure to reboot your app after adding a redirect, otherwise it won't work.
 * `nodes` (optional): lets you define the children pages of a page
 
 ## Setup static pages
