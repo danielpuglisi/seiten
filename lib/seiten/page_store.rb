@@ -12,7 +12,7 @@ module Seiten
       @storage_file ||= File.join(Rails.root, Seiten.config[:storage_file])
     end
 
-    def build_link(page, prefix_url)
+    def build_link(page, prefix_url="")
       slug = page["url"].nil? ? page["title"].parameterize : page["url"]
       unless slug[0] == "/" || !!(slug.match(/^https?:\/\/.+/))
         slug = "#{prefix_url}/#{slug}"
@@ -65,7 +65,9 @@ module Seiten
 
         # Set redirect
         if page["redirect"]
-          # page["redirect"].is_a?(Boolean) ? page["redirect"] = page["nodes"] : page["redirect"]
+          if page["redirect"].is_a?(TrueClass)
+            page["redirect"] = build_link(page["nodes"].first, page["slug"])
+          end
         end
 
         # Load children

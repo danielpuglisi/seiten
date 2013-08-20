@@ -20,5 +20,7 @@ class LayoutTest < ActionDispatch::IntegrationTest
   def test_returns_no_inherited_layout
     visit "/about/our-team/switzerland"
     assert has_content?("Default Layout"), "not rendered default layout"
+    visit "/contact"
+    assert has_content?("Default Layout"), "not rendered default layout"
   end
 end

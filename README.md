@@ -31,13 +31,17 @@ To setup the navigation structure create the following file in your `config` dir
 
 - title: "Home"
   url: "/"
+  layout: "home"
 
 - title: "Products"
+  layout:
+    name: "products"
+    inherit: false
   nodes:
     - title: "Logo Design"
     - title: "Web Development"
     - title: "Hire us"
-      url: "/contact" # links to Contact page
+      redirect: "/contact" # redirects to Contact page
 
 - title: "About"
   redirect: true # redirects /about to /about/our-team
@@ -62,10 +66,16 @@ You can define the following attributes in the `navigation.yml` file:
 * `url` (optional): the url attribute defines the slug of your page.
 Nested pages will automatically be prefixed with the url of their parent pages.  
   - If you define nothing, url automatically uses a `paramterize`'d version of the title.
-  - Prefix the url with a `/` to use absolute paths if you, for instance, want to link to another page in the navigation structure.
+  - Prefix the url with a `/` to use absolute paths.
   - Prefix links to external pages with `http://` or `https://`
-* `redirect` (optional): If set to true, redirects to first child of page. Make sure to reboot your app after adding a redirect, otherwise it won't work.
+* `redirect` (optional):  
+  - Redirects to the given `url`.
+  - If set to true, redirects to first child of page.
+  - Make sure to reboot your app after adding a redirect, otherwise it won't work.
 * `nodes` (optional): lets you define the children pages of a page
+* `layout` (optional):
+  - Per default the `layout` attribute is passed on to its children pages.
+  - If you only want to set the layout for a single page and not for its children set `inherit: false` (look in the example above)
 
 ## Setup static pages
 

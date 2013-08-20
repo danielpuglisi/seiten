@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   # Redirects
   Seiten::Page.all.each do |page|
     if page.redirect
-      get page.slug => redirect(page.children.first.slug)
+      get page.slug => redirect(page.redirect)
     end
   end
 

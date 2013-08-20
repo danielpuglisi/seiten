@@ -10,7 +10,7 @@
     - title: "Logo Design"
     - title: "Web Development"
     - title: "Hire us"
-      url: "/contact" # links to Contact page
+      redirect: "/contact" # links to Contact page
 
 - title: "About"
   redirect: true # redirects /about to /about/our-team

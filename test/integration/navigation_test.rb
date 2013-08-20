@@ -24,11 +24,6 @@ class NavigationTest < ActionDispatch::IntegrationTest
     assert !has_content?("Kreatify")
   end
 
-  def test_redirects_to_first_child_page
-    visit "/about"
-    assert_equal "/about/our-team", current_path
-  end
-
   def test_returns_sub_navigation
     visit "/about/partners"
     assert has_content?("Daniel Puglisi")
@@ -53,12 +48,6 @@ class NavigationTest < ActionDispatch::IntegrationTest
     visit "/"
     click_link "Web Development"
     assert_equal "/products/web-development", current_path
-  end
-
-  def test_redirects_to_linked_page
-    visit "/"
-    click_link "Hire us"
-    assert_equal "/contact", current_path
   end
 
   def test_returns_external_links
