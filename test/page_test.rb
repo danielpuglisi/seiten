@@ -15,6 +15,10 @@ class PageTest < Test::Unit::TestCase
     assert_equal "/", Seiten::Page.find(1).slug
   end
 
+  def test_returns_page_layout
+    assert_equal "home", Seiten::Page.find(1).layout
+  end
+
   def test_returns_parent_page
     page = Seiten::Page.find(3)
     assert_equal Seiten::Page.find(2).title, page.parent.title

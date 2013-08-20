@@ -2,7 +2,7 @@ module Seiten
 
   class Page
 
-    attr_accessor :id, :parent_id, :title, :children, :slug, :redirect
+    attr_accessor :id, :parent_id, :title, :children, :slug, :redirect, :layout
 
     # initialize Page object with attributes
     def initialize(options={})
@@ -11,6 +11,7 @@ module Seiten
       @title     = options[:title]
       @slug      = options[:slug]
       @redirect  = options[:redirect]
+      @layout    = options[:layout]
     end
 
     def self.all

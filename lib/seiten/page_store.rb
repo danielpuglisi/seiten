@@ -14,24 +14,28 @@ module Seiten
 
     def load_pages(options={})
 
-      pages  = options[:pages]
-      parent_id = options[:parent_id]
-      url       = options[:url]
+      pages     = options[:pages]
+      parent_id = options[:parent_id] # || nil
+      layout    = options[:layout]
+      url       = options[:url] || ""
 
       # Setting default values
       if storage_type == :yaml
         pages ||= YAML.load_file(storage_file)
       end
-      parent_id   ||= nil
-      url         ||= ""
+
       @id         ||= 1
       @navigation ||= []
 
       pages.each_index do |i|
 
+        # Load page and set parent_id and generated page id
         page = pages[i]
         page["id"] = @id
         page["parent_id"] = parent_id
+        page["layout"] ||= layout
+
+        # Increment generated id
         @id += 1
 
         # Build link
@@ -42,11 +46,25 @@ module Seiten
           page["slug"] = "#{url}/#{slug}"
         end
 
-        if page["nodes"]
-          load_pages(pages: page["nodes"], parent_id: page["id"], url: page["slug"])
+        # Set layout
+        if page["layout"]
+          if page["layout"].is_a?(String)
+            inherited_layout = page["layout"]
+          elsif page["layout"].is_a?(Hash)
+            if page["layout"]["inherit"]
+              inherited_layout = page["layout"]
+            else
+              inherited_layout = nil
+            end
+            page["layout"] = page["layout"]["name"]
+          end
         end
 
-        page.delete("nodes")
+        # Load children
+        if page["nodes"]
+          load_pages(pages: page["nodes"], parent_id: page["id"], url: page["slug"], layout: inherited_layout)
+        end
+
         page_params = page.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
         @navigation << Page.new(page_params)
       end

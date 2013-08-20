@@ -6,6 +6,7 @@ module Seiten
         head :not_found
       else
         @title = current_page.title
+        render layout: current_page.layout if current_page.layout 
       end
     end
   end
