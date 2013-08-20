@@ -12,12 +12,20 @@ module Seiten
       @storage_file ||= File.join(Rails.root, Seiten.config[:storage_file])
     end
 
+    def build_link(page, prefix_url)
+      slug = page["url"].nil? ? page["title"].parameterize : page["url"]
+      unless slug[0] == "/" || !!(slug.match(/^https?:\/\/.+/))
+        slug = "#{prefix_url}/#{slug}"
+      end
+      slug
+    end
+
     def load_pages(options={})
 
-      pages     = options[:pages]
-      parent_id = options[:parent_id] # || nil
-      layout    = options[:layout]
-      url       = options[:url] || ""
+      pages      = options[:pages]
+      parent_id  = options[:parent_id] # || nil
+      layout     = options[:layout]
+      prefix_url = options[:prefix_url] || ""
 
       # Setting default values
       if storage_type == :yaml
@@ -39,12 +47,7 @@ module Seiten
         @id += 1
 
         # Build link
-        slug = page["url"].nil? ? page["title"].parameterize : page["url"]
-        if slug[0] == "/" || !!(slug.match(/^https?:\/\/.+/))
-          page["slug"] = slug
-        else
-          page["slug"] = "#{url}/#{slug}"
-        end
+        page["slug"] = build_link(page, prefix_url)
 
         # Set layout
         if page["layout"]
@@ -60,9 +63,14 @@ module Seiten
           end
         end
 
+        # Set redirect
+        if page["redirect"]
+          # page["redirect"].is_a?(Boolean) ? page["redirect"] = page["nodes"] : page["redirect"]
+        end
+
         # Load children
         if page["nodes"]
-          load_pages(pages: page["nodes"], parent_id: page["id"], url: page["slug"], layout: inherited_layout)
+          load_pages(pages: page["nodes"], parent_id: page["id"], prefix_url: page["slug"], layout: inherited_layout)
         end
 
         page_params = page.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
