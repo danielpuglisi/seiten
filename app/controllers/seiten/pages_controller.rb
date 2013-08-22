@@ -3,10 +3,10 @@ module Seiten
 
     def show
       if current_page.nil?
-        head :not_found
+        raise ActionController::RoutingError.new('Not Found')
       else
         @title = current_page.title
-        render layout: current_page.layout if current_page.layout 
+        render layout: current_page.layout if current_page.layout
       end
     end
   end
