@@ -3,7 +3,7 @@ module Seiten
 
     def show
       if current_page.nil?
-        raise ActionController::RoutingError.new('Not Found')
+        raise ActionController::RoutingError.new("Page /#{params[:page]} not found")
       else
         @title = current_page.title
         render layout: current_page.layout if current_page.layout

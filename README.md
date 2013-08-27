@@ -8,7 +8,14 @@ Put the following line into your gem file:
 
     gem 'seiten'
 
-After you've run `bundle install`, add the following line to your `config/routes.rb` file if you want to setup a static page as your applications start page:
+After you've run `bundle install`, add the following line to your `config/routes.rb` to let your application pick up your pages.
+
+```ruby
+# config/routes.rb
+seiten_resources
+```
+
+If you want to setup a static page as your applications root page do the following:
 
 ```ruby
 # config/routes.rb
