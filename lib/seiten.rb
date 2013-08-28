@@ -15,6 +15,10 @@ module Seiten
     @config
   end
 
+  def self.storage_path(options={})
+    File.join(Rails.root, config[:storage_directory], options[:locale].to_s, options[:filename])
+  end
+
   module Controllers
     autoload :Helpers, 'seiten/controllers/helpers'
   end

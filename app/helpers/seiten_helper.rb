@@ -6,10 +6,10 @@ module SeitenHelper
     else
       filename = "home"
     end
-    if File.exists? File.join(Rails.root, Seiten.config[:storage_directory], I18n.locale.to_s, "#{filename}.html.erb")
-      render file: File.join(Rails.root, Seiten.config[:storage_directory], I18n.locale.to_s, filename)
+    if File.exists? Seiten.storage_path(filename: "#{filename}.html.erb", locale: I18n.locale)
+      render file: Seiten.storage_path(filename: filename, locale: I18n.locale)
     else
-      render file: File.join(Rails.root, Seiten.config[:storage_directory], filename)
+      render file: Seiten.storage_path(filename: filename)
     end
   end
 

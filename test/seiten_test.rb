@@ -1,7 +1,9 @@
 require 'test_helper'
 
 class SeitenTest < ActiveSupport::TestCase
-  test "truth" do
-    assert_kind_of Module, Seiten
+
+  def test_returns_page_storage_path
+    assert_equal File.join(Rails.root, "app/pages/home.html.erb"), Seiten.storage_path(filename: "home.html.erb")
+    assert_equal File.join(Rails.root, "app/pages/en/contact.html.erb"), Seiten.storage_path(filename: "contact.html.erb", locale: "en")
   end
 end
