@@ -6,7 +6,11 @@ module SeitenHelper
     else
       filename = "home"
     end
-    render :file => File.join(Rails.root, Seiten.config[:storage_directory], filename)
+    if File.exists? File.join(Rails.root, Seiten.config[:storage_directory], I18n.locale.to_s, "#{filename}.html.erb")
+      render file: File.join(Rails.root, Seiten.config[:storage_directory], I18n.locale.to_s, filename)
+    else
+      render file: File.join(Rails.root, Seiten.config[:storage_directory], filename)
+    end
   end
 
   def seiten_navigation(options={})
