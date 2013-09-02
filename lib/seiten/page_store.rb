@@ -9,7 +9,15 @@ module Seiten
       @storage_file      = options[:storage_file]
 
       @storage_type ||= Seiten.config[:storage_type]
-      @storage_file ||= File.join(Rails.root, Seiten.config[:storage_file])
+      @storage_file ||= load_storage_file
+    end
+
+    def load_storage_file
+      if File.exists?(File.join(Rails.root, Seiten.config[:storage_file].gsub(".yml", ".#{I18n.locale.to_s}.yml")))
+        File.join(Rails.root, Seiten.config[:storage_file].gsub(".yml", ".#{I18n.locale.to_s}.yml"))
+      else
+        File.join(Rails.root, Seiten.config[:storage_file])
+      end
     end
 
     def build_link(page, prefix_url="")

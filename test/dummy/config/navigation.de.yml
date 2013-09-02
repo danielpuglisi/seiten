@@ -1,0 +1,36 @@
+- title: "Home"
+  url: "/"
+  layout: "home"
+
+- title: "Produkte"
+  layout:
+    name: "products"
+    inherit: true
+  nodes:
+    - title: "Logo Design"
+    - title: "Web Development"
+    - title: "Heuere uns an"
+      redirect: "/kontakt" # links to Contact page
+
+- title: "Über uns"
+  redirect: true # redirects /about to /about/our-team
+  nodes:
+    - title: "Unser Team"
+      layout:
+        name: "team"
+        inherit: false
+      nodes:
+        - title: "Schweiz"
+        - title: "Italien"
+    - title: "Arbeiten"
+    - title: "Partner"
+      nodes:
+        - title: "Daniel Puglisi"
+          url: "http://danielpuglisi.com"
+        - title: "Codegestalt"
+          url: "http://codegestalt.com"
+        - title: "Kreatify"
+          url: "http://kreatify.com"
+
+- title: "Kontakt"
+- title: "I18n"
