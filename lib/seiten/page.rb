@@ -47,13 +47,6 @@ module Seiten
       pages.flatten
     end
 
-    def redirect
-      if @redirect
-        @redirect = @redirect[1..-1] if @redirect[0] == "/"
-        "/#{@redirect}"
-      end
-    end
-
     # get parent of page
     def parent
       Page.find(parent_id)

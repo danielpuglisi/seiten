@@ -90,6 +90,8 @@ module Seiten
         if page["redirect"]
           if page["redirect"].is_a?(TrueClass)
             page["redirect"] = build_link(page["nodes"].first, page["slug"])
+          else
+            page["redirect"] = page["redirect"][1..-1] if page["redirect"][0] == "/"
           end
         end
 
