@@ -6,7 +6,24 @@ module Seiten
         raise ActionController::RoutingError.new("Page /#{params[:page]} not found")
       else
         @title = current_page.title
-        render layout: current_page.layout if current_page.layout
+
+        if params[:page]
+          filename = params[:page]
+        else
+          filename = Seiten.config[:root_page_filename]
+        end
+
+        if File.exists? Seiten.storage_path(filename: "#{filename}.html.erb", locale: I18n.locale)
+          file = Seiten.storage_path(filename: filename, locale: I18n.locale)
+        else
+          file = Seiten.storage_path(filename: filename)
+        end
+
+        if current_page.layout
+          render file: file, layout: current_page.layout
+        else
+          render file: file
+        end
       end
     end
   end

@@ -1,18 +1,5 @@
 module SeitenHelper
 
-  def render_html
-    if params[:page]
-      filename = params[:page]
-    else
-      filename = "home"
-    end
-    if File.exists? Seiten.storage_path(filename: "#{filename}.html.erb", locale: I18n.locale)
-      render file: Seiten.storage_path(filename: filename, locale: I18n.locale)
-    else
-      render file: Seiten.storage_path(filename: filename)
-    end
-  end
-
   def seiten_navigation(options={})
     output ||= ""
     parent_id = options[:parent_id] || nil

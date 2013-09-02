@@ -8,7 +8,8 @@ module Seiten
   @config = {
     storage_type: :yaml,
     storage_file: File.join('config', 'navigation.yml'),
-    storage_directory: File.join('app', 'pages')
+    storage_directory: File.join('app', 'pages'),
+    root_page_filename: "home"
   }
 
   def self.config
