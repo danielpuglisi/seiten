@@ -3,8 +3,10 @@ module SeitenHelper
   def link_to_seiten_page(title, slug, options={})
     if !!(slug.to_s.match(/^https?:\/\/.+/))
       link_to title, slug
+    elsif slug == nil
+      link_to title, seiten_page_path(page: "")
     else
-      link_to title, seiten_page_path(page: slug, locale: I18n.locale)
+      link_to title, seiten_page_path(page: slug)
     end
   end
 
