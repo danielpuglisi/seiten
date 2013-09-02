@@ -143,6 +143,59 @@ Seiten also has a breadcrumb helper:
 
 this gives you a breadcrumb navigation of the current page.
 
+## I18n
+
+### Configuration
+
+Seiten allows you to create locale specific navigations and static page contents for your application.
+
+Rename your `navigation.yml` file in the following way: `navigation.locale.yml`.
+For example: For the `:en` locale create a file called `navigation.en.yml` and for the `:de` locale create a file called `navigation.de.yml`.
+
+If a localized navigation file is not found, seiten will look for a `navigation.yml` per default.
+
+### Static pages
+
+If you want to create localized static content, use the following directory structure in your `app/pages` directory:
+
+```
+- app/
+  |
+  |- pages/
+    |
+    |- en/
+    |  |
+    |  |- contact.html.erb
+    |  |- home.html.erb
+    |  |- products.html.erb
+    |  |
+    |  |- about/
+    |  |  |- our-team.html.erb
+    |  |  |- partners.html.erb
+    |  |  |- works.html.erb
+    |  |
+    |  |- products/
+    |     |- hire-us.html.erb
+    |     |- logo-design.html.erb
+    |     |- web-development.html.erb
+    |
+    |- de/
+       |
+       |- kontakt.html.erb
+       |- home.html.erb
+       |- produkte.html.erb
+       |
+       |- uber-uns/
+       |  |- unser-team.html.erb
+       |  |- partner.html.erb
+       |  |- arbeiten.html.erb
+       |
+       |- produkte/
+          |- heuere-uns-an.html.erb
+          |- logo-design.html.erb
+          |- web-development.html.erb
+```
+
 ## Todo
 
 * Improve documentation
