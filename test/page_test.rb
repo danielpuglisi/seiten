@@ -11,8 +11,12 @@ class PageTest < Test::Unit::TestCase
     assert_equal "Home", Seiten::Page.find(1).title
   end
 
+  def test_returns_nil_for_root_page_slug
+    assert_equal nil, Seiten::Page.find(1).slug
+  end
+
   def test_returns_page_slug
-    assert_equal "/", Seiten::Page.find(1).slug
+    assert_equal "about/our-team", Seiten::Page.find(7).slug
   end
 
   def test_returns_page_layout
@@ -35,8 +39,8 @@ class PageTest < Test::Unit::TestCase
   end
 
   def test_returns_true_if_page_child_is_deeply_nested
-    child = Seiten::Page.find_by_slug("/about/our-team")
-    assert_equal true, Seiten::Page.find_by_slug("/about").parent_of?(child)
+    child = Seiten::Page.find_by_slug("about/our-team")
+    assert_equal true, Seiten::Page.find_by_slug("about").parent_of?(child)
   end
 
   def test_returns_false_if_page_is_not_child_of_parent
@@ -60,7 +64,7 @@ class PageTest < Test::Unit::TestCase
   end
 
   def test_finds_page_by_slug
-    page = Seiten::Page.find_by_slug("/products/logo-design")
+    page = Seiten::Page.find_by_slug("products/logo-design")
     assert_equal "Logo Design", page.title
   end
 

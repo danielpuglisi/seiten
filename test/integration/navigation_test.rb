@@ -3,7 +3,6 @@ require 'test_helper'
 class NavigationTest < ActionDispatch::IntegrationTest
 
   def test_returns_2_level_deep_navigation
-    p Seiten.config[:storage_directory]
     visit "/"
     assert has_content?("Home")
     assert has_content?("Products")
@@ -22,6 +21,13 @@ class NavigationTest < ActionDispatch::IntegrationTest
     assert !has_content?("Daniel Puglisi")
     assert !has_content?("Codegestalt")
     assert !has_content?("Kreatify")
+  end
+
+  def test_returns_home_url
+    visit "/contact"
+    assert_equal "/contact", current_path
+    click_link "Home"
+    assert_equal "/", current_path
   end
 
   def test_returns_sub_navigation

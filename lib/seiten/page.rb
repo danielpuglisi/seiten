@@ -31,6 +31,9 @@ module Seiten
 
     # find a page by slug
     def self.find_by_slug(slug)
+      if slug
+        slug = slug[1..-1] if slug[0] == "/"
+      end
       Page.all.select { |page| page.slug == slug }.first
     end
 
@@ -42,6 +45,13 @@ module Seiten
         pages << Page.get_breadcrumb(page.parent)
       end
       pages.flatten
+    end
+
+    def redirect
+      if @redirect
+        @redirect = @redirect[1..-1] if @redirect[0] == "/"
+        "/#{@redirect}"
+      end
     end
 
     # get parent of page

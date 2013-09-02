@@ -1,5 +1,5 @@
 - title: "Home"
-  url: "/"
+  root: true
   layout: "home"
 
 - title: "Products"
@@ -34,3 +34,4 @@
 
 - title: "Contact"
 - title: "I18n"
+  url: "/localization"

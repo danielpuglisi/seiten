@@ -1,5 +1,15 @@
 module SeitenHelper
 
+  def link_to_seiten_page(title, slug, options={})
+    if !!(slug.to_s.match(/^https?:\/\/.+/))
+      link_to title, slug
+    elsif slug == nil
+      link_to title, "/"
+    else
+      link_to title, seiten_page_path(page: slug)
+    end
+  end
+
   def seiten_navigation(options={})
     output ||= ""
     parent_id = options[:parent_id] || nil
@@ -8,7 +18,7 @@ module SeitenHelper
     if deep > 0
       Seiten::Page.find_by_parent_id(parent_id).each do |page|
         status = page.active?(current_page) ? "active" : "inactive"
-        output += "<li class='#{status}'>#{link_to(page.title, page.slug)}"
+        output += "<li class='#{status}'>#{link_to_seiten_page(page.title, page.slug)}"
         unless page.children.blank?
           output += seiten_navigation(parent_id: page.id, deep: deep-1)
         end
@@ -26,7 +36,7 @@ module SeitenHelper
       output = content_tag(:ul, class: "breadcrumb") do
         Seiten::Page.get_breadcrumb(current_page).reverse.collect { |page|
           content_tag :li do
-            raw "#{link_separator} #{link_to(page.title, page.slug)}"
+            raw "#{link_separator} #{link_to_seiten_page(page.title, page.slug)}"
           end
         }.join().html_safe
       end

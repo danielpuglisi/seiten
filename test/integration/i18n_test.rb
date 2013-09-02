@@ -3,7 +3,7 @@ require 'test_helper'
 class I18nTest < ActionDispatch::IntegrationTest
 
   def test_returns_page_in_root_if_not_found_in_locale_directory
-    visit "/i18n"
+    visit "/localization"
     assert_equal 200, status_code
     assert has_content?("I18n is in root")
   end

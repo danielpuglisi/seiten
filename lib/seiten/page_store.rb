@@ -21,10 +21,25 @@ module Seiten
     end
 
     def build_link(page, prefix_url="")
+
+      # if url is nil parameterize title otherwise just use url
       slug = page["url"].nil? ? page["title"].parameterize : page["url"]
-      unless slug[0] == "/" || !!(slug.match(/^https?:\/\/.+/))
+
+      # prepend prefix_url if slug is not root or external url
+      unless slug[0] == "/" || !!(slug.match(/^https?:\/\/.+/)) || !prefix_url.present?
         slug = "#{prefix_url}/#{slug}"
       end
+
+      # return nil if page slug is /
+      if slug == "/" || page["root"] == true
+        slug = nil
+      end
+
+      # remove leading slash if present
+      if slug
+        slug = slug[1..-1] if slug[0] == "/"
+      end
+
       slug
     end
 
