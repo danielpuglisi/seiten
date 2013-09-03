@@ -14,36 +14,40 @@ module Seiten
       @layout    = options[:layout]
     end
 
-    def self.all
-      Seiten::PageStore.current.pages
-    end
+    class << self
 
-    # find page by id
-    def self.find(id)
-      Page.all.select { |page| page.id == id }.first
-    end
-
-    # find all pages by parent_id
-    def self.find_by_parent_id(parent_id)
-      Page.all.select { |page| page.parent_id == parent_id }
-    end
-
-    # find a page by slug
-    def self.find_by_slug(slug)
-      if slug
-        slug = slug[1..-1] if slug[0] == "/"
+      def all
+        Seiten::PageStore.current.pages
       end
-      Page.all.select { |page| page.slug == slug }.first
-    end
 
-    # get breadcrumb of given page (reversed)
-    def self.get_breadcrumb(page)
-      pages ||= []
-      pages << page
-      if page.parent
-        pages << Page.get_breadcrumb(page.parent)
+      # find page by id
+      def find(id)
+        all.select { |page| page.id == id }.first
       end
-      pages.flatten
+
+      # find all pages by parent_id
+      def find_by_parent_id(parent_id)
+        all.select { |page| page.parent_id == parent_id }
+      end
+
+      # find a page by slug
+      def find_by_slug(slug)
+        if slug
+          slug = slug[1..-1] if slug[0] == "/"
+        end
+        all.select { |page| page.slug == slug }.first
+      end
+
+      # get breadcrumb of given page (reversed)
+      def get_breadcrumb(page)
+        pages ||= []
+        pages << page
+        if page.parent
+          pages << get_breadcrumb(page.parent)
+        end
+        pages.flatten
+      end
+
     end
 
     # get parent of page
