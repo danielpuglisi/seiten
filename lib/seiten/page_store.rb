@@ -2,22 +2,62 @@ module Seiten
 
   class PageStore
 
-    attr_accessor :storage_type, :storage_file, :storage_directory
+    attr_accessor :storage_type, :storage_file, :storage_language, :storage_directory, :pages
 
     def initialize(options={})
-      @storage_type      = options[:storage_type]
-      @storage_file      = options[:storage_file]
+      @storage_type      = options[:storage_type] || Seiten.config[:default_storage_type]
+      @storage_directory = options[:storage_directory] || File.join(Rails.root, Seiten.config[:default_storage_directory])
+      @storage_language  = options[:storage_language] || I18n.locale
+      @storage_language  = @storage_language.to_sym
+      @storage_file      = options[:storage_file] || load_storage_file
+      @pages             = load_pages
+    end
 
-      @storage_type ||= Seiten.config[:storage_type]
-      @storage_file ||= load_storage_file
+    # def self.new(options={})
+    #   page_store = super(options)
+    #   self.storages << page_store
+    #   # page_store_key = options[:page_store_key] || options[:storage_languagea
+    #   # options.delete :page_store_key if options[:page_store_key]
+    #   # new_page_store = super(options)
+    #   # Seiten.page_store[page_store_key] = new_page_store
+    # end
+
+    @storages = []
+
+    class << self
+
+      def storages
+        @storages
+      end
+
+      def find_by_locale(locale=I18n.locale)
+        storages.select { |storage| storage.storage_language == locale }.first
+      end
+      alias_method :current, :find_by_locale
+
+      def initialize_page_stores
+        if File.directory?(File.join(Rails.root, Seiten.config[:default_storage_file]))
+          Dir[File.join(Rails.root, Seiten.config[:default_storage_file], "*.yml")].each do |file|
+            locale = File.basename(file, '.yml')
+            Seiten::PageStore.storages << Seiten::PageStore.new(storage_language: locale)
+          end
+        else
+          Seiten::PageStore.storages << Seiten::PageStore.new(storage_language: I18n.default_locale)
+        end
+      end
+
     end
 
     def load_storage_file
-      if File.exists?(File.join(Rails.root, Seiten.config[:storage_file].gsub(".yml", ".#{I18n.locale.to_s}.yml")))
-        File.join(Rails.root, Seiten.config[:storage_file].gsub(".yml", ".#{I18n.locale.to_s}.yml"))
+      if File.exists?(File.join(Rails.root, Seiten.config[:default_storage_file], "#{storage_language}.yml"))
+        File.join(Rails.root, Seiten.config[:default_storage_file], "#{storage_language}.yml")
       else
-        File.join(Rails.root, Seiten.config[:storage_file])
+        File.join(Rails.root, "#{Seiten.config[:default_storage_file]}.yml")
       end
+    end
+
+    def file_path(options={})
+      File.join(storage_directory, options[:locale].to_s, options[:filename])
     end
 
     def build_link(page, prefix_url="")

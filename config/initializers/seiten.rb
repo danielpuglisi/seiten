@@ -1,0 +1,1 @@
+Seiten::PageStore.initialize_page_stores

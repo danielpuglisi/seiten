@@ -22,16 +22,16 @@ class I18nTest < ActionDispatch::IntegrationTest
 
   def test_loads_de_navigation
     I18n.locale = :de
-    assert_equal File.join(Rails.root, "config", "navigation.de.yml"), Seiten::PageStore.new.storage_file
+    assert_equal File.join(Rails.root, "config", "navigation", "de.yml"), Seiten::PageStore.new.storage_file
   end
 
   def test_loads_en_navigation
     I18n.locale = :en
-    assert_equal File.join(Rails.root, "config", "navigation.en.yml"), Seiten::PageStore.new.storage_file
+    assert_equal File.join(Rails.root, "config", "navigation", "en.yml"), Seiten::PageStore.new.storage_file
   end
 
-  def test_loads_navigation_without_locale_if_not_found
-    I18n.locale = :fr
-    assert_equal File.join(Rails.root, "config", "navigation.yml"), Seiten::PageStore.new.storage_file
-  end
+  # def test_loads_navigation_without_locale_if_not_found
+  #   I18n.locale = :fr
+  #   assert_equal File.join(Rails.root, "config", "navigation.yml"), Seiten::PageStore.new.storage_file
+  # end
 end

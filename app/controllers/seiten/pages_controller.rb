@@ -13,10 +13,10 @@ module Seiten
           filename = Seiten.config[:root_page_filename]
         end
 
-        if File.exists? Seiten.storage_path(filename: "#{filename}.html.erb", locale: I18n.locale)
-          file = Seiten.storage_path(filename: filename, locale: I18n.locale)
+        if File.exists? Seiten::PageStore.current.file_path(filename: "#{filename}.html.erb", locale: I18n.locale)
+          file = Seiten::PageStore.current.file_path(filename: filename, locale: I18n.locale)
         else
-          file = Seiten.storage_path(filename: filename)
+          file = Seiten::PageStore.current.file_path(filename: filename)
         end
 
         if current_page.layout

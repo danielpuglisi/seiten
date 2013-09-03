@@ -15,8 +15,7 @@ module Seiten
     end
 
     def self.all
-      page_store = PageStore.new
-      page_store.load_pages
+      Seiten::PageStore.current.pages
     end
 
     # find page by id

@@ -6,18 +6,14 @@ require 'seiten/routes_helper'
 module Seiten
 
   @config = {
-    storage_type: :yaml,
-    storage_file: File.join('config', 'navigation.yml'),
-    storage_directory: File.join('app', 'pages'),
+    default_storage_type: :yaml,
+    default_storage_file: File.join('config', 'navigation'),
+    default_storage_directory: File.join('app', 'pages'),
     root_page_filename: "home"
   }
 
   def self.config
     @config
-  end
-
-  def self.storage_path(options={})
-    File.join(Rails.root, config[:storage_directory], options[:locale].to_s, options[:filename])
   end
 
   module Controllers
