@@ -113,7 +113,7 @@ Example:
        |- web-development.html.erb
 ```
 
-## Rendering navigations
+## Helper methods
 
 To output your navigation structure as a `<ul>` list include the following helper into your layout:
 
@@ -128,11 +128,11 @@ You can render more levels with the `deep` parameters:
 <%= seiten_navigation deep: 3 %>
 ```
 
-If you want to output a subnavigation on a certain page, for example for the "Partner" page in our example,
+If you want to output a subnavigation of a certain page, for example for the "Partner" page in our example,
 you can do the following:
 
 ```ruby
-<%= seiten_navigation parent_id: Seiten::Page.find_by_slug("/about/partners") %>
+<%= seiten_navigation parent_id: Seiten::Page.find_by_slug("about/partners") %>
 ```
 
 Seiten also has a breadcrumb helper:
@@ -141,7 +141,13 @@ Seiten also has a breadcrumb helper:
 <%= seiten_breadcrumb %>
 ```
 
-this gives you a breadcrumb navigation of the current page.
+this gives you a breadcrumb navigation of the current page which is separated by a `>` per default.
+
+You can change the link_separater in the following way:
+
+```ruby
+<%= seiten_breadcrumb link_separator: ">>" %>
+```
 
 ## I18n
 
@@ -149,10 +155,10 @@ this gives you a breadcrumb navigation of the current page.
 
 Seiten allows you to create locale specific navigations and static page contents for your application.
 
-Rename your `navigation.yml` file in the following way: `navigation.locale.yml`.
-For example: For the `:en` locale create a file called `navigation.en.yml` and for the `:de` locale create a file called `navigation.de.yml`.
+Rename your `config/navigation.yml` file in the following way: `config/navigation/locale.yml`.  
+For example: For the `:en` locale create a file called `config/navigation/en.yml` and for the `:de` locale create a file called `config/navigation/de.yml`.
 
-If a localized navigation file is not found, seiten will look for a `navigation.yml` per default.
+If a localized navigation file is not found, seiten will look for `config/navigation.yml` per default.
 
 ### Static pages
 
