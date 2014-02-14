@@ -23,9 +23,33 @@ class PageTest < Test::Unit::TestCase
     assert_equal "home", Seiten::Page.find(1).layout
   end
 
+  def test_returns_external?
+    assert_equal true, Seiten::Page.find(13).external?
+    assert_equal false, Seiten::Page.find(4).external?
+  end
+
   def test_returns_parent_page
     page = Seiten::Page.find(3)
     assert_equal Seiten::Page.find(2).title, page.parent.title
+  end
+
+  def test_returns_true_if_page_has_a_parent
+    page = Seiten::Page.find(3)
+    assert_equal true, page.parent?
+  end
+
+  def test_returns_false_if_page_has_no_parent
+    page = Seiten::Page.find(1)
+    assert_equal false, page.parent?
+  end
+
+  def test_returns_branch_root_page
+    page = Seiten::Page.find(13)
+    assert_equal Seiten::Page.find(6), page.branch_root
+    page = Seiten::Page.find(3)
+    assert_equal Seiten::Page.find(2), page.branch_root
+    page = Seiten::Page.find(1)
+    assert_equal Seiten::Page.find(1), page.branch_root
   end
 
   def test_returns_children_pages

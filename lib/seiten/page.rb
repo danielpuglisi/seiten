@@ -10,6 +10,7 @@ module Seiten
       @parent_id = options[:parent_id]
       @title     = options[:title]
       @slug      = options[:slug]
+      @external  = options[:external]
       @redirect  = options[:redirect]
       @layout    = options[:layout]
     end
@@ -50,9 +51,28 @@ module Seiten
 
     end
 
+    # returns true if slug starts with http:// or https://
+    def external?
+      !!(slug.match(/^https?:\/\/.+/))
+    end
+
     # get parent of page
     def parent
       Page.find(parent_id)
+    end
+
+    def parent?
+      parent.present?
+    end
+
+    # TODO: Find a better name for this
+    # get root page of current page branch
+    def branch_root
+      if self.parent?
+        self.parent.branch_root
+      else
+        self
+      end
     end
 
     # get children of page
