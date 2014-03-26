@@ -13,15 +13,6 @@ module Seiten
       @pages             = load_pages
     end
 
-    # def self.new(options={})
-    #   page_store = super(options)
-    #   self.storages << page_store
-    #   # page_store_key = options[:page_store_key] || options[:storage_languagea
-    #   # options.delete :page_store_key if options[:page_store_key]
-    #   # new_page_store = super(options)
-    #   # Seiten.page_store[page_store_key] = new_page_store
-    # end
-
     @storages = []
 
     class << self
