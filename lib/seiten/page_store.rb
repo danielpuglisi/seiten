@@ -21,6 +21,10 @@ module Seiten
         @storages
       end
 
+      def storages=(storages)
+        @storages = storages
+      end
+
       def find_by_locale(locale=I18n.locale)
         storages.select { |storage| storage.storage_language == locale }.first
       end
