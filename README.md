@@ -202,6 +202,30 @@ If you want to create localized static content, use the following directory stru
           |- web-development.html.erb
 ```
 
+### Switch Page Store
+
+Per default, the navigation which matches the current I18n.locale will be set to the current page store.
+
+To switch the current page store you can do the following:
+
+```ruby
+Seiten::PageStore.set_current_page_store(storage_language: :de)
+```
+
+for example in your `ApplicationController` you can do the following to switch your navigation when the locale changes:
+
+```ruby
+before_action :set_locale
+
+...
+
+private
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
+    Seiten::PageStore.set_current_page_store(storage_language: I18n.locale)
+  end
+```
+
 ## Todo
 
 * Improve documentation

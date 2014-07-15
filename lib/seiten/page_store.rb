@@ -25,20 +25,35 @@ module Seiten
         @storages = storages
       end
 
-      def find_by_locale(locale=I18n.locale)
-        storages.select { |storage| storage.storage_language == locale }.first
+      def current
+        Seiten.config[:current_page_store]
       end
-      alias_method :current, :find_by_locale
+
+      def set_current_page_store(options={})
+        Seiten.config[:current_page_store] = find_by(options) if options
+      end
+
+      def find_by(options={})
+        tmp_storages = storages
+        options.each do |option|
+          tmp_storages = tmp_storages.select { |storage| storage.send(option[0]) == option[1] }
+        end
+        tmp_storages.first
+      end
 
       def initialize_page_stores
+        # Check if config/navigation exists?
+        # If true:  Initialize localized navigation page stores with locale language and directory
+        # If false: Initialize the default storage file
         if File.directory?(File.join(Rails.root, Seiten.config[:default_storage_file]))
           Dir[File.join(Rails.root, Seiten.config[:default_storage_file], "*.yml")].each do |file|
             locale = File.basename(file, '.yml')
-            Seiten::PageStore.storages << Seiten::PageStore.new(storage_language: locale)
+            Seiten::PageStore.storages << Seiten::PageStore.new(storage_language: locale, storage_directory: File.join(Rails.root, "app", "pages", locale))
           end
         else
           Seiten::PageStore.storages << Seiten::PageStore.new(storage_language: I18n.default_locale)
         end
+        set_current_page_store(storage_language: I18n.default_locale)
       end
 
     end
@@ -52,7 +67,7 @@ module Seiten
     end
 
     def file_path(options={})
-      File.join(storage_directory, options[:locale].to_s, options[:filename])
+      File.join(storage_directory, options[:filename])
     end
 
     def build_link(page, prefix_url="")
