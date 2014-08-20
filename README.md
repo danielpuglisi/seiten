@@ -204,7 +204,7 @@ If you want to create localized static content, use the following directory stru
 
 ### Switch Page Store
 
-Per default, the navigation which matches the current I18n.locale will be set to the current page store.
+Per default, the navigation which matches the `config.i18n.default_locale` in `config/application.rb` will be set as the current page store on initialization.
 
 To switch the current page store you can do the following:
 

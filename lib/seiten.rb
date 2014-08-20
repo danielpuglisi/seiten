@@ -9,7 +9,6 @@ module Seiten
     default_storage_type: :yaml,
     default_storage_file: File.join('config', 'navigation'),
     default_storage_directory: File.join('app', 'pages'),
-    current_page_store: nil,
     root_page_filename: "home"
   }
 

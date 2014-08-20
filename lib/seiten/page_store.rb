@@ -7,8 +7,7 @@ module Seiten
     def initialize(options={})
       @storage_type      = options[:storage_type] || Seiten.config[:default_storage_type]
       @storage_directory = options[:storage_directory] || File.join(Rails.root, Seiten.config[:default_storage_directory])
-      @storage_language  = options[:storage_language] || I18n.locale
-      @storage_language  = @storage_language.to_sym
+      @storage_language  = (options[:storage_language] || I18n.locale).to_sym
       @storage_file      = options[:storage_file] || load_storage_file
       @pages             = load_pages
     end
@@ -51,9 +50,15 @@ module Seiten
             Seiten::PageStore.storages << Seiten::PageStore.new(storage_language: locale, storage_directory: File.join(Rails.root, "app", "pages", locale))
           end
         else
-          Seiten::PageStore.storages << Seiten::PageStore.new(storage_language: I18n.default_locale)
+          Seiten::PageStore.storages << Seiten::PageStore.new(storage_language: default_locale)
         end
-        set_current_page_store(storage_language: I18n.default_locale)
+        set_current_page_store(storage_language: default_locale)
+      end
+
+      # NOTE: Haven't found out what's the problem, but Rails has some weird I18n behaviour on initialization.
+      #       This method returns I18n.default_locale if config.i18n.default_locale is not set.
+      def default_locale
+        Rails.application.config.i18n.default_locale || I18n.default_locale
       end
 
     end
