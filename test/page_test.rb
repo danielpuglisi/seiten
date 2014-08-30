@@ -95,4 +95,10 @@ class PageTest < Test::Unit::TestCase
   def test_returns_nil_for_active_method_when_current_page_is_nil
     assert_equal nil, Seiten::Page.find(1).active?(nil)
   end
+
+  def test_returns_metadata
+    page = Seiten::Page.find_by_slug("products/logo-design")
+    assert_equal({ header_image: "logo.jpg", description: "Our logo design is awesome." }, page.metadata)
+    assert_equal "logo.jpg", page.metadata[:header_image]
+  end
 end

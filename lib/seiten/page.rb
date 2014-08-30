@@ -2,7 +2,7 @@ module Seiten
 
   class Page
 
-    attr_accessor :id, :parent_id, :title, :children, :slug, :redirect, :layout
+    attr_accessor :id, :parent_id, :title, :children, :slug, :redirect, :layout, :metadata
 
     # initialize Page object with attributes
     def initialize(options={})
@@ -13,6 +13,7 @@ module Seiten
       @external  = options[:external]
       @redirect  = options[:redirect]
       @layout    = options[:layout]
+      @metadata  = options[:metadata].each_with_object({}){|(k,v), h| h[k.to_sym] = v} if options[:metadata]
     end
 
     class << self
