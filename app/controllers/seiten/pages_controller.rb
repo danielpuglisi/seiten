@@ -5,7 +5,6 @@ module Seiten
       if current_page.nil?
         raise ActionController::RoutingError.new("Page /#{params[:page]} not found")
       else
-        @title = current_page.title
 
         if params[:page]
           filename = params[:page]
