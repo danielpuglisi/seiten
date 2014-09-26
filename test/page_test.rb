@@ -11,8 +11,8 @@ class PageTest < Test::Unit::TestCase
     assert_equal "Home", Seiten::Page.find(1).title
   end
 
-  def test_returns_nil_for_root_page_slug
-    assert_equal nil, Seiten::Page.find(1).slug
+  def test_returns_empty_string_for_root_page_slug
+    assert_equal "", Seiten::Page.find(1).slug
   end
 
   def test_returns_page_slug

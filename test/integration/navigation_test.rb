@@ -65,5 +65,6 @@ class NavigationTest < ActionDispatch::IntegrationTest
     visit "/secret"
     assert_equal 200, status_code
     has_content?("This is a secret page")
+    assert has_xpath?("//li[@class='inactive']/a[@href='/']", text: "Home")
   end
 end

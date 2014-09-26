@@ -34,9 +34,7 @@ module Seiten
 
       # find a page by slug
       def find_by_slug(slug)
-        if slug
-          slug = slug[1..-1] if slug[0] == "/"
-        end
+        slug = slug[1..-1] if slug && slug[0] == "/"
         all.select { |page| page.slug == slug }.first
       end
 

@@ -85,9 +85,9 @@ module Seiten
         slug = "#{prefix_url}/#{slug}"
       end
 
-      # return nil if page slug is /
+      # return empty string if page slug is /
       if slug == "/" || page["root"] == true
-        slug = nil
+        slug = ""
       end
 
       # remove leading slash if present
