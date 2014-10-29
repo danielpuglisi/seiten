@@ -6,14 +6,15 @@ module Seiten
 
     # initialize Page object with attributes
     def initialize(options={})
-      @id        = options[:id]
-      @parent_id = options[:parent_id]
-      @title     = options[:title]
-      @slug      = options[:slug]
-      @external  = options[:external]
-      @redirect  = options[:redirect]
-      @layout    = options[:layout]
-      @metadata  = options[:metadata].each_with_object({}){|(k,v), h| h[k.to_sym] = v} if options[:metadata]
+      @id         = options[:id]
+      @parent_id  = options[:parent_id]
+      @title      = options[:title]
+      @slug       = options[:slug]
+      @external   = options[:external]
+      @redirect   = options[:redirect]
+      @layout     = options[:layout]
+      @metadata   = options[:metadata].each_with_object({}){|(k,v), h| h[k.to_sym] = v} if options[:metadata]
+      @metadata ||= {}
     end
 
     class << self

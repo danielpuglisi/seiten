@@ -101,4 +101,9 @@ class PageTest < Test::Unit::TestCase
     assert_equal({ header_image: "logo.jpg", description: "Our logo design is awesome." }, page.metadata)
     assert_equal "logo.jpg", page.metadata[:header_image]
   end
+
+  def test_returns_empty_hash_when_metadata_are_not_set
+    page = Seiten::Page.find_by_slug("contact")
+    assert_equal({}, page.metadata)
+  end
 end
