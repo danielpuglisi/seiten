@@ -1,9 +1,9 @@
 module Seiten
   class PagesController < ::ApplicationController
 
-    def show
-      @current_page = Seiten::Page.find_by_slug("") unless params[:page]
+    prepend_before_filter :check_and_set_root_page
 
+    def show
       if current_page.nil?
         raise ActionController::RoutingError.new("Page /#{params[:page]} not found")
       else
@@ -23,5 +23,10 @@ module Seiten
         end
       end
     end
+
+    private
+      def check_and_set_root_page
+        @current_page = Seiten::Page.find_by_slug("") unless params[:page]
+      end
   end
 end
