@@ -4,7 +4,7 @@ class PageTest < Test::Unit::TestCase
 
   def test_returns_correct_number_of_page_objects
     pages = Seiten::Page.all
-    assert_equal 16, pages.count
+    assert_equal 17, pages.count
   end
 
   def test_returns_page_title
@@ -16,7 +16,7 @@ class PageTest < Test::Unit::TestCase
   end
 
   def test_returns_page_slug
-    assert_equal "about/our-team", Seiten::Page.find(7).slug
+    assert_equal "about/our-team", Seiten::Page.find(8).slug
   end
 
   def test_returns_page_layout
@@ -24,17 +24,17 @@ class PageTest < Test::Unit::TestCase
   end
 
   def test_returns_external?
-    assert_equal true, Seiten::Page.find(13).external?
-    assert_equal false, Seiten::Page.find(4).external?
+    assert_equal true, Seiten::Page.find(14).external?
+    assert_equal false, Seiten::Page.find(5).external?
   end
 
   def test_returns_parent_page
-    page = Seiten::Page.find(3)
-    assert_equal Seiten::Page.find(2).title, page.parent.title
+    page = Seiten::Page.find(4)
+    assert_equal Seiten::Page.find(3).title, page.parent.title
   end
 
   def test_returns_true_if_page_has_a_parent
-    page = Seiten::Page.find(3)
+    page = Seiten::Page.find(4)
     assert_equal true, page.parent?
   end
 
@@ -44,22 +44,22 @@ class PageTest < Test::Unit::TestCase
   end
 
   def test_returns_branch_root_page
-    page = Seiten::Page.find(13)
-    assert_equal Seiten::Page.find(6), page.branch_root
-    page = Seiten::Page.find(3)
-    assert_equal Seiten::Page.find(2), page.branch_root
+    page = Seiten::Page.find(14)
+    assert_equal Seiten::Page.find(7), page.branch_root
+    page = Seiten::Page.find(4)
+    assert_equal Seiten::Page.find(3), page.branch_root
     page = Seiten::Page.find(1)
     assert_equal Seiten::Page.find(1), page.branch_root
   end
 
   def test_returns_children_pages
-    page = Seiten::Page.find(2)
+    page = Seiten::Page.find(3)
     assert_equal ["Logo Design", "Web Development", "Hire us"], page.children.map(&:title)
   end
 
   def test_returns_true_if_page_is_child_of_parent
-    child = Seiten::Page.find(3)
-    assert_equal true, Seiten::Page.find(2).parent_of?(child)
+    child = Seiten::Page.find(4)
+    assert_equal true, Seiten::Page.find(3).parent_of?(child)
   end
 
   def test_returns_true_if_page_child_is_deeply_nested
@@ -69,7 +69,7 @@ class PageTest < Test::Unit::TestCase
 
   def test_returns_false_if_page_is_not_child_of_parent
     wrong_child = Seiten::Page.find(1)
-    assert_equal false, Seiten::Page.find(2).parent_of?(wrong_child)
+    assert_equal false, Seiten::Page.find(3).parent_of?(wrong_child)
   end
 
   def test_returns_true_for_active_page
@@ -78,8 +78,8 @@ class PageTest < Test::Unit::TestCase
   end
 
   def test_returns_true_for_parent_of_active_page
-    active_page = Seiten::Page.find(3)
-    assert_equal true, Seiten::Page.find(2).active?(active_page)
+    active_page = Seiten::Page.find(4)
+    assert_equal true, Seiten::Page.find(3).active?(active_page)
   end
 
   def test_returns_false_for_not_active_page

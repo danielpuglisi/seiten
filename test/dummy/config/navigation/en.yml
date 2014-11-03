@@ -4,6 +4,8 @@
   metadata:
     title: "My awesome Web Agency"
 
+- title: "Blog"
+
 - title: "Products"
   layout:
     name: "products"

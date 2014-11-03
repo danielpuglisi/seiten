@@ -9,7 +9,7 @@ module Seiten
       end
 
       def current_page
-        @current_page ||= Seiten::Page.find_by_slug(params[:page])
+        @current_page ||= defined?(set_current_page) ? set_current_page : nil
       end
     end
   end

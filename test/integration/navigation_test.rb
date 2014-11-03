@@ -64,12 +64,19 @@ class NavigationTest < ActionDispatch::IntegrationTest
   def test_returns_page_with_navigation_which_is_not_defined_in_navigation_config
     visit "/secret"
     assert_equal 200, status_code
-    has_content?("This is a secret page")
+    assert has_content?("This is a secret page")
     assert has_xpath?("//li[@class='inactive']/a[@href='/']", text: "Home"), "Home page is active but should be inactive"
+    assert_equal "", page.title
   end
 
   def test_returns_root_page_specific_values_set_in_application_controller
     visit "/"
     assert_equal "My awesome Web Agency", page.title
+  end
+
+  def test_returns_current_page_of_blog_page
+    visit "/blog"
+    assert_equal "Blog", page.title
+    assert has_content?("posts index")
   end
 end
