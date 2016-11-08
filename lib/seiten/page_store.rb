@@ -64,7 +64,7 @@ module Seiten
     end
 
     def load_storage_file
-      if File.exists?(File.join(Rails.root, Seiten.config[:default_storage_file], "#{storage_language}.yml"))
+      if File.exist?(File.join(Rails.root, Seiten.config[:default_storage_file], "#{storage_language}.yml"))
         File.join(Rails.root, Seiten.config[:default_storage_file], "#{storage_language}.yml")
       else
         File.join(Rails.root, "#{Seiten.config[:default_storage_file]}.yml")
