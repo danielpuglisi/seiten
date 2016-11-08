@@ -34,30 +34,6 @@ module Seiten
       "%s.%s" % [name, locale]
     end
 
-    # TODO: Move to Seiten::LinkBuilder
-    def build_link(page, prefix_url="")
-
-      # if url is nil parameterize title otherwise just use url
-      slug = page["url"].nil? ? page["title"].parameterize : page["url"]
-
-      # prepend prefix_url if slug is not root or external url
-      unless slug[0] == "/" || !!(slug.match(/^https?:\/\/.+/)) || !prefix_url.present?
-        slug = "#{prefix_url}/#{slug}"
-      end
-
-      # return empty string if page slug is /
-      if slug == "/" || page["root"] == true
-        slug = ""
-      end
-
-      # remove leading slash if present
-      if slug
-        slug = slug[1..-1] if slug[0] == "/"
-      end
-
-      slug
-    end
-
     # TODO: Move to Seiten::NavigationBuilder
     def load_pages(options={})
 
@@ -82,8 +58,8 @@ module Seiten
         # Increment generated id
         @id += 1
 
-        # Build link
-        page["slug"] = build_link(page, prefix_url)
+        # Build slug
+        page["slug"] = Seiten::SlugBuilder.call(page, prefix_url)
 
         # Set layout
         if page["layout"]
@@ -102,7 +78,7 @@ module Seiten
         # Set redirect
         if page["redirect"]
           if page["redirect"].is_a?(TrueClass)
-            page["redirect"] = build_link(page["nodes"].first, page["slug"])
+            page["redirect"] = Seiten::SlugBuilder.call(page["nodes"].first, page["slug"])
           else
             page["redirect"] = page["redirect"][1..-1] if page["redirect"][0] == "/"
           end
