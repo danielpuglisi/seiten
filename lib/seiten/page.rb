@@ -10,7 +10,6 @@ module Seiten
       @parent_id  = options[:parent_id]
       @title      = options[:title]
       @slug       = options[:slug]
-      @external   = options[:external]
       @redirect   = options[:redirect]
       @layout     = options[:layout]
       @metadata   = options[:metadata].each_with_object({}){|(k,v), h| h[k.to_sym] = v} if options[:metadata]

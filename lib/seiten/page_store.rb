@@ -152,7 +152,7 @@ module Seiten
 
         # Load children
         if page["nodes"]
-          load_pages(pages: page["nodes"], parent_id: page["id"], prefix_url: page["slug"], layout: inherited_layout, external: page["external"])
+          load_pages(pages: page["nodes"], parent_id: page["id"], prefix_url: page["slug"], layout: inherited_layout)
         end
 
         page_params = page.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
