@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PageStoreTest < Test::Unit::TestCase
+class Seiten::PageStoreTest < ActiveSupport::TestCase
 
   def test_returns_storages
     assert_equal 2, Seiten::PageStore.storages.count

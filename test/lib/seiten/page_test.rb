@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PageTest < Test::Unit::TestCase
+class Seiten::PageTest < ActiveSupport::TestCase
 
   def test_returns_correct_number_of_page_objects
     pages = Seiten::Page.all

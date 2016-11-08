@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  before_filter :set_seo_values
+  before_action :set_seo_values
 
   private
     def set_seo_values
