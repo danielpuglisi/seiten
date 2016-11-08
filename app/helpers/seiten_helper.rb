@@ -1,5 +1,6 @@
 module SeitenHelper
 
+  # TODO: Move logic into Seiten::PageLink class
   def link_to_seiten_page(title, slug, options={})
     if !!(slug.to_s.match(/^https?:\/\/.+/))
       link_to title, slug
@@ -8,6 +9,7 @@ module SeitenHelper
     end
   end
 
+  # TODO: Move logic into Seiten::Navigation class
   def seiten_navigation(options={})
     output ||= ""
     parent_id = options[:parent_id] || nil
@@ -27,6 +29,7 @@ module SeitenHelper
     raw output
   end
 
+  # TODO: Move logic into Seiten::Breadcrumb class
   def seiten_breadcrumb(options={})
     link_separator = options[:link_separator] || ">"
 

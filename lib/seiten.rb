@@ -1,19 +1,42 @@
 require 'seiten/engine'
-require 'seiten/page_store'
+require 'seiten/navigation'
 require 'seiten/page'
 require 'seiten/routes_helper'
 
 module Seiten
 
   @config = {
-    default_storage_type: :yaml,
-    default_storage_file: File.join('config', 'navigation'),
-    default_storage_directory: File.join('app', 'pages'),
-    root_page_filename: "home"
+    config_dir: File.join('config', 'seiten'),
+    pages_dir:  File.join('app', 'seiten')
   }
 
-  def self.config
-    @config
+  @navigations = []
+
+  class << self
+    def config
+      @config
+    end
+
+    def navigations
+      @navigations
+    end
+
+    def navigations=(navigations)
+      @navigations = navigations
+    end
+
+    def initialize_navigations
+      if File.directory?(File.join(Rails.root, Seiten.config[:config_dir]))
+        Dir[File.join(Rails.root, Seiten.config[:config_dir], "*.yml")].each do |file|
+          id     = File.basename(file, '.yml')
+          name   = id.gsub(/\..*/, '')
+          locale = id.gsub(/.*\./, '')
+          Seiten.navigations << Seiten::Navigation.new(name: name, locale: locale, dir: File.join(Rails.root, Seiten.config[:pages_dir], name, locale))
+        end
+      else
+        # TODO: Raise exception
+      end
+    end
   end
 
   module Controllers

@@ -1,1 +1,1 @@
-Seiten::PageStore.initialize_page_stores
+Seiten.initialize_navigations

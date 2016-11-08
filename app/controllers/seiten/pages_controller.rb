@@ -12,7 +12,7 @@ module Seiten
           filename = Seiten.config[:root_page_filename]
         end
 
-        file = Seiten::PageStore.current.file_path(filename: filename)
+        file = Seiten::Navigation.current.file_path(filename: filename)
 
         if current_page.layout
           render file: file, layout: current_page.layout

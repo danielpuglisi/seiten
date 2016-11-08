@@ -19,7 +19,7 @@ module Seiten
     class << self
 
       def all
-        Seiten::PageStore.current.pages
+        Seiten::Navigation.current.pages
       end
 
       # find page by id

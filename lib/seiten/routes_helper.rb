@@ -1,7 +1,7 @@
 class ActionDispatch::Routing::Mapper
 
   def seiten_resources
-    Seiten::PageStore.storages.each do |page_store|
+    Seiten.navigations.each do |page_store|
       page_store.pages.each do |page|
         if page.redirect
           get page.slug, to: redirect { |p, req|
