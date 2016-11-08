@@ -5,7 +5,9 @@ module Seiten
       extend ActiveSupport::Concern
 
       included do
-        helper_method :current_page
+        if respond_to?(:helper_method)
+          helper_method :current_page
+        end
       end
 
       def current_page
