@@ -2,22 +2,21 @@ module Seiten
 
   class Navigation
 
-    attr_accessor :name, :locale, :config, :dir, :pages
+    attr_accessor :name, :locale, :config, :dir, :page_collection
 
     def initialize(options={})
       @name   ||= options[:name]
       @locale ||= options[:locale]
       @config ||= options[:config] || File.join(Rails.root, Seiten.config[:config_dir], "#{id}.yml")
       @dir    ||= options[:dir]    || File.join(Rails.root, Seiten.config[:pages_dir], @name.to_s, @locale.to_s)
-      @pages  ||= load_pages
+      @page_collection = Seiten::PageCollection.new(navigation_id: id)
     end
 
     class << self
       def find_by(options={})
         Seiten.navigations.select do |navigation|
           options.all? do |option|
-            option
-            navigation.send(option[0]) == option[1].to_sym
+            navigation.send(option[0]) == option[1]
           end
         end.first
       end
@@ -27,8 +26,16 @@ module Seiten
       "%s.%s" % [name, locale]
     end
 
-    # TODO: Move to Seiten::NavigationBuilder
-    def load_pages(options={})
+    def pages
+      page_collection
+    end
+
+    def pages=(array)
+      page_collection.pages = array
+    end
+
+    # TODO: Move to Seiten::PageCollection#build
+    def build_page_collection(options={})
 
       pages      = options[:pages]
       parent_id  = options[:parent_id] # || nil
@@ -44,6 +51,7 @@ module Seiten
 
         # Load page and set parent_id and generated page id
         page = pages[i]
+        page["navigation_id"] = self.id
         page["id"] = @id
         page["parent_id"] = parent_id
         page["layout"] ||= layout
@@ -79,14 +87,14 @@ module Seiten
 
         # Load children
         if page["nodes"]
-          load_pages(pages: page["nodes"], parent_id: page["id"], prefix_url: page["slug"], layout: inherited_layout, external: page["external"])
+          build_page_collection(pages: page["nodes"], parent_id: page["id"], prefix_url: page["slug"], layout: inherited_layout, external: page["external"])
         end
 
         page_params = page.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
-        @navigation << Page.new(page_params)
+        @navigation << Seiten::Page.new(page_params)
       end
 
-      @navigation
+      pages= @navigation
     end
   end
 end
