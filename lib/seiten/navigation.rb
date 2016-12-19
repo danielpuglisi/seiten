@@ -13,21 +13,14 @@ module Seiten
     end
 
     class << self
-      # def current
-      #   Seiten.config[:current_page_store]
-      # end
-
-      # def set_current_page_store(options={})
-      #   Seiten.config[:current_page_store] = find_by(options) if options
-      # end
-
-      # def find_by(options={})
-      #   tmp_storages = storages
-      #   options.each do |option|
-      #     tmp_storages = tmp_storages.select { |storage| storage.send(option[0]) == option[1] }
-      #   end
-      #   tmp_storages.first
-      # end
+      def find_by(options={})
+        Seiten.navigations.select do |navigation|
+          options.all? do |option|
+            option
+            navigation.send(option[0]) == option[1]
+          end
+        end.first
+      end
     end
 
     def id

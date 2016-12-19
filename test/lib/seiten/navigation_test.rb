@@ -7,9 +7,18 @@ class Seiten::NavigationTest < ActiveSupport::TestCase
     assert_equal 'site.en', nav.id
   end
 
-  # def test_returns_storages
-  #   assert_equal 2, Seiten::PageStore.storages.count
-  # end
+  test '#find_by' do
+    site_en = Seiten::Navigation.new(name: :site, locale: :en)
+    site_de = Seiten::Navigation.new(name: :site, locale: :de)
+
+    Seiten.navigations << site_en
+    Seiten.navigations << site_de
+
+    assert_equal site_en, Seiten::Navigation.find_by(name: :site, locale: :en)
+    assert_equal site_de, Seiten::Navigation.find_by(name: :site, locale: :de)
+    assert_equal site_de, Seiten::Navigation.find_by(locale: :de)
+    assert_equal site_en, Seiten::Navigation.find_by(locale: :en)
+  end
 
   # # TODO: Split into two tests
   # def test_sets_and_returns_current_page_store
