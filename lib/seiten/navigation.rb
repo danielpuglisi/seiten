@@ -30,8 +30,8 @@ module Seiten
       page_collection
     end
 
-    def pages=(array)
-      page_collection.pages = array
+    def pages=(pages_array)
+      page_collection.pages = pages_array.map { |page| page.navigation_id = id; page }
     end
 
     # TODO: Move to Seiten::PageCollection#build
@@ -51,7 +51,6 @@ module Seiten
 
         # Load page and set parent_id and generated page id
         page = pages[i]
-        page["navigation_id"] = self.id
         page["id"] = @id
         page["parent_id"] = parent_id
         page["layout"] ||= layout
