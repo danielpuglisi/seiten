@@ -91,5 +91,14 @@ module Seiten
         end
       end
     end
+
+    def to_s
+      File.join(
+        Rails.root,
+        Seiten.config[:pages_dir],
+        navigation_id.gsub(/\./, '/'),
+        slug.present? ? slug : Seiten.config[:root_page]
+      )
+    end
   end
 end

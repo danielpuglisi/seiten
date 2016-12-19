@@ -106,6 +106,16 @@ class Seiten::PageTest < ActiveSupport::TestCase
     assert_nil parent_page.active?(nil)
   end
 
+  test '.to_s' do
+    page = pages.new(slug: 'about-us/projects')
+
+    assert_equal File.join(Rails.root, 'app/pages/test/en/about-us/projects'), page.to_s
+
+    page = pages.new(slug: '')
+
+    assert_equal File.join(Rails.root, 'app/pages/test/en/home'), page.to_s
+  end
+
   # def test_returns_metadata
   #   page = Seiten::Page.find_by_slug("products/logo-design")
   #   assert_equal({ header_image: "logo.jpg", description: "Our logo design is awesome." }, page.metadata)
