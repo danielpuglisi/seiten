@@ -1,6 +1,7 @@
 require 'seiten/engine'
 require 'seiten/navigation'
 require 'seiten/page'
+require 'seiten/page_collection'
 require 'seiten/slug_builder'
 require 'seiten/routes_helper'
 
