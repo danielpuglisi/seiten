@@ -17,7 +17,7 @@ module Seiten
         Seiten.navigations.select do |navigation|
           options.all? do |option|
             option
-            navigation.send(option[0]) == option[1]
+            navigation.send(option[0]) == option[1].to_sym
           end
         end.first
       end

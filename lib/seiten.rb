@@ -32,7 +32,7 @@ module Seiten
           id     = File.basename(file, '.yml')
           name   = id.gsub(/\..*/, '')
           locale = id.gsub(/.*\./, '')
-          Seiten.navigations << Seiten::Navigation.new(name: name, locale: locale, dir: File.join(Rails.root, Seiten.config[:pages_dir], name, locale))
+          Seiten.navigations << Seiten::Navigation.new(name: name.to_sym, locale: locale.to_sym, dir: File.join(Rails.root, Seiten.config[:pages_dir], name, locale))
         end
       else
         # TODO: Raise exception

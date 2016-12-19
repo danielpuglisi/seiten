@@ -8,16 +8,10 @@ class Seiten::NavigationTest < ActiveSupport::TestCase
   end
 
   test '#find_by' do
-    site_en = Seiten::Navigation.new(name: :site, locale: :en)
-    site_de = Seiten::Navigation.new(name: :site, locale: :de)
-
-    Seiten.navigations << site_en
-    Seiten.navigations << site_de
-
-    assert_equal site_en, Seiten::Navigation.find_by(name: :site, locale: :en)
-    assert_equal site_de, Seiten::Navigation.find_by(name: :site, locale: :de)
-    assert_equal site_de, Seiten::Navigation.find_by(locale: :de)
-    assert_equal site_en, Seiten::Navigation.find_by(locale: :en)
+    assert_equal 'site.en', Seiten::Navigation.find_by(name: :site, locale: :en).id
+    assert_equal 'site.de', Seiten::Navigation.find_by(name: 'site', locale: 'de').id
+    assert_equal 'site.en', Seiten::Navigation.find_by(locale: :en).id
+    assert_equal 'site.de', Seiten::Navigation.find_by(locale: 'de').id
   end
 
   # # TODO: Split into two tests
