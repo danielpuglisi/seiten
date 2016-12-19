@@ -15,7 +15,7 @@ class Seiten::PageTest < ActiveSupport::TestCase
   end
 
   teardown do
-    Seiten.navigations = []
+    Seiten.navigations = Seiten.navigations - [navigation]
     navigation.pages = []
   end
 

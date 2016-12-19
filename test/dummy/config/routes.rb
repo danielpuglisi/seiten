@@ -5,5 +5,5 @@ Dummy::Application.routes.draw do
 
   get "/blog",   to: "posts#index"
 
-  seiten_resources
+  seiten_resource
 end

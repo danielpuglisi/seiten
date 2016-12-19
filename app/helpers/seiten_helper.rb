@@ -10,17 +10,21 @@ module SeitenHelper
   end
 
   # TODO: Move logic into Seiten::Navigation class
-  def seiten_navigation(options={})
-    output ||= ""
+  def seiten_navigation(*nav)
+    options = nav.extract_options!
+
+    navigation = nav.first || current_navigation
+
+    output  ||= ""
     parent_id = options[:parent_id] || nil
     deep      = options[:deep] || 2
 
     if deep > 0
-      Seiten::Page.find_by_parent_id(parent_id).each do |page|
+      navigation.pages.where(parent_id: parent_id).each do |page|
         status = page.active?(current_page) ? "active" : "inactive"
         output += "<li class='#{status}'>#{link_to_seiten_page(page.title, page.slug)}"
         unless page.children.blank?
-          output += seiten_navigation(parent_id: page.id, deep: deep-1)
+          output += seiten_navigation(navigation, parent_id: page.id, deep: deep-1)
         end
         output += "</li>"
       end
@@ -35,7 +39,7 @@ module SeitenHelper
 
     if current_page
       output = content_tag(:ul, class: "breadcrumb") do
-        Seiten::Page.get_breadcrumb(current_page).reverse.collect { |page|
+        Seiten::BreadcrumbBuilder.call(current_page).reverse.collect { |page|
           content_tag :li do
             raw "#{link_separator} #{link_to_seiten_page(page.title, page.slug)}"
           end

@@ -6,8 +6,13 @@ module Seiten
 
       included do
         if respond_to?(:helper_method)
+          helper_method :current_navigation
           helper_method :current_page
         end
+      end
+
+      def current_navigation
+        @current_navigation ||= defined?(set_current_navigation) ? set_current_navigation : nil
       end
 
       def current_page

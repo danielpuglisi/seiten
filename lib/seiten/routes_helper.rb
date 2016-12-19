@@ -1,8 +1,11 @@
 class ActionDispatch::Routing::Mapper
 
-  def seiten_resources
-    Seiten.navigations.each do |page_store|
-      page_store.pages.each do |page|
+  def seiten_resource(*resource)
+    options = resource.extract_options!.dup
+
+    navigations = Seiten::Navigation.where(name: resource.first||:application)
+    navigations.each do |navigation|
+      navigation.pages.all.each do |page|
         if page.redirect
           get page.slug, to: redirect { |p, req|
             Rails.application.routes.url_helpers.seiten_page_path(page: page.redirect, locale: p[:locale])
@@ -11,6 +14,6 @@ class ActionDispatch::Routing::Mapper
       end
     end
 
-    get "(*page)" => "seiten/pages#show", as: :seiten_page
+    get "(*page)", to: "seiten/pages#show", as: :seiten_page
   end
 end

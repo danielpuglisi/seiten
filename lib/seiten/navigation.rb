@@ -1,7 +1,5 @@
 module Seiten
-
   class Navigation
-
     attr_accessor :name, :locale, :config, :dir, :page_collection
 
     def initialize(options={})
@@ -13,12 +11,16 @@ module Seiten
     end
 
     class << self
-      def find_by(options={})
+      def find_by(params={})
+        where(params).first
+      end
+
+      def where(params={})
         Seiten.navigations.select do |navigation|
-          options.all? do |option|
-            navigation.send(option[0]) == option[1]
+          params.all? do |param|
+            navigation.send(param[0]) == param[1]
           end
-        end.first
+        end
       end
     end
 
@@ -32,25 +34,23 @@ module Seiten
 
     def pages=(pages_array)
       page_collection.pages = pages_array.map { |page| page.navigation_id = id; page }
+      page_collection
     end
 
     # TODO: Move to Seiten::PageCollection#build
     def build_page_collection(options={})
-
-      pages      = options[:pages]
+      raw_pages  = options[:raw_pages] || YAML.load_file(config)
       parent_id  = options[:parent_id] # || nil
       layout     = options[:layout]
       prefix_url = options[:prefix_url] || ""
 
-      pages ||= YAML.load_file(config)
+      @id ||= 1
+      @parsed_pages ||= []
 
-      @id         ||= 1
-      @navigation ||= []
-
-      pages.each_index do |i|
+      raw_pages.each_index do |i|
 
         # Load page and set parent_id and generated page id
-        page = pages[i]
+        page = raw_pages[i]
         page["id"] = @id
         page["parent_id"] = parent_id
         page["layout"] ||= layout
@@ -86,14 +86,14 @@ module Seiten
 
         # Load children
         if page["nodes"]
-          build_page_collection(pages: page["nodes"], parent_id: page["id"], prefix_url: page["slug"], layout: inherited_layout, external: page["external"])
+          build_page_collection(raw_pages: page["nodes"], parent_id: page["id"], prefix_url: page["slug"], layout: inherited_layout, external: page["external"])
         end
 
         page_params = page.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
-        @navigation << Seiten::Page.new(page_params)
+        @parsed_pages << Seiten::Page.new(page_params)
       end
 
-      pages= @navigation
+      self.pages = @parsed_pages
     end
   end
 end

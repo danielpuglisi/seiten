@@ -1,15 +1,13 @@
 require 'test_helper'
 
 class RedirectTest < ActionDispatch::IntegrationTest
-
-  def test_redirects_to_specified_page
-    visit "/"
-    click_link "Hire us"
-    assert_equal "/contact", current_path
+  test 'should redirect to specificed page' do
+    get '/products/hire-us'
+    assert_redirected_to '/contact'
   end
 
-  def test_redirects_to_first_child_page
-    visit "/about"
-    assert_equal "/about/our-team", current_path
+  test 'should redirect to first child' do
+    get '/about'
+    assert_redirected_to '/about/our-team'
   end
 end

@@ -15,10 +15,14 @@ class Seiten::NavigationTest < ActiveSupport::TestCase
   end
 
   test '#find_by' do
-    assert_equal 'site.en', Seiten::Navigation.find_by(name: :site, locale: :en).id
-    assert_equal 'site.de', Seiten::Navigation.find_by(name: :site, locale: :de).id
-    assert_equal 'site.en', Seiten::Navigation.find_by(locale: :en).id
-    assert_equal 'site.de', Seiten::Navigation.find_by(locale: :de).id
+    assert_equal 'application.en', Seiten::Navigation.find_by(name: :application, locale: :en).id
+    assert_equal 'application.de', Seiten::Navigation.find_by(name: :application, locale: :de).id
+    assert_equal 'application.en', Seiten::Navigation.find_by(locale: :en).id
+    assert_equal 'application.de', Seiten::Navigation.find_by(locale: :de).id
+  end
+
+  test '#where' do
+    assert_equal ['application.de', 'application.en'], Seiten::Navigation.where(name: :application).map(&:id)
   end
 
   test '.pages' do

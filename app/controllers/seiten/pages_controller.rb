@@ -5,26 +5,21 @@ module Seiten
       if current_page.nil?
         raise ActionController::RoutingError.new("Page /#{params[:page]} not found")
       else
-
-        if params[:page]
-          filename = params[:page]
-        else
-          filename = Seiten.config[:root_page_filename]
-        end
-
-        file = Seiten::Navigation.current.file_path(filename: filename)
-
         if current_page.layout
-          render file: file, layout: current_page.layout
+          render file: current_page, layout: current_page.layout
         else
-          render file: file
+          render file: current_page
         end
       end
     end
 
     private
+      def set_current_navigation
+        Seiten::Navigation.find_by(name: params[:navigation_id].try(:to_sym) || :application, locale: params[:locale] || I18n.locale)
+      end
+
       def set_current_page
-        Seiten::Page.find_by_slug(params[:page] || "")
+        current_navigation.pages.find_by(slug: params[:page] || "") if current_navigation
       end
   end
 end

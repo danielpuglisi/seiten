@@ -16,23 +16,11 @@ module Seiten
     end
 
     # class << self
-
     #   # find a page by slug
     #   def find_by_slug(slug)
     #     slug = slug[1..-1] if slug && slug[0] == "/"
     #     all.select { |page| page.slug == slug }.first
     #   end
-
-    #   # get breadcrumb of given page (reversed)
-    #   def get_breadcrumb(page)
-    #     pages ||= []
-    #     pages << page
-    #     if page.parent
-    #       pages << get_breadcrumb(page.parent)
-    #     end
-    #     pages.flatten
-    #   end
-
     # end
 
     def navigation
