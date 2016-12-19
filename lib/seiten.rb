@@ -9,7 +9,8 @@ module Seiten
 
   @config = {
     config_dir: File.join('config', 'navigations'),
-    pages_dir:  File.join('app', 'pages')
+    pages_dir:  File.join('app', 'pages'),
+    root_page: 'home'
   }
 
   @navigations = []
