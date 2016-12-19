@@ -7,8 +7,8 @@ require 'seiten/routes_helper'
 module Seiten
 
   @config = {
-    config_dir: File.join('config', 'seiten'),
-    pages_dir:  File.join('app', 'seiten')
+    config_dir: File.join('config', 'navigations'),
+    pages_dir:  File.join('app', 'pages')
   }
 
   @navigations = []
