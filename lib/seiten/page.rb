@@ -15,14 +15,6 @@ module Seiten
       @metadata ||= {}
     end
 
-    # class << self
-    #   # find a page by slug
-    #   def find_by_slug(slug)
-    #     slug = slug[1..-1] if slug && slug[0] == "/"
-    #     all.select { |page| page.slug == slug }.first
-    #   end
-    # end
-
     def navigation
       Seiten::Navigation.find_by(id: navigation_id)
     end
