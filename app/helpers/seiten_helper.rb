@@ -5,7 +5,7 @@ module SeitenHelper
     if !!(slug.to_s.match(/^https?:\/\/.+/))
       link_to title, slug
     else
-      link_to title, seiten_page_path(page: slug)
+      link_to title, url_for(page: slug)
     end
   end
 
@@ -21,8 +21,7 @@ module SeitenHelper
 
     if deep > 0
       navigation.pages.where(parent_id: parent_id).each do |page|
-        status = page.active?(current_page) ? "active" : "inactive"
-        output += "<li class='#{status}'>#{link_to_seiten_page(page.title, page.slug)}"
+        output += "<li class='#{seiten_navigation_page_class(page)}'>#{link_to_seiten_page(page.title, page.slug)}"
         unless page.children.blank?
           output += seiten_navigation(navigation, parent_id: page.id, deep: deep-1)
         end
@@ -47,5 +46,16 @@ module SeitenHelper
       end
       output
     end
+  end
+
+  def seiten_navigation_page_class(page)
+    classes = ""
+    if page.active?(current_page)
+      classes << ' active'
+      classes << (page == current_page ? ' current' : ' expanded')
+    else
+      classes << ' inactive'
+    end
+    classes.strip
   end
 end
