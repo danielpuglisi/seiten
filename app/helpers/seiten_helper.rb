@@ -34,15 +34,16 @@ module SeitenHelper
 
   # TODO: Move logic into Seiten::Breadcrumb class
   def seiten_breadcrumb(options={})
-    link_separator = options[:link_separator] || ">"
+    link_separator = options[:link_separator] || '>'
 
     if current_page
       output = content_tag(:ul, class: "breadcrumb") do
-        Seiten::BreadcrumbBuilder.call(current_page).reverse.collect { |page|
-          content_tag :li do
-            raw "#{link_separator} #{link_to_seiten_page(page.title, page.slug)}"
+        Seiten::BreadcrumbBuilder.call(current_page).reverse.each_with_index.map do |page, index|
+          content_tag :li, class: (page == current_page) ? 'active' : nil do
+            concat content_tag(:span, link_separator) if link_separator && index > 0
+            concat link_to_seiten_page(page.title, page.slug)
           end
-        }.join().html_safe
+        end.join().html_safe
       end
       output
     end
