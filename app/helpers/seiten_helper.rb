@@ -1,14 +1,5 @@
 module SeitenHelper
 
-  # TODO: Move logic into Seiten::PageLink class
-  def link_to_seiten_page(page, options={})
-    if !!(page.slug.to_s.match(/^https?:\/\/.+/))
-      link_to page.title, page.slug
-    else
-      link_to page.title, [:seiten, params[:navigation_id], :page, page: page.slug]
-    end
-  end
-
   # TODO: Move logic into Seiten::Navigation class
   def seiten_navigation(*nav)
     options = nav.extract_options!
@@ -46,6 +37,17 @@ module SeitenHelper
         end.join().html_safe
       end
       output
+    end
+  end
+
+  private
+
+  # TODO: Move logic into Seiten::PageLink class
+  def link_to_seiten_page(page, options={})
+    if page.external?
+      link_to page.title, page.slug
+    else
+      link_to page.title, [:seiten, params[:navigation_id], :page, page: page.slug]
     end
   end
 
