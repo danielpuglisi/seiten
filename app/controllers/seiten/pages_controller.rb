@@ -3,8 +3,14 @@ module Seiten
 
     def show
       if current_page.nil?
+        # TODO: Move to before_action
         raise ActionController::RoutingError.new("Page /#{params[:page]} not found")
       else
+        # TODO: Move to before_action
+        if current_page.redirect
+          redirect_to [:seiten, params[:navigation_id], :page, page: current_page.redirect]
+          return
+        end
         if current_page.layout
           render file: current_page, layout: current_page.layout
         else

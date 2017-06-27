@@ -1,0 +1,16 @@
+- title: Intro
+  url: '/'
+  nodes:
+    - title: Logging in
+    - title: Browser support
+    - title: Initial setup
+- title: Your Account
+  nodes:
+    - title: Manage your account
+    - title: Account security
+- title: Features
+  redirect: true
+  nodes:
+    - title: Adding and updating
+    - title: Importing and exporting
+    - title: Third party integrations

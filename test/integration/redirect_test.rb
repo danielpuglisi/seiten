@@ -10,4 +10,9 @@ class RedirectTest < ActionDispatch::IntegrationTest
     get '/about'
     assert_redirected_to '/about/our-team'
   end
+
+  test 'should redirect to correct navigation path' do
+    get '/help/features'
+    assert_redirected_to '/help/features/adding-and-updating'
+  end
 end

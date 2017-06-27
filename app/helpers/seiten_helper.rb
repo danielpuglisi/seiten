@@ -1,11 +1,11 @@
 module SeitenHelper
 
   # TODO: Move logic into Seiten::PageLink class
-  def link_to_seiten_page(title, slug, options={})
-    if !!(slug.to_s.match(/^https?:\/\/.+/))
-      link_to title, slug
+  def link_to_seiten_page(page, options={})
+    if !!(page.slug.to_s.match(/^https?:\/\/.+/))
+      link_to page.title, page.slug
     else
-      link_to title, url_for(page: slug)
+      link_to page.title, [:seiten, params[:navigation_id], :page, page: page.slug]
     end
   end
 
@@ -21,7 +21,7 @@ module SeitenHelper
 
     if deep > 0
       navigation.pages.where(parent_id: parent_id).each do |page|
-        output += "<li class='#{seiten_navigation_page_class(page)}'>#{link_to_seiten_page(page.title, page.slug)}"
+        output += "<li class='#{seiten_navigation_page_class(page)}'>#{link_to_seiten_page(page)}"
         unless page.children.blank?
           output += seiten_navigation(navigation, parent_id: page.id, deep: deep-1)
         end
@@ -41,7 +41,7 @@ module SeitenHelper
         Seiten::BreadcrumbBuilder.call(current_page).reverse.each_with_index.map do |page, index|
           content_tag :li, class: (page == current_page) ? 'active' : nil do
             concat content_tag(:span, link_separator) if link_separator && index > 0
-            concat link_to_seiten_page(page.title, page.slug)
+            concat link_to_seiten_page(page)
           end
         end.join().html_safe
       end
