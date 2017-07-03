@@ -7,12 +7,20 @@ module Seiten
       @pages         = options[:pages] || []
     end
 
+    def navigation
+      Seiten::Navigation.find_by(id: self.navigation_id)
+    end
+
+    def build(options={})
+      Seiten::PageCollectionBuilder.call(self, options)
+    end
+
     def all
-      pages.to_a
+      self.pages.to_a
     end
 
     def find(id)
-      pages.select { |page| page.id == id }.first
+      self.pages.select { |page| page.id == id }.first
     end
 
     def find_by(params)
@@ -20,7 +28,7 @@ module Seiten
     end
 
     def where(params)
-      pages.select do |page|
+      self.pages.select do |page|
         params.all? do |param|
           page.send(param[0]) == param[1]
         end

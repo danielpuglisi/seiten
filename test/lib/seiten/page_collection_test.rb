@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class Seiten::PageCollectionTest < ActiveSupport::TestCase
+  def navigation
+    @navigation ||= Seiten::Navigation.new(name: :test, locale: :en)
+  end
+
   def page_collection
     @page_collection ||= Seiten::PageCollection.new(
       navigation_id: 'test.en',
@@ -12,6 +16,18 @@ class Seiten::PageCollectionTest < ActiveSupport::TestCase
         Seiten::Page.new(navigation_id: 'test.en', id: 5)
       ]
     )
+  end
+
+  setup do
+    Seiten.navigations << navigation
+  end
+
+  teardown do
+    Seiten.navigations = Seiten.navigations - [navigation]
+  end
+
+  test '.navigation' do
+    assert_equal navigation, page_collection.navigation
   end
 
   test '.all' do
