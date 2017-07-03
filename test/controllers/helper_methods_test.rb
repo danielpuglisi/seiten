@@ -1,13 +1,13 @@
 require 'test_helper'
 
-class ApiController < ActionController::Metal
+class CustomPagesController < ActionController::Metal
   include Seiten::Controllers::Helpers
 end
 
 class HelperMethodsTest < ActionController::TestCase
-  tests ApiController
+  tests CustomPagesController
 
-  test 'includes Devise::Controllers::Helpers' do
+  test 'includes Seiten::Controllers::Helpers' do
     assert_includes @controller.class.ancestors, Seiten::Controllers::Helpers
   end
 
@@ -15,7 +15,11 @@ class HelperMethodsTest < ActionController::TestCase
     refute_respond_to @controller.class, :helper_method
   end
 
-  test 'defines methods like current_user' do
+  test 'defines methods like current_page' do
     assert_respond_to @controller, :current_page
+  end
+
+  test 'defines methods like current_navigation' do
+    assert_respond_to @controller, :current_navigation
   end
 end
