@@ -46,11 +46,11 @@ To setup the navigation structure create the following file in your `config` dir
     inherit: false
   nodes:
     - title: "Logo Design"
-      metadata:
+      data:
         header_image: "logo.jpg"
         description: "Fuck fiverr. We deliver the most beautiful shit you have ever seen and probably can't afford."
     - title: "Web Development"
-      metadata:
+      data:
         header_image: "web-development.jpg"
         description: "PHP? Get the hell out of here."
     - title: "Hire us"
@@ -89,10 +89,10 @@ Nested pages will automatically be prefixed with the url of their parent pages.
 * `layout` (optional):
   - Per default the `layout` attribute is passed on to its children pages.
   - If you only want to set the layout for a single page and not for its children set `inherit: false` (look in the example above)
-* `metadata` (optional):
+* `data` (optional):
   - Let's you add data to custom defined keys.
   - Must be a `Hash`.
-  - Data will be returned through symbols: `current_page.metadata[:description]`
+  - The data will be returned through symbols: `current_page.data[:description]`
 
 ## Setup static pages
 

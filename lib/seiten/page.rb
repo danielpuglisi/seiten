@@ -1,6 +1,6 @@
 module Seiten
   class Page
-    attr_accessor :navigation_id, :id, :parent_id, :title, :slug, :redirect, :layout, :metadata
+    attr_accessor :navigation_id, :id, :parent_id, :title, :slug, :redirect, :layout, :data
 
     # initialize Page object with attributes
     def initialize(options={})
@@ -11,8 +11,8 @@ module Seiten
       @slug          = options[:slug]
       @redirect      = options[:redirect]
       @layout        = options[:layout]
-      @metadata      = options[:metadata].each_with_object({}){|(k,v), h| h[k.to_sym] = v} if options[:metadata]
-      @metadata ||= {}
+      @data          = options[:data].each_with_object({}){|(k,v), h| h[k.to_sym] = v} if options[:data]
+      @data ||= {}
     end
 
     def navigation

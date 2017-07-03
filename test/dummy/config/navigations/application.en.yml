@@ -1,7 +1,7 @@
 - title: "Home"
   root: true
   layout: "home"
-  metadata:
+  data:
     title: "My awesome Web Agency"
 
 - title: "Blog"
@@ -12,13 +12,13 @@
     inherit: true
   nodes:
     - title: "Logo Design"
-      metadata:
+      data:
         header_image: "logo.jpg"
         description: "Our logo design is awesome."
       variables:
         fuck: "you"
     - title: "Web Development"
-      metadata:
+      data:
         header_image: "web-development.jpg"
         description: "First class web development."
     - title: "Hire us"

@@ -116,14 +116,13 @@ class Seiten::PageTest < ActiveSupport::TestCase
     assert_equal File.join(Rails.root, 'app/pages/test/en/home'), page.to_s
   end
 
-  # def test_returns_metadata
-  #   page = Seiten::Page.find_by_slug("products/logo-design")
-  #   assert_equal({ header_image: "logo.jpg", description: "Our logo design is awesome." }, page.metadata)
-  #   assert_equal "logo.jpg", page.metadata[:header_image]
-  # end
+  test '.data' do
+    page = pages.new
+    assert_equal Hash.new, page.data
+    assert_nil page.data[:header_image]
 
-  # def test_returns_empty_hash_when_metadata_are_not_set
-  #   page = Seiten::Page.find_by_slug("contact")
-  #   assert_equal({}, page.metadata)
-  # end
+    page = pages.new(data: { header_image: 'logo.jpg', description: 'Our logo design is awesome.' })
+    assert_equal({ header_image: 'logo.jpg', description: 'Our logo design is awesome.' }, page.data)
+    assert_equal "logo.jpg", page.data[:header_image]
+  end
 end

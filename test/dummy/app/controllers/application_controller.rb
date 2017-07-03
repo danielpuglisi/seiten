@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   def set_seo_values
     if current_page
-      @title = current_page.metadata[:title] || current_page.title
+      @title = current_page.data[:title] || current_page.title
     end
   end
 
