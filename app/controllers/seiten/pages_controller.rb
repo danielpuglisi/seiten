@@ -2,7 +2,7 @@ module Seiten
   class PagesController < ::ApplicationController
 
     before_action :raise_routing_error, unless: :current_page
-    before_action :redirect, if: 'current_page.redirect'
+    before_action :redirect, if: Proc.new { current_page.redirect }
 
     def show
       render file: current_page, layout: current_page.layout ? current_page.layout : 'application'
