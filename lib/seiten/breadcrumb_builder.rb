@@ -5,7 +5,7 @@ module Seiten
       pages ||= []
       pages << page
       if page.parent
-        pages << call(page.parent)
+        pages << self.call(page.parent)
       end
       pages.flatten
     end
