@@ -37,7 +37,7 @@ module Seiten
           name   = id.gsub(/\..*/, '')
           locale = id.gsub(/.*\./, '')
           navigation = Seiten::Navigation.new(name: name.to_sym, locale: locale.to_sym, dir: File.join(Rails.root, Seiten.config[:pages_dir], name, locale))
-          navigation.page_collection.build(raw_pages: YAML.load_file(navigation.config))
+          navigation.page_collection.build(pages: YAML.load_file(navigation.config))
           Seiten.navigations << navigation
         end
       else

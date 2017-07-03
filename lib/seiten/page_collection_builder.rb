@@ -1,7 +1,7 @@
 module Seiten
   class PageCollectionBuilder
     def self.call(page_collection, options={})
-      raw_pages  = options[:raw_pages]
+      pages      = options[:pages]
       parent_id  = options[:parent_id] # || nil
       layout     = options[:layout]
       prefix_url = options[:prefix_url] || ""
@@ -9,10 +9,10 @@ module Seiten
       @id ||= 1
       @parsed_pages ||= []
 
-      raw_pages.each_index do |i|
+      pages.each_index do |i|
 
         # Load page and set parent_id and generated page id
-        page = raw_pages[i]
+        page = pages[i]
         page["id"] = @id
         page["parent_id"] = parent_id
         page["layout"] ||= layout
@@ -48,7 +48,7 @@ module Seiten
 
         # Load children
         if page["nodes"]
-          self.call(page_collection, raw_pages: page["nodes"], parent_id: page["id"], prefix_url: page["slug"], layout: inherited_layout, external: page["external"])
+          self.call(page_collection, pages: page["nodes"], parent_id: page["id"], prefix_url: page["slug"], layout: inherited_layout, external: page["external"])
         end
 
         page_params = page.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
