@@ -80,7 +80,8 @@ You can define the following attributes in the `navigation.yml` file:
 Nested pages will automatically be prefixed with the url of their parent pages.  
   - If you define nothing, url automatically uses a `paramterize`'d version of the title.
   - Prefix the url with a `/` to use absolute paths.
-  - Prefix links to external pages with `http://` or `https://`
+  - Prefix links to external pages with `http://` or `https://`.
+  - Set url to `false` to add a navigational element only.
 * `redirect` (optional):  
   - Redirects to the given `url`.
   - If set to true, redirects to first child of page.

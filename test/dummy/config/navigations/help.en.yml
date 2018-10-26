@@ -5,6 +5,7 @@
     - title: Browser support
     - title: Initial setup
 - title: Your Account
+  url: false
   nodes:
     - title: Manage your account
     - title: Account security

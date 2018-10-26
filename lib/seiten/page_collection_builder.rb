@@ -21,7 +21,7 @@ module Seiten
         @id += 1
 
         # Build slug
-        page["slug"] = Seiten::SlugBuilder.call(page, prefix_url)
+        page["slug"] = Seiten::SlugBuilder.call(page, prefix_url) unless page['url'].is_a?(FalseClass)
 
         # Set layout
         if page["layout"]
