@@ -22,7 +22,7 @@ class Seiten::NavigationTest < ActiveSupport::TestCase
   end
 
   test '#where' do
-    assert_equal ['application.de', 'application.en'], Seiten::Navigation.where(name: :application).map(&:id)
+    assert_equal ['application.de', 'application.en'], Seiten::Navigation.where(name: :application).map(&:id).sort
   end
 
   test '.pages' do
