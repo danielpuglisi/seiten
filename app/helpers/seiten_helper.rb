@@ -42,13 +42,14 @@ module SeitenHelper
 
   private
 
-  # TODO: Move logic into Seiten::PageLink class
   def link_to_seiten_page(page, options={})
-    if page.external?
-      link_to page.title, page.slug
-    else
-      link_to page.title, [:seiten, params[:navigation_id], :page, page: page.slug]
-    end
+    link_to page.title, url_for_seiten_page(page)
+  end
+
+  def url_for_seiten_page(page)
+    return '#'  if page.slug.nil?
+    return page.slug if page.external?
+    [:seiten, params[:navigation_id], :page, page: page.slug]
   end
 
   def seiten_navigation_page_class(page)
