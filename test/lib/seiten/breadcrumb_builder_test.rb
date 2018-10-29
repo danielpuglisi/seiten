@@ -10,7 +10,7 @@ class Seiten::BreadcrumbBuilderTest < ActiveSupport::TestCase
     @page ||= navigation.pages.find_by(slug: 'about/our-team/switzerland')
   end
 
-  test '.call' do
+  test '::call' do
     assert_equal ['Switzerland', 'Our Team', 'About'], Seiten::BreadcrumbBuilder.call(page).map(&:title)
   end
 end

@@ -19,13 +19,13 @@ class Seiten::PageTest < ActiveSupport::TestCase
     navigation.pages = []
   end
 
-  test '.navigation' do
+  test '#navigation' do
     page = pages.new
 
     assert_equal navigation, page.navigation
   end
 
-  test '.external?' do
+  test '#external?' do
     page = pages.new
 
     page.slug = 'about-us'
@@ -35,7 +35,7 @@ class Seiten::PageTest < ActiveSupport::TestCase
     assert page.external?
   end
 
-  test '.parent' do
+  test '#parent' do
     parent_page = pages.new(id: 5)
     child_page  = pages.new(id: 10, parent_id: 5)
 
@@ -43,7 +43,7 @@ class Seiten::PageTest < ActiveSupport::TestCase
     assert_nil parent_page.parent
   end
 
-  test '.parent?' do
+  test '#parent?' do
     parent_page = pages.new(id: 5)
     child_page  = pages.new(id: 10, parent_id: 5)
 
@@ -54,7 +54,7 @@ class Seiten::PageTest < ActiveSupport::TestCase
     assert_not child_page.parent?
   end
 
-  test '.root' do
+  test '#root' do
     parent_page  = pages.new(id: 5)
     child_page_1 = pages.new(id: 10, parent_id: 5)
     child_page_2 = pages.new(id: 15, parent_id: 10)
@@ -64,7 +64,7 @@ class Seiten::PageTest < ActiveSupport::TestCase
     assert_equal parent_page, parent_page.root
   end
 
-  test '.children' do
+  test '#children' do
     parent_page  = pages.new(id: 5)
     child_page_1 = pages.new(id: 10, parent_id: 5)
     child_page_2 = pages.new(id: 15, parent_id: 5)
@@ -73,7 +73,7 @@ class Seiten::PageTest < ActiveSupport::TestCase
     assert_equal [child_page_1, child_page_2, child_page_3], parent_page.children
   end
 
-  test '.parent_of?' do
+  test '#parent_of?' do
     parent_page  = pages.new(id: 5)
     child_page_1 = pages.new(id: 10, parent_id: 5)
     child_page_2 = pages.new(id: 15, parent_id: 10)
@@ -90,7 +90,7 @@ class Seiten::PageTest < ActiveSupport::TestCase
     assert_not parent_page.parent_of?(sibling_page)
   end
 
-  test '.active?' do
+  test '#active?' do
     parent_page  = pages.new(id: 5)
     child_page   = pages.new(id: 10, parent_id: 5)
     sibling_page = pages.new(id: 15)
@@ -106,7 +106,7 @@ class Seiten::PageTest < ActiveSupport::TestCase
     assert_nil parent_page.active?(nil)
   end
 
-  test '.to_s' do
+  test '#to_s' do
     page = pages.new(slug: 'about-us/projects')
 
     assert_equal File.join(Rails.root, 'app/pages/test/en/about-us/projects'), page.to_s
@@ -116,7 +116,7 @@ class Seiten::PageTest < ActiveSupport::TestCase
     assert_equal File.join(Rails.root, 'app/pages/test/en/home'), page.to_s
   end
 
-  test '.data' do
+  test '#data' do
     page = pages.new
     assert_equal Hash.new, page.data
     assert_nil page.data[:header_image]
