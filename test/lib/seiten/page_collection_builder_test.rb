@@ -56,6 +56,14 @@ class Seiten::PageCollectionBuilderTest < ActiveSupport::TestCase
     err = assert_raises Seiten::PageError do
       Seiten::PageCollectionBuilder.call(page_collection, options)
     end
-    assert_match "Refer must be true or an absolute or external path", err.message
+    assert_match "The `refer` option must be `true` or an absolute or external path", err.message
+  end
+
+  test 'should raise page url exception' do
+    options[:pages] << { "title" => 'External path', "url" => 'https://codegestalt.com' }
+    err = assert_raises Seiten::PageError do
+      Seiten::PageCollectionBuilder.call(page_collection, options)
+    end
+    assert_match "The `url` option can not be an external path. Use the `refer` option to link to external resources.", err.message
   end
 end

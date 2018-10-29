@@ -21,6 +21,7 @@ module Seiten
         @id += 1
 
         # Build slug
+        raise PageError, "The `url` option can not be an external path. Use the `refer` option to link to external resources." if page["url"] && !!(page["url"].match(/^https?:\/\/.+/))
         page["slug"] = Seiten::SlugBuilder.call(page, prefix_url) unless page['url'].is_a?(FalseClass)
 
         # Set layout
@@ -42,7 +43,7 @@ module Seiten
           if page["refer"].is_a?(TrueClass)
             page["refer"] = "/" + Seiten::SlugBuilder.call(page["nodes"].first, page["slug"])
           end
-          raise PageError, "Refer must be true or an absolute or external path" if page["refer"] != true && page["refer"][0] != "/" && !(page["refer"].match(/^https?:\/\/.+/))
+          raise PageError, "The `refer` option must be `true` or an absolute or external path" if page["refer"] != true && page["refer"][0] != "/" && !(page["refer"].match(/^https?:\/\/.+/))
         end
 
         # Load children

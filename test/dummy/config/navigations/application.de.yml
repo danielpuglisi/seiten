@@ -26,11 +26,11 @@
     - title: "Partner"
       nodes:
         - title: "Daniel Puglisi"
-          url: "http://danielpuglisi.com"
+          refer: "http://danielpuglisi.com"
         - title: "Codegestalt"
-          url: "http://codegestalt.com"
+          refer: "http://codegestalt.com"
         - title: "Kreatify"
-          url: "http://kreatify.com"
+          refer: "http://kreatify.com"
 
 - title: "Kontakt"
 - title: "I18n"
