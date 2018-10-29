@@ -42,6 +42,7 @@ module Seiten
           if page["refer"].is_a?(TrueClass)
             page["refer"] = "/" + Seiten::SlugBuilder.call(page["nodes"].first, page["slug"])
           end
+          raise PageError, "Refer must be true or an absolute or external path" if page["refer"] != true && page["refer"][0] != "/" && !(page["refer"].match(/^https?:\/\/.+/))
         end
 
         # Load children
@@ -55,5 +56,8 @@ module Seiten
 
       @parsed_pages
     end
+  end
+
+  class PageError < StandardError
   end
 end
