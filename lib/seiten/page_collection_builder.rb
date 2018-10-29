@@ -37,12 +37,10 @@ module Seiten
           end
         end
 
-        # Set redirect
-        if page["redirect"]
-          if page["redirect"].is_a?(TrueClass)
-            page["redirect"] = Seiten::SlugBuilder.call(page["nodes"].first, page["slug"])
-          else
-            page["redirect"] = page["redirect"][1..-1] if page["redirect"][0] == "/"
+        # Set refer
+        if page["refer"]
+          if page["refer"].is_a?(TrueClass)
+            page["refer"] = "/" + Seiten::SlugBuilder.call(page["nodes"].first, page["slug"])
           end
         end
 

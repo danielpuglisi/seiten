@@ -10,10 +10,10 @@
     - title: "Logo Design"
     - title: "Web Development"
     - title: "Heuere uns an"
-      redirect: "/kontakt" # links to Contact page
+      refer: "/kontakt" # refers to /kontakt
 
 - title: "Über uns"
-  redirect: true # redirects /about to /about/our-team
+  refer: true # refers to /uber-uns/unser-team
   nodes:
     - title: "Unser Team"
       layout:

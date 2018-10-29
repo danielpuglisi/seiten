@@ -47,7 +47,8 @@ module SeitenHelper
   end
 
   def url_for_seiten_page(page)
-    return '#'  if page.slug.nil?
+    return page.refer if page.refer
+    return '#' if page.slug.nil?
     return page.slug if page.external?
     [:seiten, params[:navigation_id], :page, page: page.slug]
   end

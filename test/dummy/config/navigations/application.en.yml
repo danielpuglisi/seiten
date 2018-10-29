@@ -22,10 +22,10 @@
         header_image: "web-development.jpg"
         description: "First class web development."
     - title: "Hire us"
-      redirect: "/contact" # links to Contact page
+      refer: "/contact" # refers to /contact
 
 - title: "About"
-  redirect: true # redirects /about to /about/our-team
+  refer: true # refers to /about/our-team
   nodes:
     - title: "Our Team"
       layout:

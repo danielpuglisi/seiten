@@ -32,6 +32,10 @@ class SeitenHelperTest < ActionView::TestCase
     # Anchor page
     page = Seiten::Page.new(slug: nil)
     assert_equal '#', url_for_seiten_page(page)
+
+    # Refer page
+    page = Seiten::Page.new(refer: '/about/our-team')
+    assert_equal '/about/our-team', url_for_seiten_page(page)
   end
 
   test '#seiten_navigation_page_class' do

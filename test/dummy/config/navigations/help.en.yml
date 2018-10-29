@@ -10,7 +10,7 @@
     - title: Manage your account
     - title: Account security
 - title: Features
-  redirect: true
+  refer: true
   nodes:
     - title: Adding and updating
     - title: Importing and exporting

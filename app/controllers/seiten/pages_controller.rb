@@ -2,7 +2,6 @@ module Seiten
   class PagesController < ::ApplicationController
 
     before_action :raise_routing_error, unless: :current_page
-    before_action :redirect, if: Proc.new { current_page.redirect }
 
     def show
       render file: current_page, layout: current_page.layout ? current_page.layout : 'application'
@@ -20,11 +19,6 @@ module Seiten
 
     def raise_routing_error
       raise ActionController::RoutingError.new("Page /#{params[:page]} not found")
-    end
-
-    def redirect
-      redirect_to [:seiten, params[:navigation_id], :page, page: current_page.redirect]
-      return
     end
   end
 end
