@@ -54,21 +54,21 @@ To setup the navigation structure create the following file in your `config` dir
         header_image: "web-development.jpg"
         description: "PHP? Get the hell out of here."
     - title: "Hire us"
-      redirect: "/contact" # redirects to Contact page
+      refer: "/contact" # refers to /contact
 
 - title: "About"
-  redirect: true # redirects /about to /about/our-team
+  refer: true # refers to first child node (/about/our-team)
   nodes:
     - title: "Our Team"
     - title: "Works"
     - title: "Partners"
       nodes:
         - title: "Daniel Puglisi"
-          url: "http://danielpuglisi.com"
+          refer: "http://danielpuglisi.com"
         - title: "Codegestalt"
-          url: "http://codegestalt.com"
+          refer: "http://codegestalt.com"
         - title: "Kreatify"
-          url: "http://kreatify.com"
+          refer: "http://kreatify.com"
 
 - title: "Contact"
 ```
@@ -80,12 +80,10 @@ You can define the following attributes in the `navigation.yml` file:
 Nested pages will automatically be prefixed with the url of their parent pages.  
   - If you define nothing, url automatically uses a `paramterize`'d version of the title.
   - Prefix the url with a `/` to use absolute paths.
-  - Prefix links to external pages with `http://` or `https://`.
-  - Set url to `false` to add a navigational element only.
-* `redirect` (optional):  
-  - Redirects to the given `url`.
-  - If set to true, redirects to first child of page.
-  - Make sure to reboot your app after adding a redirect, otherwise it won't work.
+  - Set url to `false` to add a navigational element without a slug.
+* `refer` (optional): lets you link to another page  
+  - Accepts an absolute or external path.
+  - If set to `true`, links to first child of page.
 * `nodes` (optional): lets you define the children pages of a page
 * `layout` (optional):
   - Per default the `layout` attribute is passed on to its children pages.
@@ -94,6 +92,8 @@ Nested pages will automatically be prefixed with the url of their parent pages.
   - Let's you add data to custom defined keys.
   - Must be a `Hash`.
   - The data will be returned through symbols: `current_page.data[:description]`
+
+Make sure to restart your Rails server after changing the configuration file.
 
 ## Setup static pages
 
