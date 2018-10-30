@@ -6,19 +6,22 @@ module SeitenHelper
 
     navigation = nav.first || current_navigation
 
-    output  ||= ""
+    output = ""
+
     parent_id = options[:parent_id] || nil
     deep      = options[:deep] || 2
+    html      = options[:html] || Seiten.config[:helpers][:navigation][:html]
+    sub_level = options[:sub_level]
 
     if deep > 0
       navigation.pages.where(parent_id: parent_id).each do |page|
-        output += "<li class='#{seiten_navigation_page_class(page)}'>#{link_to_seiten_page(page)}"
+        output += "<li class='#{seiten_navigation_page_class(page, html)}'>#{link_to_seiten_page(page)}"
         unless page.children.blank?
-          output += seiten_navigation(navigation, parent_id: page.id, deep: deep-1)
+          output += seiten_navigation(navigation, parent_id: page.id, deep: deep-1, sub_level: true, html: html)
         end
         output += "</li>"
       end
-      output = "<ul>#{output}</ul>"
+      output = "<ul class='#{sub_level ? html[:nodes_class] : html[:class]}'>#{output}</ul>"
     end
     raw output
   end
@@ -53,13 +56,13 @@ module SeitenHelper
     [:seiten, params[:navigation_id], :page, page: page.slug]
   end
 
-  def seiten_navigation_page_class(page)
-    classes = ""
+  def seiten_navigation_page_class(page, html_options)
+    classes = "#{html_options[:item_class]}"
     if page.active?(current_page)
-      classes << ' active'
-      classes << (page == current_page ? ' current' : ' expanded')
+      classes << " #{html_options[:active_class]}"
+      classes << (page == current_page ? " #{html_options[:current_class]}" : " #{html_options[:expanded_class]}")
     else
-      classes << ' inactive'
+      classes << " #{html_options[:inactive_class]}"
     end
     classes.strip
   end

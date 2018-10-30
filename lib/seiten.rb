@@ -12,7 +12,21 @@ module Seiten
   @config = {
     config_dir: File.join('config', 'navigations'),
     pages_dir:  File.join('app', 'pages'),
-    root_page: 'home'
+    root_page: 'home',
+    helpers: {
+      navigation: {
+        html: {
+          class: 'navigation',
+          item_class: 'navigation__item',
+          nodes_class: 'navigation__children',
+          parent_class: 'navigation__item--parent',
+          active_class: 'navigation__item--active',
+          inactive_class: 'navigation__item--inactive',
+          current_class: 'navigation__item--current',
+          expanded_class: 'navigation__item--expanded'
+        }
+      }
+    }
   }
 
   @navigations = []
