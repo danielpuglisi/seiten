@@ -21,7 +21,7 @@ module SeitenHelper
         end
         output += "</li>"
       end
-      output = "<ul class='#{sub_level ? html[:nodes_class] : html[:class]}'>#{output}</ul>"
+      output = "<ul class='#{sub_level ? html[:children_class] : html[:class]}'>#{output}</ul>"
     end
     raw output
   end
@@ -58,6 +58,7 @@ module SeitenHelper
 
   def seiten_navigation_page_class(page, html_options)
     classes = "#{html_options[:item_class]}"
+    classes << " #{html_options[:parent_class]}" if page.children.present?
     if page.active?(current_page)
       classes << " #{html_options[:active_class]}"
       classes << (page == current_page ? " #{html_options[:current_class]}" : " #{html_options[:expanded_class]}")

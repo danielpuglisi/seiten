@@ -18,7 +18,7 @@ module Seiten
         html: {
           class: 'navigation',
           item_class: 'navigation__item',
-          nodes_class: 'navigation__children',
+          children_class: 'navigation__children',
           parent_class: 'navigation__item--parent',
           active_class: 'navigation__item--active',
           inactive_class: 'navigation__item--inactive',
