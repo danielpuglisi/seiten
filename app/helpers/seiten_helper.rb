@@ -55,7 +55,7 @@ module SeitenHelper
 
   def seiten_page_element(page, children=nil)
     modifiers = build_seiten_page_modifiers(page)
-    classes   = build_seiten_element_classes(:page, modifiers, merge: page.html_options[:class])
+    classes   = build_seiten_element_classes(:item, modifiers, merge: page.html_options[:class])
     content_tag(:li, page.html_options.merge(class: classes)) do
       concat link_to_seiten_page(page)
       concat children
@@ -76,17 +76,13 @@ module SeitenHelper
     class_options = @seiten_navigation_options[:class]
     classes = []
 
-    klass = if element
-              "#{class_options[:base]}#{class_options[:separators][:element]}#{class_options[:elements][element]}"
-            else
-              class_options[:base]
-            end
+    klass = class_options[element ? element : :base]
     classes << klass
 
     if modifiers.any?
       base = (class_options[:mod_base].present? ? class_options[:mod_base] : klass)
       modifiers.each do |modifier|
-        classes << "#{base}#{class_options[:separators][:modifier]}#{class_options[:modifiers][modifier]}"
+        classes << "#{base}#{class_options[:mod_sep]}#{class_options[:modifiers][modifier]}"
       end
     end
 

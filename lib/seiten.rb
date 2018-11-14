@@ -18,17 +18,11 @@ module Seiten
         html: {
           class: {
             base: 'navigation',
+            item: 'navigation__item',
+            nodes: 'navigation__nodes',
             mod_base: nil, # if nil we use the main class combined with the element class
-            separators: {
-              element: '__',
-              modifier: '--'
-            },
-            elements: {
-              page: 'item',
-              nodes: 'children'
-            },
+            mod_sep: '--', # modifier separator
             modifiers: {
-              base: nil,
               parent: 'parent',
               active: 'active',
               current: 'current',

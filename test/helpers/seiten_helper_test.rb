@@ -77,22 +77,25 @@ class SeitenHelperTest < ActionView::TestCase
     @seiten_navigation_options = Hash[:class, class_options]
 
     assert_equal "navigation", build_seiten_element_classes
-    assert_equal "navigation__item", build_seiten_element_classes(:page)
-    assert_equal "navigation__item navigation__item--active", build_seiten_element_classes(:page, [:active])
-    assert_equal "navigation__item navigation__item--active navigation__item--parent", build_seiten_element_classes(:page, [:active, :parent])
+    assert_equal "navigation__item", build_seiten_element_classes(:item)
+    assert_equal "navigation__item navigation__item--active", build_seiten_element_classes(:item, [:active])
+    assert_equal "navigation__item navigation__item--active navigation__item--parent", build_seiten_element_classes(:item, [:active, :parent])
+    assert_equal "navigation__nodes navigation__nodes--active navigation__nodes--parent", build_seiten_element_classes(:nodes, [:active, :parent])
 
     # Works with custom html class config
     class_options[:base] = 'navbar'
+    class_options[:item] = 'navbar-item'
+    class_options[:nodes] = 'navbar-dropdown'
     class_options[:mod_base] = "is"
-    class_options[:separators][:element] = '-'
-    class_options[:separators][:modifier] = '-'
+    class_options[:mod_sep] = '-'
     @seiten_navigation_options = Hash[:class, class_options]
     assert_equal "navbar", build_seiten_element_classes
-    assert_equal "navbar-item", build_seiten_element_classes(:page)
-    assert_equal "navbar-item is-active", build_seiten_element_classes(:page, [:active])
-    assert_equal "navbar-item is-active is-parent", build_seiten_element_classes(:page, [:active, :parent])
+    assert_equal "navbar-item", build_seiten_element_classes(:item)
+    assert_equal "navbar-item is-active", build_seiten_element_classes(:item, [:active])
+    assert_equal "navbar-item is-active is-parent", build_seiten_element_classes(:item, [:active, :parent])
+    assert_equal "navbar-dropdown is-active is-parent", build_seiten_element_classes(:nodes, [:active, :parent])
 
     # Merges extension-class
-    assert_equal "navbar-item is-active is-parent extension-class", build_seiten_element_classes(:page, [:active, :parent], merge: 'extension-class')
+    assert_equal "navbar-item is-active is-parent extension-class", build_seiten_element_classes(:item, [:active, :parent], merge: 'extension-class')
   end
 end
