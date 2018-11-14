@@ -10,20 +10,17 @@ module SeitenHelper
 
     parent_id = options[:parent_id] || nil
     deep      = options[:deep] || 2
-    html      = options[:html] || Seiten.config[:helpers][:navigation][:html]
     sub_level = options[:sub_level]
+    @seiten_navigation_options ||= Seiten.config[:helpers][:navigation][:html].merge(options[:html] || {})
 
     if deep > 0
-      navigation.pages.where(parent_id: parent_id).each do |page|
-        output += "<li class='#{seiten_navigation_page_class(page, html)}'>#{link_to_seiten_page(page)}"
-        unless page.children.blank?
-          output += seiten_navigation(navigation, parent_id: page.id, deep: deep-1, sub_level: true, html: html)
+      content_tag(:ul, class: build_seiten_element_classes(sub_level ? :nodes : nil)) do
+        navigation.pages.where(parent_id: parent_id).each do |page|
+          children = seiten_navigation(navigation, parent_id: page.id, deep: deep-1, sub_level: true) if page.children.any?
+          concat seiten_page_element(page, children)
         end
-        output += "</li>"
       end
-      output = "<ul class='#{sub_level ? html[:children_class] : html[:class]}'>#{output}</ul>"
     end
-    raw output
   end
 
   # TODO: Move logic into Seiten::Breadcrumb class
@@ -56,15 +53,43 @@ module SeitenHelper
     [:seiten, params[:navigation_id], :page, page: page.slug]
   end
 
-  def seiten_navigation_page_class(page, html_options)
-    classes = "#{html_options[:item_class]}"
-    classes << " #{html_options[:parent_class]}" if page.children.present?
-    if page.active?(current_page)
-      classes << " #{html_options[:active_class]}"
-      classes << (page == current_page ? " #{html_options[:current_class]}" : " #{html_options[:expanded_class]}")
-    else
-      classes << " #{html_options[:inactive_class]}"
+  def seiten_page_element(page, children=nil)
+    modifiers = build_seiten_page_modifiers(page)
+    classes   = build_seiten_element_classes(:page, modifiers)
+    content_tag(:li, class: classes) do
+      concat link_to_seiten_page(page)
+      concat children
     end
-    classes.strip
+  end
+
+  def build_seiten_page_modifiers(page)
+    modifiers = []
+    modifiers << :parent if page.children.present?
+    if page.active?(current_page)
+      modifiers << :active
+      modifiers << (page == current_page ? :current : :expanded)
+    end
+    modifiers
+  end
+
+  def build_seiten_element_classes(element=nil, modifiers=[])
+    class_options = @seiten_navigation_options[:class]
+    classes = []
+
+    klass = if element
+              "#{class_options[:base]}#{class_options[:separators][:element]}#{class_options[:elements][element]}"
+            else
+              class_options[:base]
+            end
+    classes << klass
+
+    if modifiers.any?
+      base = (class_options[:mod_base].present? ? class_options[:mod_base] : klass)
+      modifiers.each do |modifier|
+        classes << "#{base}#{class_options[:separators][:modifier]}#{class_options[:modifiers][modifier]}"
+      end
+    end
+
+    classes.join(' ')
   end
 end

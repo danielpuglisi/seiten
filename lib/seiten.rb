@@ -16,14 +16,25 @@ module Seiten
     helpers: {
       navigation: {
         html: {
-          class: 'navigation',
-          item_class: 'navigation__item',
-          children_class: 'navigation__children',
-          parent_class: 'navigation__item--parent',
-          active_class: 'navigation__item--active',
-          inactive_class: 'navigation__item--inactive',
-          current_class: 'navigation__item--current',
-          expanded_class: 'navigation__item--expanded'
+          class: {
+            base: 'navigation',
+            mod_base: nil, # if nil we use the main class combined with the element class
+            separators: {
+              element: '__',
+              modifier: '--'
+            },
+            elements: {
+              page: 'item',
+              nodes: 'children'
+            },
+            modifiers: {
+              base: nil,
+              parent: 'parent',
+              active: 'active',
+              current: 'current',
+              expanded: 'expanded'
+            }
+          }
         }
       }
     }
