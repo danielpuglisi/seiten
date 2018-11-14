@@ -34,7 +34,10 @@ module Seiten
 
     def pages=(pages_array)
       page_collection.pages = pages_array.map { |page| page.navigation_id = id; page }
-      page_collection
+      # return page_collection
+      # NOTE: This doesn't work and just returns page_array.
+      # I think because page_collection#pages= attr_accessor is called first
+      # and thus why our return call is ignored.
     end
   end
 end
