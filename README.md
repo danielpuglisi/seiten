@@ -92,6 +92,10 @@ Nested pages will automatically be prefixed with the url of their parent pages.
   - Let's you add data to custom defined keys.
   - Must be a `Hash`.
   - The data will be returned through symbols: `current_page.data[:description]`
+* `html` (optional):
+  - Let's you add custom html options to page navigations.
+  - You can use the same options as when you would use `content_tag`.
+  - Must be a `Hash`.
 
 Make sure to restart your Rails server after changing the configuration file.
 

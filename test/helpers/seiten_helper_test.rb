@@ -81,6 +81,7 @@ class SeitenHelperTest < ActionView::TestCase
     assert_equal "navigation__item navigation__item--active", build_seiten_element_classes(:page, [:active])
     assert_equal "navigation__item navigation__item--active navigation__item--parent", build_seiten_element_classes(:page, [:active, :parent])
 
+    # Works with custom html class config
     class_options[:base] = 'navbar'
     class_options[:mod_base] = "is"
     class_options[:separators][:element] = '-'
@@ -90,5 +91,8 @@ class SeitenHelperTest < ActionView::TestCase
     assert_equal "navbar-item", build_seiten_element_classes(:page)
     assert_equal "navbar-item is-active", build_seiten_element_classes(:page, [:active])
     assert_equal "navbar-item is-active is-parent", build_seiten_element_classes(:page, [:active, :parent])
+
+    # Merges extension-class
+    assert_equal "navbar-item is-active is-parent extension-class", build_seiten_element_classes(:page, [:active, :parent], merge: 'extension-class')
   end
 end

@@ -3,6 +3,10 @@
   layout: "home"
   data:
     title: "My awesome Web Agency"
+  html:
+    class: "test-class"
+    data:
+      behaviour: "hello"
 
 - title: "Blog"
 

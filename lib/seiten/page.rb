@@ -1,18 +1,20 @@
 module Seiten
   class Page
-    attr_accessor :navigation_id, :id, :parent_id, :title, :slug, :refer, :layout, :data
+    attr_accessor :navigation_id, :id, :parent_id, :title, :slug, :refer, :layout, :data, :html_options
 
     # initialize Page object with attributes
     def initialize(options={})
-      @navigation_id = options[:navigation_id]
-      @id            = options[:id]
-      @parent_id     = options[:parent_id]
-      @title         = options[:title]
-      @slug          = options[:slug]
-      @refer         = options[:refer]
-      @layout        = options[:layout]
-      @data          = options[:data].each_with_object({}){|(k,v), h| h[k.to_sym] = v} if options[:data]
-      @data ||= {}
+      @navigation_id  = options[:navigation_id]
+      @id             = options[:id]
+      @parent_id      = options[:parent_id]
+      @title          = options[:title]
+      @slug           = options[:slug]
+      @refer          = options[:refer]
+      @layout         = options[:layout]
+      @data           = options[:data].each_with_object({}){|(k,v), h| h[k.to_sym] = v} if options[:data]
+      @data         ||= {}
+      @html_options   = options[:html].each_with_object({}){|(k,v), h| h[k.to_sym] = v} if options[:html]
+      @html_options ||= {}
     end
 
     def navigation
