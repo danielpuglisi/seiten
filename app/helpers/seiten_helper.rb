@@ -11,7 +11,7 @@ module SeitenHelper
     parent_id = options[:parent_id] || nil
     deep      = options[:deep] || 2
     sub_level = options[:sub_level]
-    @seiten_navigation_options ||= Seiten.config[:helpers][:navigation][:html].merge(options[:html] || {})
+    @seiten_navigation_options ||= Seiten.config[:helpers][:navigation][:html].deep_merge(options[:html] || {})
 
     if deep > 0
       content_tag(:ul, class: build_seiten_element_classes(sub_level ? :nodes : nil)) do
