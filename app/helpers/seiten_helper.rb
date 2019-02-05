@@ -11,13 +11,13 @@ module SeitenHelper
     parent_id = options[:parent_id] || nil
     deep      = options[:deep] || 2
     sub_level = options[:sub_level]
-    @seiten_navigation_options ||= Seiten.config[:helpers][:navigation][:html].deep_merge(options[:html] || {})
+    html_options = Seiten.config[:helpers][:navigation][:html].deep_merge(options[:html] || {})
 
     if deep > 0
-      content_tag(:ul, class: build_seiten_element_classes(sub_level ? :nodes : nil)) do
+      content_tag(:ul, class: build_seiten_element_classes(sub_level ? :nodes : nil, class_options: html_options[:class])) do
         navigation.pages.where(parent_id: parent_id).each do |page|
-          children = seiten_navigation(navigation, parent_id: page.id, deep: deep-1, sub_level: true) if page.children.any?
-          concat seiten_page_element(page, children)
+          children = seiten_navigation(navigation, parent_id: page.id, deep: deep-1, sub_level: true, html: html_options) if page.children.any?
+          concat seiten_page_element(page, children, html_options)
         end
       end
     end
@@ -53,9 +53,9 @@ module SeitenHelper
     [:seiten, params[:navigation_id], :page, page: page.slug]
   end
 
-  def seiten_page_element(page, children=nil)
+  def seiten_page_element(page, children=nil, html_options)
     modifiers = build_seiten_page_modifiers(page)
-    classes   = build_seiten_element_classes(:item, modifiers, merge: page.html_options[:class])
+    classes   = build_seiten_element_classes(:item, modifiers: modifiers, merge: page.html_options[:class], class_options: html_options[:class])
     content_tag(:li, page.html_options.merge(class: classes)) do
       concat link_to_seiten_page(page)
       concat children
@@ -72,8 +72,7 @@ module SeitenHelper
     modifiers
   end
 
-  def build_seiten_element_classes(element=nil, modifiers=[], merge: nil)
-    class_options = @seiten_navigation_options[:class]
+  def build_seiten_element_classes(element=nil, modifiers: [], merge: nil, class_options:)
     classes = []
 
     klass = class_options[element ? element : :base]
