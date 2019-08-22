@@ -4,7 +4,7 @@ module Seiten
     before_action :raise_routing_error, unless: :current_page
 
     def show
-      render file: current_page, layout: current_page.layout ? current_page.layout : 'application'
+      render file: current_page.to_s, layout: current_page.layout ? current_page.layout : 'application'
     end
 
     private
