@@ -109,11 +109,11 @@ class Seiten::PageTest < ActiveSupport::TestCase
   test '#to_s' do
     page = pages.new(slug: 'about-us/projects')
 
-    assert_equal File.join(Rails.root, 'app/pages/test/en/about-us/projects'), page.to_s
+    assert_equal File.join(Rails.root, 'app/pages/test/en/about-us/projects.html'), page.to_s
 
     page = pages.new(slug: '')
 
-    assert_equal File.join(Rails.root, 'app/pages/test/en/home'), page.to_s
+    assert_equal File.join(Rails.root, 'app/pages/test/en/home.html'), page.to_s
   end
 
   test '#data' do

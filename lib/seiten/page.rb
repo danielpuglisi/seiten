@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Seiten
   class Page
     attr_accessor :navigation_id, :id, :parent_id, :title, :slug, :refer, :layout, :data, :html_options
@@ -80,7 +82,7 @@ module Seiten
         Seiten.config[:pages_dir],
         navigation_id.gsub(/\./, '/'),
         slug.present? ? slug : Seiten.config[:root_page]
-      )
+      ) + '.html'
     end
   end
 end
