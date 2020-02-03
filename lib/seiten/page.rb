@@ -76,13 +76,12 @@ module Seiten
       end
     end
 
-    def to_s
-      File.join(
-        Rails.root,
-        Seiten.config[:pages_dir],
+    def template_path
+      [
         navigation_id.gsub(/\./, '/'),
         slug.present? ? slug : Seiten.config[:root_page]
-      ) + '.html'
+      ].join('/')
     end
+    alias_method :to_s, :template_path
   end
 end

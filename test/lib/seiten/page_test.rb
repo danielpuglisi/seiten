@@ -106,14 +106,14 @@ class Seiten::PageTest < ActiveSupport::TestCase
     assert_nil parent_page.active?(nil)
   end
 
-  test '#to_s' do
+  test '#template_path' do
     page = pages.new(slug: 'about-us/projects')
 
-    assert_equal File.join(Rails.root, 'app/pages/test/en/about-us/projects.html'), page.to_s
+    assert_equal 'test/en/about-us/projects', page.template_path
 
     page = pages.new(slug: '')
 
-    assert_equal File.join(Rails.root, 'app/pages/test/en/home.html'), page.to_s
+    assert_equal 'test/en/home', page.template_path
   end
 
   test '#data' do

@@ -6,6 +6,7 @@ require 'seiten/page_collection_builder'
 require 'seiten/slug_builder'
 require 'seiten/breadcrumb_builder'
 require 'seiten/routes_helper'
+require 'seiten/controllers/helpers'
 
 module Seiten
 
@@ -63,10 +64,6 @@ module Seiten
         # TODO: Raise exception
       end
     end
-  end
-
-  module Controllers
-    autoload :Helpers, 'seiten/controllers/helpers'
   end
 
   ActiveSupport.on_load(:action_controller) do

@@ -1,10 +1,11 @@
 module Seiten
   class PagesController < ::ApplicationController
+    prepend_view_path Seiten.config[:pages_dir]
 
     before_action :raise_routing_error, unless: :current_page
 
     def show
-      render file: current_page.to_s, layout: current_page.layout ? current_page.layout : 'application'
+      render current_page.template_path, layout: current_page.layout ? current_page.layout : 'application'
     end
 
     private
