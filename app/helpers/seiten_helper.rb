@@ -2,22 +2,19 @@
 
 module SeitenHelper
   # TODO: Move logic into Seiten::Navigation class
-  def seiten_navigation(*nav)
-    options = nav.extract_options!
+  def seiten_navigation(navigation = nil, parent_id: nil, deep: 2, html: {})
+    @seiten_navigation_deep ||= deep
+    navigation ||= current_navigation
 
-    navigation = nav.first || current_navigation
-
-    parent_id = options[:parent_id] || nil
-    deep      = options[:deep] || 2
-    sub_level = options[:sub_level]
-    html_options = Seiten.config[:helpers][:navigation][:html].deep_merge(options[:html] || {})
+    sub_level = @seiten_navigation_deep != deep
+    @html_options ||= Seiten.config[:helpers][:navigation][:html].deep_merge(html || {})
 
     return unless deep.positive?
 
-    content_tag(:ul, class: build_seiten_element_classes(sub_level ? :nodes : nil, class_options: html_options[:class])) do
+    content_tag(:ul, class: build_seiten_element_classes(sub_level ? :nodes : nil, class_options: @html_options[:class])) do
       navigation.pages.where(parent_id: parent_id).each do |page|
-        children = seiten_navigation(navigation, parent_id: page.id, deep: deep - 1, sub_level: true, html: html_options) if page.children.any?
-        concat seiten_page_element(page, children, html_options)
+        children = seiten_navigation(navigation, parent_id: page.id, deep: deep - 1) if page.children?
+        concat seiten_page_element(page, children, @html_options)
       end
     end
   end
@@ -64,7 +61,7 @@ module SeitenHelper
 
   def build_seiten_page_modifiers(page)
     modifiers = []
-    modifiers << :parent if page.children.present?
+    modifiers << :parent if page.children?
     if page.active?(current_page)
       modifiers << :active
       modifiers << (page == current_page ? :current : :expanded)
