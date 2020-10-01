@@ -73,6 +73,14 @@ class Seiten::PageTest < ActiveSupport::TestCase
     assert_equal [child_page_1, child_page_2, child_page_3], parent_page.children
   end
 
+  test '#children?' do
+    parent_page  = pages.new(id: 5)
+    child_page_1 = pages.new(id: 10, parent_id: 5)
+
+    assert_equal true, parent_page.children?
+    assert_equal false, child_page_1.children?
+  end
+
   test '#parent_of?' do
     parent_page  = pages.new(id: 5)
     child_page_1 = pages.new(id: 10, parent_id: 5)

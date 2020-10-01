@@ -51,6 +51,10 @@ module Seiten
       navigation.pages.where(parent_id: id)
     end
 
+    def children?
+      navigation.pages.find_by(parent_id: id).present?
+    end
+
     # true if child is children of page
     def parent_of?(child)
       page = self
