@@ -133,4 +133,28 @@ class Seiten::PageTest < ActiveSupport::TestCase
     assert_equal({ header_image: 'logo.jpg', description: 'Our logo design is awesome.' }, page.data)
     assert_equal "logo.jpg", page.data[:header_image]
   end
+
+  test '#path' do
+    # Regular page
+    page = pages.new(slug: 'about/products')
+    assert_equal [:seiten, :test, :page, { page: 'about/products' }], page.path
+
+    # Regular page
+    navigation.name = :application
+    navigation.pages.navigation_id = "application.en"
+    page = pages.new(slug: 'about/products')
+    assert_equal [:seiten, nil, :page, { page: 'about/products' }], page.path
+
+    # External page
+    page = pages.new(slug: 'https://codegestalt.com')
+    assert_equal 'https://codegestalt.com', page.path
+
+    # Anchor page
+    page = pages.new(slug: nil)
+    assert_equal '#', page.path
+
+    # Refer page
+    page = pages.new(refer: '/about/our-team')
+    assert_equal '/about/our-team', page.path
+  end
 end

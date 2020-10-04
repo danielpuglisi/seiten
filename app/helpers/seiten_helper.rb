@@ -39,15 +39,7 @@ module SeitenHelper
   private
 
   def link_to_seiten_page(page)
-    link_to page.title, url_for_seiten_page(page)
-  end
-
-  def url_for_seiten_page(page)
-    return page.refer if page.refer
-    return '#' if page.slug.nil?
-    return page.slug if page.external?
-
-    [:seiten, params[:navigation_id], :page, { page: page.slug }]
+    link_to page.title, page.path
   end
 
   def seiten_page_element(page, children, html_options)

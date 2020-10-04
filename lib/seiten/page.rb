@@ -87,5 +87,15 @@ module Seiten
       ].join('/')
     end
     alias_method :to_s, :template_path
+
+    def path
+      return refer if refer
+      return '#' if slug.nil?
+      return slug if external?
+
+      navigation_name = navigation.name == :application ? nil : navigation.name
+
+      [:seiten, navigation_name, :page, { page: slug }]
+    end
   end
 end
