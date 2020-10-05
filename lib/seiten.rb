@@ -9,6 +9,7 @@ require 'seiten/routes_helper'
 require 'seiten/controllers/helpers'
 require 'seiten/html/helpers'
 require 'seiten/html/navigation'
+require 'seiten/html/breadcrumb'
 
 module Seiten
 
