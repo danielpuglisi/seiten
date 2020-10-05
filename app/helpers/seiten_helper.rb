@@ -1,22 +1,8 @@
 # frozen_string_literal: true
 
 module SeitenHelper
-  # TODO: Move logic into Seiten::Navigation class
-  def seiten_navigation(navigation = nil, parent_id: nil, deep: 2, html: {})
-    @seiten_navigation_deep ||= deep
-    navigation ||= current_navigation
-
-    sub_level = @seiten_navigation_deep != deep
-    @html_options ||= Seiten.config[:helpers][:navigation][:html].deep_merge(html || {})
-
-    return unless deep.positive?
-
-    content_tag(:ul, class: build_seiten_element_classes(sub_level ? :nodes : nil, class_options: @html_options[:class])) do
-      navigation.pages.where(parent_id: parent_id).each do |page|
-        children = seiten_navigation(navigation, parent_id: page.id, deep: deep - 1) if page.children?
-        concat seiten_page_element(page, children, @html_options)
-      end
-    end
+  def seiten_navigation(navigation = current_navigation, parent_id: nil, deep: 2, html: {})
+    Seiten::HTML::Navigation.new(self, navigation: navigation, parent_id: parent_id, current_page: current_page, deep: deep, html: html).body
   end
 
   # TODO: Move logic into Seiten::Breadcrumb class
@@ -40,41 +26,5 @@ module SeitenHelper
 
   def link_to_seiten_page(page)
     link_to page.title, page.path
-  end
-
-  def seiten_page_element(page, children, html_options)
-    modifiers = build_seiten_page_modifiers(page)
-    classes   = build_seiten_element_classes(:item, modifiers: modifiers, merge: page.html_options[:class], class_options: html_options[:class])
-    content_tag(:li, page.html_options.merge(class: classes)) do
-      concat link_to_seiten_page(page)
-      concat children
-    end
-  end
-
-  def build_seiten_page_modifiers(page)
-    modifiers = []
-    modifiers << :parent if page.children?
-    if page.active?(current_page)
-      modifiers << :active
-      modifiers << (page == current_page ? :current : :expanded)
-    end
-    modifiers
-  end
-
-  def build_seiten_element_classes(element = nil, class_options:, modifiers: [], merge: nil)
-    classes = []
-
-    klass = class_options[element || :base]
-    classes << klass
-
-    if modifiers.any?
-      base = (class_options[:mod_base].presence || klass)
-      modifiers.each do |modifier|
-        classes << "#{base}#{class_options[:mod_sep]}#{class_options[:modifiers][modifier]}"
-      end
-    end
-
-    classes << merge if merge
-    classes.join(' ')
   end
 end

@@ -7,6 +7,8 @@ require 'seiten/slug_builder'
 require 'seiten/breadcrumb_builder'
 require 'seiten/routes_helper'
 require 'seiten/controllers/helpers'
+require 'seiten/html/helpers'
+require 'seiten/html/navigation'
 
 module Seiten
 
