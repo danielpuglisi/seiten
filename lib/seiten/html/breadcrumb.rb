@@ -17,7 +17,7 @@ module Seiten
           pages = Seiten::BreadcrumbBuilder.call(@page).reverse.each_with_index.map do |page, index|
             @view_context.content_tag :li, class: page == @page ? 'active' : nil do
               span = @view_context.content_tag(:span, @separator) if @separator && index.positive?
-              link = @view_context.link_to(page.title, page.path)
+              link = @view_context.link_to_seiten_page(page)
               @view_context.safe_join([span, link])
             end
           end

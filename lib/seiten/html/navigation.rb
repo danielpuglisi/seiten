@@ -31,7 +31,7 @@ module Seiten
         modifiers = Seiten::HTML::Helpers.build_page_modifiers(page, @current_page)
         classes   = Seiten::HTML::Helpers.build_classes(:item, modifiers: modifiers, merge: page.html_options[:class], class_options: @html_options[:class])
         @view_context.content_tag(:li, page.html_options.merge(class: classes)) do
-          @view_context.safe_join([@view_context.link_to(page.title, page.path), children])
+          @view_context.safe_join([@view_context.link_to_seiten_page(page), children])
         end
       end
     end
