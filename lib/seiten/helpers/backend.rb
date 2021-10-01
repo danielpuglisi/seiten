@@ -1,5 +1,5 @@
 module Seiten
-  module ControllerHelpers
+  module Helpers
     # Those helpers are convenience methods added to Seiten::PagesController or useful for building your own.
     module Backend
       extend ActiveSupport::Concern

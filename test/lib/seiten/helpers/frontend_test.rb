@@ -1,6 +1,7 @@
 require 'test_helper'
 
-class SeitenHelperTest < ActionView::TestCase
+class Seiten::Helpers::FrontendTest < ActionView::TestCase
+  include Seiten::Helpers::Frontend
 
   def navigation
     @navigation ||= Seiten::Navigation.find_by(id: 'application.en')

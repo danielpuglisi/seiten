@@ -1,18 +1,18 @@
 require 'test_helper'
 
 class CustomPagesController < ActionController::Base
-  include Seiten::ControllerHelpers::Backend
+  include Seiten::Helpers::Backend
 end
 
 class CurrentHelperMethodsTest < ActionController::TestCase
   tests CustomPagesController
 
   test 'includes Seiten::ControllerHelpers::Current' do
-    assert_includes @controller.class.ancestors, Seiten::ControllerHelpers::Current
+    assert_includes @controller.class.ancestors, Seiten::Helpers::Current
   end
 
   test 'includes Seiten::ControllerHelpers::Backend' do
-    assert_includes @controller.class.ancestors, Seiten::ControllerHelpers::Backend
+    assert_includes @controller.class.ancestors, Seiten::Helpers::Backend
   end
 
   test 'defines methods like current_navigation' do

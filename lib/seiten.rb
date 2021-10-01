@@ -6,8 +6,9 @@ require 'seiten/page_collection_builder'
 require 'seiten/slug_builder'
 require 'seiten/breadcrumb_builder'
 require 'seiten/routes_helper'
-require 'seiten/controller_helpers/current'
-require 'seiten/controller_helpers/backend'
+require 'seiten/helpers/current'
+require 'seiten/helpers/backend'
+require 'seiten/helpers/frontend'
 require 'seiten/html/helpers'
 require 'seiten/html/navigation'
 require 'seiten/html/breadcrumb'
@@ -75,6 +76,6 @@ module Seiten
   end
 
   ActiveSupport.on_load(:action_controller) do
-    include ControllerHelpers::Current
+    include Helpers::Current
   end
 end

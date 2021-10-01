@@ -1,6 +1,6 @@
 module Seiten
   class PagesController < ::ApplicationController
-    include Seiten::ControllerHelpers::Backend
+    include Seiten::Helpers::Backend
 
     def show
       render_seiten_page
