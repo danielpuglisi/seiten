@@ -12,7 +12,7 @@ module Seiten
       private
 
       def raise_seiten_routing_error
-        raise ActionController::RoutingError.new("Page /#{params[:slug]} not found")
+        raise Seiten::Errors::RoutingError.new("Page /#{params[:slug]} not found")
       end
 
       def render_seiten_page

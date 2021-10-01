@@ -11,6 +11,9 @@ require 'seiten/controller_helpers/backend'
 require 'seiten/html/helpers'
 require 'seiten/html/navigation'
 require 'seiten/html/breadcrumb'
+require 'seiten/errors/base_error'
+require 'seiten/errors/page_error'
+require 'seiten/errors/routing_error'
 
 module Seiten
 

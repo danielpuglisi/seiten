@@ -12,6 +12,9 @@ class ActionDispatch::Routing::Mapper
       resource_options[:defaults][:navigation_id] = resource unless resource == :application
       resource_options[:defaults][:slug] = ''
 
+      # NOTE: See https://github.com/rails/rails/issues/31228
+      resource_options[:constraints] ||= ->(req) { req.path.exclude? 'rails/active_storage' }
+
       get '(*slug)', resource_options
     end
   end
