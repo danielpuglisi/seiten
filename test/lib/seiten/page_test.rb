@@ -157,4 +157,12 @@ class Seiten::PageTest < ActiveSupport::TestCase
     page = pages.new(refer: '/about/our-team')
     assert_equal '/about/our-team', page.path
   end
+
+  test '#layout' do
+    page = pages.new
+    assert_equal 'application', page.layout
+
+    page = pages.new(layout: 'custom')
+    assert_equal 'custom', page.layout
+  end
 end

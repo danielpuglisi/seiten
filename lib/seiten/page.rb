@@ -2,7 +2,8 @@
 
 module Seiten
   class Page
-    attr_accessor :navigation_id, :id, :parent_id, :title, :slug, :refer, :layout, :data, :html_options
+    attr_accessor :navigation_id, :id, :parent_id, :title, :slug, :refer, :data, :html_options
+    attr_writer :layout
 
     # initialize Page object with attributes
     def initialize(options={})
@@ -96,6 +97,10 @@ module Seiten
       navigation_name = navigation.name == :application ? nil : navigation.name
 
       [:seiten, navigation_name, :page, { page: slug }]
+    end
+
+    def layout
+      @layout || Seiten.config[:default_layout]
     end
   end
 end

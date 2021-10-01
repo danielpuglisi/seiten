@@ -92,6 +92,13 @@ class Seiten::PageCollectionBuilderTest < ActiveSupport::TestCase
     assert_equal "https://codegestalt.com", page_collection.where(slug: nil).first.refer
   end
 
+  test 'should build a page with default layout' do
+    options[:pages] << { "title" => "About us" }
+    Seiten::PageCollectionBuilder.call(page_collection, options)
+
+    assert_equal "application", page_collection.find_by(slug: 'about-us').layout
+  end
+
   test 'should build a page with a layout' do
     options[:pages] << { "title" => "About us", "layout" => "team", "nodes" => [{ "title" => "Team" }] }
     Seiten::PageCollectionBuilder.call(page_collection, options)
@@ -113,7 +120,7 @@ class Seiten::PageCollectionBuilderTest < ActiveSupport::TestCase
     Seiten::PageCollectionBuilder.call(page_collection, options)
 
     assert_equal "team", page_collection.find_by(slug: 'about-us').layout
-    assert_nil page_collection.find_by(slug: 'about-us/team').layout
+    assert_equal "application", page_collection.find_by(slug: 'about-us/team').layout
   end
 
   test 'should raise page refer exception' do

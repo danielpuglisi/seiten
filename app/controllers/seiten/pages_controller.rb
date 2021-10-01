@@ -5,7 +5,7 @@ module Seiten
     before_action :raise_routing_error, unless: :current_page
 
     def show
-      render current_page.template_path, layout: current_page.layout ? current_page.layout : 'application'
+      render current_page.template_path, layout: current_page.layout
     end
 
     private
