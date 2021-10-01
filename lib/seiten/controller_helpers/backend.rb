@@ -11,16 +11,8 @@ module Seiten
 
       private
 
-      def set_current_navigation
-        Seiten::Navigation.find_by(name: params[:navigation_id].try(:to_sym) || :application, locale: params[:locale] || I18n.locale)
-      end
-
-      def set_current_page
-        current_navigation&.pages&.find_by(slug: params[:page] || '')
-      end
-
       def raise_seiten_routing_error
-        raise ActionController::RoutingError.new("Page /#{params[:page]} not found")
+        raise ActionController::RoutingError.new("Page /#{params[:slug]} not found")
       end
 
       def render_seiten_page

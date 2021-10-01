@@ -10,8 +10,4 @@ class ApplicationController < ActionController::Base
       @title = current_page.data[:title] || current_page.title
     end
   end
-
-  def set_current_navigation
-    Seiten::Navigation.find_by(name: :application, locale: :en)
-  end
 end

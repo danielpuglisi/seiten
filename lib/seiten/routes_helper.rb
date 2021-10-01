@@ -6,10 +6,13 @@ class ActionDispatch::Routing::Mapper
     resources.each do |resource|
       resource_options = options.dup
 
-      resource_options[:as]     ||= resource == :application ? :seiten_page : "seiten_#{resource}_page"
-      resource_options[:defaults] = resource == :application ? {} : { navigation_id: resource }
+      resource_options[:as] ||= resource == :application ? :seiten_page : "seiten_#{resource}_page"
 
-      get '(*page)', resource_options
+      resource_options[:defaults] ||= {}
+      resource_options[:defaults][:navigation_id] = resource unless resource == :application
+      resource_options[:defaults][:slug] = ''
+
+      get '(*slug)', resource_options
     end
   end
 end

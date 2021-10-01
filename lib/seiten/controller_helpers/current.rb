@@ -12,11 +12,21 @@ module Seiten
       end
 
       def current_navigation
-        @current_navigation ||= defined?(set_current_navigation) ? set_current_navigation : nil
+        @current_navigation ||= set_current_navigation
       end
 
       def current_page
-        @current_page ||= defined?(set_current_page) ? set_current_page : nil
+        @current_page ||= set_current_page
+      end
+
+      private
+
+      def set_current_navigation
+        Seiten::Navigation.find_by(name: params[:navigation_id].try(:to_sym) || :application, locale: params[:locale] || I18n.locale)
+      end
+
+      def set_current_page
+        current_navigation&.pages&.find_by(slug: params[:slug]) if params[:slug]
       end
     end
   end

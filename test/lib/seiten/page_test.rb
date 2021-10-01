@@ -137,13 +137,13 @@ class Seiten::PageTest < ActiveSupport::TestCase
   test '#path' do
     # Regular page
     page = pages.new(slug: 'about/products')
-    assert_equal [:seiten, :test, :page, { page: 'about/products' }], page.path
+    assert_equal [:seiten, :test, :page, { slug: 'about/products' }], page.path
 
     # Regular page
     navigation.name = :application
     navigation.pages.navigation_id = "application.en"
     page = pages.new(slug: 'about/products')
-    assert_equal [:seiten, nil, :page, { page: 'about/products' }], page.path
+    assert_equal [:seiten, nil, :page, { slug: 'about/products' }], page.path
 
     # External page
     page = pages.new(slug: 'https://codegestalt.com')

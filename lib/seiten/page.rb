@@ -96,7 +96,7 @@ module Seiten
 
       navigation_name = navigation.name == :application ? nil : navigation.name
 
-      [:seiten, navigation_name, :page, { page: slug }]
+      [:seiten, navigation_name, :page, { slug: slug }]
     end
 
     def layout
