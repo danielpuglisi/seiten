@@ -71,6 +71,6 @@ module Seiten
   end
 
   ActiveSupport.on_load(:action_controller) do
-    include Controllers::Helpers
+    include ControllerHelpers::Current
   end
 end

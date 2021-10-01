@@ -1,7 +1,7 @@
 module Seiten
-  module Controllers
+  module ControllerHelpers
     # Those helpers are convenience methods added to ApplicationController.
-    module Helpers
+    module Current
       extend ActiveSupport::Concern
 
       included do

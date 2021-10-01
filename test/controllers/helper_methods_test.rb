@@ -1,14 +1,14 @@
 require 'test_helper'
 
 class CustomPagesController < ActionController::Metal
-  include Seiten::Controllers::Helpers
+  include Seiten::ControllerHelpers::Current
 end
 
 class HelperMethodsTest < ActionController::TestCase
   tests CustomPagesController
 
-  test 'includes Seiten::Controllers::Helpers' do
-    assert_includes @controller.class.ancestors, Seiten::Controllers::Helpers
+  test 'includes Seiten::ControllerHelpers::Current' do
+    assert_includes @controller.class.ancestors, Seiten::ControllerHelpers::Current
   end
 
   test 'does not respond_to helper_method' do
