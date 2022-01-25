@@ -22,7 +22,7 @@ module Seiten
       private
 
       def set_current_navigation
-        Seiten::Navigation.find_by(name: params[:navigation_id].try(:to_sym) || :application, locale: params[:locale] || I18n.locale)
+        Seiten::Navigation.find_by(name: params[:navigation_id] || 'application', locale: params[:locale] || I18n.locale.to_s)
       end
 
       def set_current_page

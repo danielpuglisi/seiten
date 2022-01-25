@@ -9,7 +9,7 @@ class ActionDispatch::Routing::Mapper
       resource_options[:as] ||= resource == :application ? :seiten_page : "seiten_#{resource}_page"
 
       resource_options[:defaults] ||= {}
-      resource_options[:defaults][:navigation_id] = resource unless resource == :application
+      resource_options[:defaults][:navigation_id] = resource.to_s unless resource == :application
       resource_options[:defaults][:slug] = ''
 
       # NOTE: See https://github.com/rails/rails/issues/31228

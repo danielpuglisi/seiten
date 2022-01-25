@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PostsControllerTest < ActionController::TestCase
   def navigation
-    @navigation ||= Seiten::Navigation.find_by(name: :application, locale: :en)
+    @navigation ||= Seiten::Navigation.find_by(name: 'application', locale: 'en')
   end
 
   test "should set current page on posts controller" do

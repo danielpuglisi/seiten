@@ -3,10 +3,10 @@ module Seiten
     attr_accessor :name, :locale, :config, :dir, :page_collection
 
     def initialize(options={})
-      @name   ||= options[:name]
-      @locale ||= options[:locale]
-      @config ||= options[:config] || File.join(Rails.root, Seiten.config[:config_dir], "#{id}.yml")
-      @dir    ||= options[:dir]    || File.join(Rails.root, Seiten.config[:pages_dir], @name.to_s, @locale.to_s)
+      @name   = options[:name].to_s
+      @locale = options[:locale].to_s
+      @config = options[:config] || File.join(Rails.root, Seiten.config[:config_dir], "#{id}.yml")
+      @dir    = options[:dir]    || File.join(Rails.root, Seiten.config[:pages_dir], @name, @locale)
       @page_collection = Seiten::PageCollection.new(navigation_id: id)
     end
 

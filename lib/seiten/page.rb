@@ -94,9 +94,9 @@ module Seiten
       return '#' if slug.nil?
       return slug if external?
 
-      navigation_name = navigation.name == :application ? nil : navigation.name
+      navigation_name = navigation.name == 'application' ? nil : navigation.name
 
-      [:seiten, navigation_name, :page, { slug: slug }]
+      [:seiten, navigation_name.try(:to_sym), :page, { slug: slug }]
     end
 
     def layout

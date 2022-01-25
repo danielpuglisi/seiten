@@ -140,7 +140,7 @@ class Seiten::PageTest < ActiveSupport::TestCase
     assert_equal [:seiten, :test, :page, { slug: 'about/products' }], page.path
 
     # Regular page
-    navigation.name = :application
+    navigation.name = 'application'
     navigation.pages.navigation_id = "application.en"
     page = pages.new(slug: 'about/products')
     assert_equal [:seiten, nil, :page, { slug: 'about/products' }], page.path
