@@ -1,4 +1,5 @@
 require 'seiten/engine'
+require 'seiten/railtie'
 require 'seiten/navigation'
 require 'seiten/page'
 require 'seiten/page_collection'
