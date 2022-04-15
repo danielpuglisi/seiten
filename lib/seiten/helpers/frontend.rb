@@ -11,8 +11,8 @@ module Seiten
         Seiten::HTML::Navigation.new(self, navigation: navigation, parent_id: parent_id, current_page: current_page, deep: deep, html: html).body
       end
 
-      def seiten_breadcrumb(separator: '>')
-        Seiten::HTML::Breadcrumb.new(self, page: current_page, separator: separator).body
+      def seiten_breadcrumb(separator: '>', html: {})
+        Seiten::HTML::Breadcrumb.new(self, page: current_page, separator: separator, html: html).body
       end
     end
   end

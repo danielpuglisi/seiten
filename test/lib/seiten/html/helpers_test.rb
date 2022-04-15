@@ -28,27 +28,28 @@ class Seiten::HTML::HelpersTest < ActiveSupport::TestCase
   end
 
   test '#build_classes' do
-    class_options = Seiten.config[:helpers][:navigation][:html][:class].dup
+    class_options = Seiten.config[:html][:navigation].dup
+    modifier_options = Seiten.config[:html][:modifier].dup
 
-    assert_equal 'navigation', helpers.build_classes(class_options: class_options)
-    assert_equal 'navigation__item', helpers.build_classes(:item, class_options: class_options)
-    assert_equal 'navigation__item navigation__item--active', helpers.build_classes(:item, modifiers: [:active], class_options: class_options)
-    assert_equal 'navigation__item navigation__item--active navigation__item--parent', helpers.build_classes(:item, modifiers: [:active, :parent], class_options: class_options)
-    assert_equal 'navigation__nodes navigation__nodes--active navigation__nodes--parent', helpers.build_classes(:nodes, modifiers: [:active, :parent], class_options: class_options)
+    assert_equal 'navigation', helpers.build_classes(class_options: class_options, modifier_options: modifier_options)
+    assert_equal 'navigation__item', helpers.build_classes(:item, class_options: class_options, modifier_options: modifier_options)
+    assert_equal 'navigation__item navigation__item--active', helpers.build_classes(:item, modifiers: [:active], class_options: class_options, modifier_options: modifier_options)
+    assert_equal 'navigation__item navigation__item--active navigation__item--parent', helpers.build_classes(:item, modifiers: [:active, :parent], class_options: class_options, modifier_options: modifier_options)
+    assert_equal 'navigation__nodes navigation__nodes--active navigation__nodes--parent', helpers.build_classes(:nodes, modifiers: [:active, :parent], class_options: class_options, modifier_options: modifier_options)
 
     # Works with custom html class config
     class_options[:base] = 'navbar'
     class_options[:item] = 'navbar-item'
     class_options[:nodes] = 'navbar-dropdown'
-    class_options[:mod_base] = 'is'
-    class_options[:mod_sep] = '-'
-    assert_equal 'navbar', helpers.build_classes(class_options: class_options)
-    assert_equal 'navbar-item', helpers.build_classes(:item, class_options: class_options)
-    assert_equal 'navbar-item is-active', helpers.build_classes(:item, modifiers: [:active], class_options: class_options)
-    assert_equal 'navbar-item is-active is-parent', helpers.build_classes(:item, modifiers: [:active, :parent], class_options: class_options)
-    assert_equal 'navbar-dropdown is-active is-parent', helpers.build_classes(:nodes, modifiers: [:active, :parent], class_options: class_options)
+    modifier_options[:base] = 'is'
+    modifier_options[:separator] = '-'
+    assert_equal 'navbar', helpers.build_classes(class_options: class_options, modifier_options: modifier_options)
+    assert_equal 'navbar-item', helpers.build_classes(:item, class_options: class_options, modifier_options: modifier_options)
+    assert_equal 'navbar-item is-active', helpers.build_classes(:item, modifiers: [:active], class_options: class_options, modifier_options: modifier_options)
+    assert_equal 'navbar-item is-active is-parent', helpers.build_classes(:item, modifiers: [:active, :parent], class_options: class_options, modifier_options: modifier_options)
+    assert_equal 'navbar-dropdown is-active is-parent', helpers.build_classes(:nodes, modifiers: [:active, :parent], class_options: class_options, modifier_options: modifier_options)
 
     # Merges extension-class
-    assert_equal 'navbar-item is-active is-parent extension-class', helpers.build_classes(:item, modifiers: [:active, :parent], merge: 'extension-class', class_options: class_options)
+    assert_equal 'navbar-item is-active is-parent extension-class', helpers.build_classes(:item, modifiers: [:active, :parent], merge: 'extension-class', class_options: class_options, modifier_options: modifier_options)
   end
 end

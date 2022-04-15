@@ -11,16 +11,16 @@ module Seiten
         modifiers
       end
 
-      def self.build_classes(element = nil, class_options:, modifiers: [], merge: nil)
+      def self.build_classes(element = nil, class_options:, modifier_options: [], modifiers: [], merge: nil)
         classes = []
 
         klass = class_options[element || :base]
         classes << klass
 
         if modifiers.any?
-          base = (class_options[:mod_base].presence || klass)
+          base = (modifier_options[:base].presence || klass)
           modifiers.each do |modifier|
-            classes << "#{base}#{class_options[:mod_sep]}#{class_options[:modifiers][modifier]}"
+            classes << "#{base}#{modifier_options[:separator]}#{modifier_options[modifier]}"
           end
         end
 

@@ -17,29 +17,29 @@ require 'seiten/errors/page_error'
 require 'seiten/errors/routing_error'
 
 module Seiten
-
   @config = {
     config_dir: File.join('config', 'navigations'),
     pages_dir:  File.join('app', 'pages'),
     root_page: 'home',
     default_layout: 'application',
-    helpers: {
+    html: {
       navigation: {
-        html: {
-          class: {
-            base: 'navigation',
-            item: 'navigation__item',
-            nodes: 'navigation__nodes',
-            mod_base: nil, # if nil we use the main class combined with the element class
-            mod_sep: '--', # modifier separator
-            modifiers: {
-              parent: 'parent',
-              active: 'active',
-              current: 'current',
-              expanded: 'expanded'
-            }
-          }
-        }
+        base: 'navigation',
+        item: 'navigation__item',
+        nodes: 'navigation__nodes',
+      },
+      breadcrumb: {
+        base: 'breadcrumb',
+        item: 'breadcrumb__item',
+        separator: 'breadcrumb__separator',
+      },
+      modifier: {
+        base: nil, # if nil we use the main class combined with the element class
+        separator: '--', # modifier separator
+        parent: 'parent',
+        active: 'active',
+        current: 'current',
+        expanded: 'expanded'
       }
     }
   }

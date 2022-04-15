@@ -47,7 +47,7 @@ class NavigationTest < ActionDispatch::IntegrationTest
     assert_select '.breadcrumb a', 'Our Team'
     assert_select '.breadcrumb a', 'Switzerland'
     assert_select '.navigation__item--active', count: 2
-    assert_select '.breadcrumb .active', count: 1
+    assert_select '.breadcrumb__item--current', count: 1
     assert_select 'title', 'Switzerland'
   end
 
