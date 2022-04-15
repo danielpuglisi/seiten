@@ -25,7 +25,7 @@ module Seiten
 
       def build_page_element(page, index)
         modifiers = page == @current_page ? [:current] : []
-        classes   = Seiten::HTML::Helpers.build_classes(:item, modifiers: modifiers, merge: page.html_options[:class], class_options: @html_options[:breadcrumb], modifier_options: @html_options[:modifier])
+        classes   = Seiten::HTML::Helpers.build_classes(:item, modifiers: modifiers, class_options: @html_options[:breadcrumb], modifier_options: @html_options[:modifier])
 
         @view_context.content_tag :li, class: classes do
           if @separator && index.positive?
