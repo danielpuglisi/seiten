@@ -22,7 +22,7 @@ class Seiten::Helpers::FrontendTest < ActionView::TestCase
   end
 
   test '#seiten_navigation' do
-    @current_page = current_navigation.pages.find(1)
+    @current_page = current_navigation.pages.find_by(slug: '')
     html = File.read(File.join(FIXTURES_DIR, 'navigation.html')).strip
 
     assert_equal html, seiten_navigation

@@ -17,7 +17,7 @@ class Seiten::HTML::NavigationTest < ActiveSupport::TestCase
   end
 
   def current_page
-    @current_page ||= navigation.pages.find(1)
+    @current_page ||= navigation.pages.find_by(slug: '')
   end
 
   test '::new' do
