@@ -60,17 +60,13 @@ module Seiten
     end
 
     def initialize_navigations
-      if File.directory?(File.join(Rails.root, Seiten.config[:config_dir]))
-        Dir[File.join(Rails.root, Seiten.config[:config_dir], "*.yml")].each do |file|
-          id     = File.basename(file, '.yml')
-          name   = id.gsub(/\..*/, '')
-          locale = id.gsub(/.*\./, '')
-          navigation = Seiten::Navigation.new(name: name, locale: locale, dir: File.join(Rails.root, Seiten.config[:pages_dir], name, locale))
-          navigation.page_collection.build(pages: YAML.load_file(navigation.config))
-          Seiten.navigations << navigation
-        end
-      else
-        # TODO: Raise exception
+      Dir[File.join(Rails.root, Seiten.config[:config_dir], "*.yml")].each do |file|
+        id     = File.basename(file, '.yml')
+        name   = id.gsub(/\..*/, '')
+        locale = id.gsub(/.*\./, '')
+        navigation = Seiten::Navigation.new(name: name, locale: locale, dir: File.join(Rails.root, Seiten.config[:pages_dir], name, locale))
+        navigation.page_collection.build(pages: YAML.load_file(navigation.config))
+        Seiten.navigations << navigation
       end
     end
   end
