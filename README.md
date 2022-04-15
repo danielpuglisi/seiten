@@ -35,7 +35,7 @@ If you want to setup a seiten page as your applications root page do the followi
 
 ```ruby
 # config/routes.rb
-root :to => "seiten/pages#show"
+root :to => 'seiten/pages#show'
 ```
 
 ## Setup navigation structure
@@ -50,41 +50,41 @@ To setup the navigation structure create a `config/navigations` directory and ad
 ```yml
 # config/navigations/application.en.yml
 
-- title: "Home"
+- title: 'Home'
   root: true
-  layout: "home"
+  layout: 'home'
 
-- title: "Products"
+- title: 'Products'
   layout:
-    name: "products"
+    name: 'products'
     inherit: false
   nodes:
-    - title: "Logo Design"
+    - title: 'Logo Design'
       data:
-        header_image: "logo.jpg"
-        description: "Fuck fiverr. We deliver the most beautiful shit you have ever seen and probably can't afford."
-    - title: "Web Development"
+        header_image: 'logo.jpg'
+        description: 'Fuck fiverr. We deliver the most beautiful shit you have ever seen and probably can't afford.'
+    - title: 'Web Development'
       data:
-        header_image: "web-development.jpg"
-        description: "PHP? Get the hell out of here."
-    - title: "Hire us"
-      refer: "/contact" # refers to /contact
+        header_image: 'web-development.jpg'
+        description: 'PHP? Get the hell out of here.'
+    - title: 'Hire us'
+      refer: '/contact' # refers to /contact
 
-- title: "About"
+- title: 'About'
   refer: true # refers to first child node (/about/our-team)
   nodes:
-    - title: "Our Team"
-    - title: "Works"
-    - title: "Partners"
+    - title: 'Our Team'
+    - title: 'Works'
+    - title: 'Partners'
       nodes:
-        - title: "Daniel Puglisi"
-          refer: "http://danielpuglisi.com"
-        - title: "Codegestalt"
-          refer: "http://codegestalt.com"
-        - title: "Kreatify"
-          refer: "http://kreatify.com"
+        - title: 'Daniel Puglisi'
+          refer: 'http://danielpuglisi.com'
+        - title: 'Codegestalt'
+          refer: 'http://codegestalt.com'
+        - title: 'Kreatify'
+          refer: 'http://kreatify.com'
 
-- title: "Contact"
+- title: 'Contact'
 ```
 
 You can define the following attributes in the your navigation `yml` file:
@@ -232,11 +232,11 @@ You can render more levels with the `deep` parameters:
 <%= seiten_navigation deep: 3 %>
 ```
 
-If you want to output a subnavigation of a certain page, for example for the "Partner" page in our example,
+If you want to output a subnavigation of a certain page, for example for the 'Partner' page in our example,
 you can do the following:
 
 ```ruby
-<%= seiten_navigation parent_id: Seiten::Page.find_by_slug("about/partners") %>
+<%= seiten_navigation parent_id: current_navigation.find_by(slug: 'about/partners') %>
 ```
 
 ### Breadcrumb
@@ -252,7 +252,7 @@ this gives you a breadcrumb navigation of the current page which is separated by
 You can change the link_separater in the following way:
 
 ```ruby
-<%= seiten_breadcrumb link_separator: ">>" %>
+<%= seiten_breadcrumb link_separator: '>>' %>
 ```
 
 ### Modify CSS Classes
@@ -301,15 +301,15 @@ seiten tries to automatically find a match within the current_navigation using `
 
 seiten works with your existing controllers but requires some minor adjustments.
 
-By adding pages to your `config/navigations` config files which match your existing controller routes,
-seiten will initially not be able to pick up the `current_navigation` as your routes do not define `params[:navigation_id]`.
+By adding pages to your `config/navigations` config files that match your existing controller routes,
+seiten will initially not be able to pick up the `current_navigation` as your controllers normally do not define `params[:navigation_id]`.
 
-There are two ways to solve this using your routes or controllers:
+There are two ways to solve this, either by adding default params to your routes or overwriting seiten setter methods in your controllers:
 
 ### Routes
 
 ```
-scope defaults: { navigation_id: 'application', slug: '' } do
+scope defaults: { navigation_id: 'application' } do
   resources :posts, defaults: { slug: 'blog' }
   # your other routes
 end
