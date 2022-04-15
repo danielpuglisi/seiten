@@ -19,4 +19,6 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "rails", ">= 4.2"
   s.add_development_dependency "capybara", "~> 2.10"
+  s.add_development_dependency "puma", ">= 5.2"
+  s.add_development_dependency "web-console"
 end
