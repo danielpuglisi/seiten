@@ -38,6 +38,30 @@ module Seiten
       parent.present?
     end
 
+    def ancestors
+      return @ancestors unless @ancestors.nil?
+
+      @ancestors = []
+      return @ancestors unless parent?
+
+      ancestor = parent
+      loop do
+        @ancestors << ancestor
+        ancestor = ancestor.parent
+        break if ancestor.nil?
+      end
+
+      @ancestors
+    end
+
+    def self_and_ancestors
+      @self_and_ancestors ||= ancestors.insert(0, self)
+    end
+
+    def breadcrumbs
+      @breadcrumbs ||= self_and_ancestors.reverse
+    end
+
     # get root page of current page branch
     def root
       if self.parent?

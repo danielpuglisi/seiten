@@ -54,6 +54,26 @@ class Seiten::PageTest < ActiveSupport::TestCase
     assert_not child_page.parent?
   end
 
+  test '#ancestors' do
+    parent_page  = pages.new(id: 5)
+    child_page_1 = pages.new(id: 10, parent_id: 5)
+    child_page_2 = pages.new(id: 15, parent_id: 10)
+
+    assert_equal [], parent_page.ancestors
+    assert_equal [parent_page], child_page_1.ancestors
+    assert_equal [child_page_1, parent_page], child_page_2.ancestors
+  end
+
+  test '#self_and_ancestors' do
+    parent_page  = pages.new(id: 5)
+    child_page_1 = pages.new(id: 10, parent_id: 5)
+    child_page_2 = pages.new(id: 15, parent_id: 10)
+
+    assert_equal [parent_page], parent_page.self_and_ancestors
+    assert_equal [child_page_1, parent_page], child_page_1.self_and_ancestors
+    assert_equal [child_page_2, child_page_1, parent_page], child_page_2.self_and_ancestors
+  end
+
   test '#root' do
     parent_page  = pages.new(id: 5)
     child_page_1 = pages.new(id: 10, parent_id: 5)

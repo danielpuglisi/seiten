@@ -14,7 +14,7 @@ module Seiten
 
       def build_navigation
         @view_context.content_tag(:ul, class: 'breadcrumb') do
-          pages = Seiten::BreadcrumbBuilder.call(@page).reverse.each_with_index.map do |page, index|
+          pages = @page.breadcrumbs.each_with_index.map do |page, index|
             @view_context.content_tag :li, class: page == @page ? 'active' : nil do
               span = @view_context.content_tag(:span, @separator) if @separator && index.positive?
               link = @view_context.link_to_seiten_page(page)
