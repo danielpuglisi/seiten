@@ -8,36 +8,50 @@ Put the following line into your gem file:
 
     gem 'seiten'
 
-After you've run `bundle install`, add the following line to your `config/routes.rb` to let your application pick up your pages.
+## Setup routes
+
+After you've run `bundle install`, add the following line to the bottom of your `config/routes.rb` to let your application pick up your seiten routes.
 
 ```ruby
 # config/routes.rb
-seiten_resources
+
+seiten # sets params[:navigation_id] to 'application' by default
+
+# OR
+
+seiten :help # sets params[:navigation_id] to 'help'
+
+# OR combine multiple
+
+scope :help do
+  seiten :help
+end
+seiten :application
 ```
 
-If you want to setup a static page as your applications root page do the following:
+The above adds a catch all route to your routes. Make sure your other routes are defined before it, otherwise seiten will swallow them.
+
+If you want to setup a seiten page as your applications root page do the following:
 
 ```ruby
 # config/routes.rb
 root :to => "seiten/pages#show"
 ```
 
-and you're ready to go.
-
 ## Setup navigation structure
 
 Seiten needs two things to work:
 
 * A YAML file where your navigation structure is stored
-* and the static pages files you define in that navigation structure
+* and the page files you defined in your navigation structure
 
-To setup the navigation structure create the following file in your `config` directory: `navigation.yml`
+To setup the navigation structure create a `config/navigations` directory and add a `application.en.yml` file
 
 ```yml
-# config/navigation.yml
+# config/navigations/application.en.yml
 
 - title: "Home"
-  url: "/"
+  root: true
   layout: "home"
 
 - title: "Products"
@@ -73,9 +87,9 @@ To setup the navigation structure create the following file in your `config` dir
 - title: "Contact"
 ```
 
-You can define the following attributes in the `navigation.yml` file:
+You can define the following attributes in the your navigation `yml` file:
 
-* `title`: the title of the page (thank you mr. obvious)
+* `title`: the title of the page
 * `url` (optional): the url attribute defines the slug of your page.
 Nested pages will automatically be prefixed with the url of their parent pages.  
   - If you define nothing, url automatically uses a `paramterize`'d version of the title.
@@ -84,51 +98,126 @@ Nested pages will automatically be prefixed with the url of their parent pages.
 * `refer` (optional): lets you link to another page  
   - Accepts an absolute or external path.
   - If set to `true`, links to first child of page.
-* `nodes` (optional): lets you define the children pages of a page
+* `nodes` (optional): lets you define the child pages of a page
 * `layout` (optional):
   - Per default the `layout` attribute is passed on to its children pages.
-  - If you only want to set the layout for a single page and not for its children set `inherit: false` (look in the example above)
+  - If you only want to set the layout for a single page and not for its children set `inherit: false`
 * `data` (optional):
   - Let's you add data to custom defined keys.
   - Must be a `Hash`.
-  - The data will be returned through symbols: `current_page.data[:description]`
+  - The data can be accessed through symbols on the page object: `current_page.data[:description]`
 * `html` (optional):
-  - Let's you add custom html options to page navigations.
+  - Let's you add custom html options to page navigations which will be picked up by the `seiten_navigation` helper.
   - You can use the same options as when you would use `content_tag`.
   - Must be a `Hash`.
 
 Make sure to restart your Rails server after changing the configuration file.
 
-## Setup static pages
+## Setup navigations and pages
 
 After defining the navigation structure make sure you have your static pages in place.
 
 The Seiten helpers will look for the static pages in the `app/pages` directory.
-So the pages need to be placed and ordered in the same hierarchy as defined in `config/navigation.yml`.
+So the pages need to be placed and ordered in the same hierarchy as defined in your navigation `yml` config.
 
 Example:
 
 ```
 - app/
   |
-  |- pages/
+  |- en/
     |
-    |- contact.html.erb
-    |- home.html.erb
-    |- products.html.erb
-    |
-    |- about/
-    |  |- our-team.html.erb
-    |  |- partners.html.erb
-    |  |- works.html.erb
-    |
-    |- products/
-       |- hire-us.html.erb
-       |- logo-design.html.erb
-       |- web-development.html.erb
+    |- pages/
+      |
+      |- contact.html.erb
+      |- home.html.erb
+      |- products.html.erb
+      |
+      |- about/
+      |  |- our-team.html.erb
+      |  |- partners.html.erb
+      |  |- works.html.erb
+      |
+      |- products/
+         |- hire-us.html.erb
+         |- logo-design.html.erb
+         |- web-development.html.erb
 ```
 
-## Helper methods
+## I18n and multiple navigations
+
+seiten enables you to define multiple navigations and/or locales per navigation:
+
+```
+- config/
+  |
+  |- navigations/
+    |
+    |- application.en.yml
+    |- application.de.yml
+    |- help.de.yml
+    |- help.en.yml
+```
+
+During initialization, seiten will try to find static pages according to your navigation filenames within your `app/pages` directory:
+
+```
+- app/
+  |
+  |- pages/
+    |
+    |- application/
+    | |
+    | |- en/
+    | | |
+    | | |- contact.html.erb
+    | | |- home.html.erb
+    | | |- products.html.erb
+    | | |
+    | | |- about/
+    | | | |- our-team.html.erb
+    | | | |- partners.html.erb
+    | | | |- works.html.erb
+    | | |
+    | | |- products/
+    | |   |- hire-us.html.erb
+    | |   |- logo-design.html.erb
+    | |   |- web-development.html.erb
+    | |
+    | |- de/
+    |   |
+    |   |- kontakt.html.erb
+    |   |- home.html.erb
+    |   |- produkte.html.erb
+    |   |
+    |   |- uber-uns/
+    |   | |- unser-team.html.erb
+    |   | |- partner.html.erb
+    |   | |- arbeiten.html.erb
+    |   |
+    |   |- produkte/
+    |       |- heuere-uns-an.html.erb
+    |       |- logo-design.html.erb
+    |       |- web-development.html.erb
+    |
+    |- help/
+      |
+      |- en/
+      | |
+      | |- # your help.en.yml pages
+      |
+      |- de/
+        |
+        |- # your help.de.yml pages
+```
+
+### Caveats
+
+seiten does not provide a way to link and switch between the same pages of different locales yet.
+
+## Frontend helpers
+
+### Navigation
 
 To output your navigation structure as a `<ul>` list include the following helper into your layout:
 
@@ -150,6 +239,8 @@ you can do the following:
 <%= seiten_navigation parent_id: Seiten::Page.find_by_slug("about/partners") %>
 ```
 
+### Breadcrumb
+
 Seiten also has a breadcrumb helper:
 
 ```ruby
@@ -164,81 +255,84 @@ You can change the link_separater in the following way:
 <%= seiten_breadcrumb link_separator: ">>" %>
 ```
 
-## I18n
+### Modify CSS Classes
 
-### Configuration
-
-Seiten allows you to create locale specific navigations and static page contents for your application.
-
-Rename your `config/navigation.yml` file in the following way: `config/navigation/locale.yml`.  
-For example: For the `:en` locale create a file called `config/navigation/en.yml` and for the `:de` locale create a file called `config/navigation/de.yml`.
-
-If a localized navigation file is not found, seiten will look for `config/navigation.yml` per default.
-
-### Static pages
-
-If you want to create localized static content, use the following directory structure in your `app/pages` directory:
+The CSS classes generated by the `seiten_navigation` and `seiten_breadcrumb` helpers can be modified for all navigations by modifing the `Seiten.config` hash:
 
 ```
-- app/
-  |
-  |- pages/
-    |
-    |- en/
-    |  |
-    |  |- contact.html.erb
-    |  |- home.html.erb
-    |  |- products.html.erb
-    |  |
-    |  |- about/
-    |  |  |- our-team.html.erb
-    |  |  |- partners.html.erb
-    |  |  |- works.html.erb
-    |  |
-    |  |- products/
-    |     |- hire-us.html.erb
-    |     |- logo-design.html.erb
-    |     |- web-development.html.erb
-    |
-    |- de/
-       |
-       |- kontakt.html.erb
-       |- home.html.erb
-       |- produkte.html.erb
-       |
-       |- uber-uns/
-       |  |- unser-team.html.erb
-       |  |- partner.html.erb
-       |  |- arbeiten.html.erb
-       |
-       |- produkte/
-          |- heuere-uns-an.html.erb
-          |- logo-design.html.erb
-          |- web-development.html.erb
+# config/initializers/seiten.rb
+
+html_options = Seiten.config[:html]
+html_options[:navigation][:base] = 'navigation'
+html_options[:navigation][:item] = 'navigation__item'
+html_options[:navigation][:nodes] = 'navigation__nodes'
+html_options[:breadcrumb][:base] = 'breadcrumb'
+html_options[:breadcrumb][:item] = 'breadcrumb__item'
+html_options[:breadcrumb][:separator] = 'breadcrumb__separator'
+html_options[:modifier][:base] = nil # if nil we use the main class combined with the element class
+html_options[:modifier][:separator] = '--' # modifier separator
+html_options[:modifier][:parent] = 'parent'
+html_options[:modifier][:active] = 'active'
+html_options[:modifier][:current] = 'current'
+html_options[:modifier][:expanded] = 'expanded'
 ```
 
-### Switch Page Store
+or per navigation using the `html` parameter:
 
-Per default, the navigation which matches the `config.i18n.default_locale` in `config/application.rb` will be set as the current page store on initialization.
-
-To switch the current page store you can do the following:
-
-```ruby
-Seiten::PageStore.set_current_page_store(storage_language: :de)
+```
+seiten_navigation(html: { navigation: { base: 'navbar-start' } })
 ```
 
-for example in your `ApplicationController` you can do the following to switch your navigation when the locale changes:
+## Backend helpers
 
-```ruby
-before_action :set_locale
+seiten adds two convenience methods to your `ApplicationController`:
 
-...
+### `current_navigation`
 
-private
-  def set_locale
-    I18n.locale = params[:locale] || I18n.default_locale
-    Seiten::PageStore.set_current_page_store(storage_language: I18n.locale)
+`current_navigation` which returns the current `Seiten::Navigation` object.
+seiten tries to automatically find a match using `params[:navigation_id]` and `params[:locale]` or `I18n.locale`.
+
+### `current_page`
+
+`current_page` which returns the current `Seiten::Page` object.
+seiten tries to automatically find a match within the current_navigation using `params[:slug]`.
+
+## Integration with your controllers
+
+seiten works with your existing controllers but requires some minor adjustments.
+
+By adding pages to your `config/navigations` config files which match your existing controller routes,
+seiten will initially not be able to pick up the `current_navigation` as your routes do not define `params[:navigation_id]`.
+
+There are two ways to solve this using your routes or controllers:
+
+### Routes
+
+```
+scope defaults: { navigation_id: 'application', slug: '' } do
+  resources :posts, defaults: { slug: 'blog' }
+  # your other routes
+end
+
+seiten :application
+```
+
+### Controller
+
+```
+class PostsController < ApplicationController
+  ...
+
+  private
+
+  def set_current_navigation
+    Seiten::Navigation.find_by(navigation_id: 'application', locale: I18n.locale)
   end
+
+  def set_current_page
+    current_navigation.pages.find_by(slug: 'blog')
+  end
+end
 ```
 
 ## Todo
@@ -246,7 +340,6 @@ private
 * Improve documentation
 * Add rails generators (example config file, missing pages)
 * Add a rake task which outputs missing pages in `app/pages`
-* Provide more PageStore possiblities (config format: hash, pages storage: dropbox, aws)
 
 ## License
 
