@@ -217,6 +217,16 @@ seiten does not provide a way to link and switch between the same pages of diffe
 
 ## Frontend helpers
 
+To use seiten's frontend helpers include `Seiten::Helpers::Frontend` into your `ApplicationHelper`:
+
+```
+# app/helpers/application_helper.rb
+class ApplicationHelper
+  include Seiten::Helpers::Frontend
+  ...
+end
+```
+
 ### Navigation
 
 To output your navigation structure as a `<ul>` list include the following helper into your layout:
@@ -285,7 +295,18 @@ seiten_navigation(html: { navigation: { base: 'navbar-start' } })
 
 ## Backend helpers
 
-seiten adds two convenience methods to your `ApplicationController`:
+seiten automatically includes `Seiten::Helpers::Current` into your `ApplicationController` by default.
+
+If you have controllers that inherit directly from `ActionController::Base`, you can include `Seiten::Helpers::Current` manually:
+
+```
+class MyCustomBaseController < ActionController::Base
+  include Seiten::Helpers::Current
+  ...
+end
+```
+
+This will give you access to the following methods:
 
 ### `current_navigation`
 
