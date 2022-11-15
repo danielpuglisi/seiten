@@ -75,7 +75,7 @@ class Seiten::PageCollectionBuilderTest < ActiveSupport::TestCase
     options[:pages] << { "title" => "About us", "refer" => true, "nodes" => [{ "title" => "Team" }] }
     Seiten::PageCollectionBuilder.call(page_collection, options)
 
-    assert_equal "/team", page_collection.where(slug: nil).first.refer
+    assert_equal "/about-us/team", page_collection.where(slug: nil).first.refer
   end
 
   test 'should build a referer page with an absolute path' do

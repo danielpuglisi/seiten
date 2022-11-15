@@ -27,7 +27,7 @@ module Seiten
         # Set refer
         if page["refer"]
           if page["refer"].is_a?(TrueClass)
-            page["refer"] = "/" + Seiten::SlugBuilder.call(page["nodes"].first, page["slug"])
+            page["refer"] = "/" + Seiten::SlugBuilder.call(page["nodes"].first, slug)
           end
           raise Errors::PageError, "The `refer` option must be `true` or an absolute or external path" if page["refer"] != true && page["refer"][0] != "/" && !(page["refer"].match(/^https?:\/\/.+/))
         else
