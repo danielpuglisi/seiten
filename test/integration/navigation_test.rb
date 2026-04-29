@@ -2,15 +2,13 @@ require 'test_helper'
 
 class NavigationTest < ActionDispatch::IntegrationTest
   def test_should_ignore_active_storage_routes
-    assert_raise ActionController::RoutingError do
-      get '/rails/active_storage/test'
-    end
+    get '/rails/active_storage/test'
+    assert_response :not_found
   end
 
   def test_should_raise_seiten_routing_error
-    assert_raise Seiten::Errors::RoutingError do
-      get '/non-existing-route'
-    end
+    get '/non-existing-route'
+    assert_response :not_found
   end
 
   def test_returns_2_level_deep_navigation

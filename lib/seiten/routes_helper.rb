@@ -15,7 +15,7 @@ class ActionDispatch::Routing::Mapper
       # NOTE: See https://github.com/rails/rails/issues/31228
       resource_options[:constraints] ||= ->(req) { req.path.exclude? 'rails/active_storage' }
 
-      get '(*slug)', resource_options
+      get '(*slug)', **resource_options
     end
   end
 end
