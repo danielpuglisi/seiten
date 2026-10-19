@@ -211,6 +211,43 @@ During initialization, seiten will try to find static pages according to your na
         |- # your help.de.yml pages
 ```
 
+### One navigation file for every locale
+
+Instead of one file per locale, a navigation can be a single structure file without a locale
+(`config/navigations/help.yml`). Every page names a `key`, and seiten builds the navigation in every
+`I18n.available_locales`, taking titles and slugs from I18n, nested like the pages:
+
+```yaml
+# config/navigations/help.yml
+- key: start
+  url: "/"            # options in the structure file apply to every locale
+- key: account
+  nodes:
+    - key: manage
+    - key: security
+```
+
+```yaml
+# config/locales/help.en.yml
+en:
+  navigations:
+    help:
+      start:
+        title: "Start"
+      account:
+        title: "Your account"
+        manage:
+          title: "Manage your account"
+        security:
+          title: "Security"
+          slug: "account-security"   # optional, defaults to the parameterized title
+```
+
+The page `account.manage` is `your-account/manage-your-account` in English and, with German titles,
+`dein-account/account-verwalten` in German. Its full key (`account.manage`) is the same in every locale, so
+`page.translation(:de)` finds it. The I18n scope (`navigations`) is `Seiten.config[:i18n_scope]`; `title` and
+`slug` can't be page keys. In development, navigations are built again when code or translations reload.
+
 ### Linking pages across locales
 
 Pages of navigations with the same name translate each other when they are at the same position in their navigation tree, so `help.en.yml` and `help.de.yml` usually mirror each other node by node:

@@ -1,0 +1,14 @@
+en:
+  navigations:
+    guide:
+      start:
+        title: Start
+      account:
+        title: Your account
+        manage:
+          title: Manage your account
+        security:
+          title: Security
+          slug: account-security
+      billing:
+        title: Billing

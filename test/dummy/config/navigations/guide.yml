@@ -1,0 +1,7 @@
+- key: start
+  url: '/'
+- key: account
+  nodes:
+    - key: manage
+    - key: security
+- key: billing

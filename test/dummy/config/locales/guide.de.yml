@@ -1,0 +1,13 @@
+de:
+  navigations:
+    guide:
+      start:
+        title: Start
+      account:
+        title: Dein Account
+        manage:
+          title: Account verwalten
+        security:
+          title: Sicherheit
+      billing:
+        title: Rechnungen
