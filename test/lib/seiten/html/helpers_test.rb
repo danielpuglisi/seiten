@@ -2,12 +2,13 @@ require 'test_helper'
 
 class Seiten::HTML::HelpersTest < ActiveSupport::TestCase
 
+  # Its own navigation: pages added to a shared one would show up in other tests.
   def navigation
-    @navigation ||= Seiten::Navigation.find_by(id: 'application.en')
+    @navigation ||= Seiten::Navigation.new(name: :helpers_test, locale: :en).tap { |navigation| Seiten.navigations << navigation }
   end
 
-  def current_page
-    @current_page ||= navigation.pages.find(1)
+  teardown do
+    Seiten.navigations -= [@navigation] if @navigation
   end
 
   def helpers
