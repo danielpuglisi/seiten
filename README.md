@@ -211,9 +211,32 @@ During initialization, seiten will try to find static pages according to your na
         |- # your help.de.yml pages
 ```
 
-### Caveats
+### Linking pages across locales
 
-seiten does not provide a way to link and switch between the same pages of different locales yet.
+Pages of navigations with the same name translate each other when they are at the same position in their navigation tree, so `help.en.yml` and `help.de.yml` usually mirror each other node by node:
+
+```ruby
+page = current_navigation.pages.find_by(slug: 'introduction/modules')
+page.translation(:de)  # => the page at the same position in help.de.yml, e.g. einleitung/module
+page.translations      # => { "en" => page, "de" => … }, the page in every locale that has it
+```
+
+Use them for a language switcher or `hreflang` links. Building the URL stays with your routes.
+
+Where the navigations don't line up (a page that exists in one language only, or pages in a different order), give the matching pages the same `key` in every language. Pages with a key are matched by their key, wherever they are; the others keep being matched by position:
+
+```yaml
+# help.de.yml
+- title: "Rechnungen"
+  key: "invoices"
+
+# help.en.yml
+- title: "Pricing"  # English only: no translation
+- title: "Invoices"
+  key: "invoices"
+```
+
+`Page#position` gives a page's place in its tree, e.g. `[2, 0]` for the first child of the third top-level page.
 
 ## Frontend helpers
 

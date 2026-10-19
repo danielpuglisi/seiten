@@ -2,7 +2,7 @@
 
 module Seiten
   class Page
-    attr_accessor :navigation_id, :id, :parent_id, :title, :slug, :refer, :data, :html_options
+    attr_accessor :navigation_id, :id, :parent_id, :title, :slug, :refer, :key, :data, :html_options
     attr_writer :layout
 
     # initialize Page object with attributes
@@ -13,6 +13,7 @@ module Seiten
       @title          = options[:title]
       @slug           = options[:slug]
       @refer          = options[:refer]
+      @key            = options[:key]&.to_s
       @layout         = options[:layout]
       @data           = options[:data].each_with_object({}){|(k,v), h| h[k.to_sym] = v} if options[:data]
       @data         ||= {}
@@ -68,6 +69,37 @@ module Seiten
         self.parent.root
       else
         self
+      end
+    end
+
+    # The page's place in its navigation tree: the index among its siblings, from the root down
+    # (e.g. [2, 0] for the first child of the third top-level page).
+    def position
+      @position ||= (parent ? parent.position : []) + [navigation.pages.where(parent_id: parent_id).index(self)]
+    end
+
+    # The same page in the navigation of the same name in another locale: the page at the same
+    # position, or, for a page with a `key`, the page with the same key. Nil when there is none.
+    def translation(locale)
+      locale = locale.to_s
+      return self if locale == navigation.locale
+
+      other = Seiten::Navigation.find_by(name: navigation.name, locale: locale)
+      return unless other
+
+      if key
+        other.pages.find_by(key: key)
+      else
+        page = other.pages.all.find { |candidate| candidate.position == position }
+        page unless page&.key
+      end
+    end
+
+    # This page in every locale that has it, by locale (including its own).
+    def translations
+      Seiten::Navigation.where(name: navigation.name).each_with_object({}) do |other, translations|
+        page = translation(other.locale)
+        translations[other.locale] = page if page
       end
     end
 
