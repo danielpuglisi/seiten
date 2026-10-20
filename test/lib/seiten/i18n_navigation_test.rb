@@ -36,6 +36,16 @@ class Seiten::I18nNavigationTest < ActiveSupport::TestCase
     Seiten.reset_i18n_navigations!
   end
 
+  test 'the navigation has a title and a slug from I18n, like its pages' do
+    assert_equal 'Anleitung', navigation('de').title
+    assert_equal 'anleitung', navigation('de').slug
+
+    I18n.backend.store_translations(:en, navigations: { guide: { slug: 'docs' } })
+    assert_equal 'docs', navigation('en').slug
+  ensure
+    I18n.backend.store_translations(:en, navigations: { guide: { slug: nil } })
+  end
+
   test 'a page needs a key and a title or slug' do
     assert_raises(Seiten::Errors::PageError) { Seiten.send(:i18n_pages, [{ 'title' => 'Untitled' }], :en, ['navigations', 'guide']) }
     assert_raises(Seiten::Errors::PageError) { Seiten.send(:i18n_pages, [{ 'key' => 'missing' }], :en, ['navigations', 'guide']) }

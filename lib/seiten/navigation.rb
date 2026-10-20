@@ -32,6 +32,16 @@ module Seiten
       page_collection
     end
 
+    # The navigation's own title and slug, from I18n like its pages' (<i18n_scope>.<name>.title and
+    # .slug; the slug defaults to the parameterized title). Its localized routes start with the slug.
+    def title
+      I18n.t('title', scope: [Seiten.config[:i18n_scope], name], locale: locale, default: nil)
+    end
+
+    def slug
+      I18n.t('slug', scope: [Seiten.config[:i18n_scope], name], locale: locale, default: nil) || title&.parameterize
+    end
+
     def pages=(pages_array)
       page_collection.pages = pages_array.map { |page| page.navigation_id = id; page }
       # return page_collection

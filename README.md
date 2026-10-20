@@ -38,6 +38,48 @@ If you want to setup a seiten page as your applications root page do the followi
 root :to => 'seiten/pages#show'
 ```
 
+### Routes per locale
+
+A navigation built in every locale from one file (see [One navigation file for every locale](#one-navigation-file-for-every-locale))
+gets a route per locale, under the locale and the navigation's own slug:
+
+```ruby
+# config/routes.rb
+seiten :help                # /en/help(/*slug), /de/hilfe(/*slug) → Help::PagesController#show
+seiten :site, prefix: false # /en(/*slug), /de(/*slug)            → Site::PagesController#show
+```
+
+```yaml
+# config/locales/help.de.yml
+de:
+  navigations:
+    help:
+      title: "Hilfe"   # the navigation's slug, like a page's: "hilfe" (or set `slug`)
+      account:
+        title: "Dein Account"
+```
+
+The routes go to `<navigation>/pages#show` and are named `<navigation>_page_<locale>` (`help_page_en`,
+`help_page_de`). They set `params[:locale]` and `params[:navigation_id]`, so `current_navigation` and `current_page`
+work in your controller. Draw a navigation without a slug (`site`) last, since it catches everything under the locale.
+
+Every page gets a link helper named after the navigation and its key, and the navigation gets one that takes a
+key (for keys in variables). They link to the page in `I18n.locale` or the `locale:` option and pass other options
+on (`anchor:`, `host:`, query parameters):
+
+```ruby
+help_account_manage_path                        # => "/en/help/your-account/manage-your-account" in English
+help_account_manage_url(locale: :de)            # => "http://…/de/hilfe/dein-account/account-verwalten"
+help_page_path(page.key)                        # the same; an unknown key raises ArgumentError
+help_page_path                                  # => "/en/help", the navigation's root
+```
+
+`prefix: false` names the page helpers after their key only (`pricing_path`, `account_manage_url`). `to:`, `as:` (of
+the navigation's helper) and `path:` (the same in every locale) replace the defaults, and `localized: false`
+draws the single catch-all route instead. Navigations with one file per locale get the single
+catch-all route unless you pass `localized: true`. Draw localized routes outside of `scope` and `namespace` blocks;
+`constraints` blocks are fine.
+
 ## Setup navigation structure
 
 Seiten needs two things to work:

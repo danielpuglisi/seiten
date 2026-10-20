@@ -3,6 +3,8 @@ Dummy::Application.routes.draw do
 
   get "/blog",   to: "posts#index"
 
+  seiten :guide
+
   scope :help do
     seiten :help
   end

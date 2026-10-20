@@ -80,6 +80,11 @@ module Seiten
       end
     end
 
+    # Whether the navigation is built in every locale from one file (config/navigations/<name>.yml).
+    def i18n_navigation?(name)
+      @i18n_files.key?(name.to_s)
+    end
+
     # Drops the navigations built from I18n, so they're built again with the current translations
     # (on every code or translation reload in development).
     def reset_i18n_navigations!
