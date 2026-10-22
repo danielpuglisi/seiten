@@ -32,7 +32,7 @@ module Seiten
 
     # get parent of page
     def parent
-      navigation.pages.find(parent_id)
+      navigation.pages.find(parent_id) if parent_id
     end
 
     def parent?
@@ -109,7 +109,7 @@ module Seiten
     end
 
     def children?
-      navigation.pages.find_by(parent_id: id).present?
+      children.any?
     end
 
     # true if child is children of page

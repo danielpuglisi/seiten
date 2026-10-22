@@ -1,3 +1,7 @@
+# 1.3.2
+
+`Page#parent` of a top-level page and `Page#children?` of a page without children no longer look through all pages on every call. Since 1.3.1 doesn't cache lookups that find nothing, they did, for almost every item of a navigation.
+
 # 1.3.1
 
 `PageCollection#find_by` no longer caches lookups that find nothing. Every unknown slug requested (a 404, a bot scanning for `/wp-admin`) added an entry that stayed until the process restarted.
