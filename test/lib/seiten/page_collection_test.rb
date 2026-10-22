@@ -44,6 +44,13 @@ class Seiten::PageCollectionTest < ActiveSupport::TestCase
     assert_nil page_collection.find_by(id: 2, parent_id: 2)
   end
 
+  test '#find_by does not keep what it did not find' do
+    page_collection.find_by(id: 1)
+    page_collection.find_by(slug: 'wp-admin')
+
+    assert_equal [{ id: 1 }], page_collection.instance_variable_get(:@find_by).keys
+  end
+
   test '#where' do
     assert_equal [1], page_collection.where(id: 1).map(&:id)
     assert_equal [2,3], page_collection.where(parent_id: 1).map(&:id)

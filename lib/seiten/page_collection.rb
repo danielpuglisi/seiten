@@ -23,15 +23,19 @@ module Seiten
       find_by(id: id)
     end
 
+    # Caches the pages it finds, not misses: a lookup by a slug from the URL would otherwise keep every
+    # unknown slug requested.
     def find_by(params)
       @find_by ||= {}
       return @find_by[params] if @find_by.key?(params)
 
-      @find_by[params] = pages.find do |page|
+      found = pages.find do |page|
         params.all? do |k, v|
           page.send(k) == v
         end
       end
+      @find_by[params] = found if found
+      found
     end
 
     def where(params)
